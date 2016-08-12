@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.2.4'
+ruby '2.3.0'
 
 gem 'bootstrap-growl-rails'
 gem 'devise'
 gem 'nokogiri'
+gem 'capybara'
 gem 'poltergeist'
-gem 'phantomjs', :require => 'phantomjs/poltergeist'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
