@@ -1,6 +1,4 @@
 require 'open-uri'
-require 'phantomjs'
-require 'timeout'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]

@@ -101,7 +101,7 @@
                             <div class="panel-body">
                                 <% if @today_qt %>
                                     <% @today_qt[:explanation].each do |t| %>
-                                    <p><%= t %></p>
+                                    <p class="qt-p"><%= t %></p>
                                     <% end %>
                                 <% else %>
                                     <%= "" %>
@@ -114,7 +114,7 @@
                         <textarea id="whois" name="whois" class="form-control" rows="5" readonly><%= @today_post ? @today_post.whois : "" %></textarea>
                         <div class="panel panel-success" style="margin-top:10px;">
                             <div class="panel-body">
-                                <%= @today_qt ? @today_qt[:whois] : "" %>
+                                <p class="qt-p"><%= @today_qt ? @today_qt[:whois] : "" %></p>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                         <textarea id="lesson" name="lesson" class="form-control" rows="5" readonly><%= @today_post ? @today_post.lesson : "" %></textarea>
                         <div class="panel panel-success" style="margin-top:10px;">
                             <div class="panel-body">
-                                <%= @today_qt ? @today_qt[:lesson] : "" %>
+                                <p class="qt-p"><%= @today_qt ? @today_qt[:lesson] : "" %></p>
                             </div>
                         </div>
                     </div>
