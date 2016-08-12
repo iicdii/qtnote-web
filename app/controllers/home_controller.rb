@@ -1,6 +1,6 @@
 require 'open-uri'
 require 'capybara/poltergeist'
-require 'phantomjs'
+#require 'phantomjs'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]
@@ -128,7 +128,8 @@ class HomeController < ApplicationController
   class NewQt
     def initialize(year, month, day)
       Capybara.register_driver :poltergeist do |app|
-        Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
+        Capybara::Poltergeist::Driver.new(app)
+        # phantomjs: :Phantomjs.path
       end
       
       Capybara.default_selector = :xpath
