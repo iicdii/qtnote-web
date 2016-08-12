@@ -1,6 +1,6 @@
 require 'open-uri'
 require 'capybara/poltergeist'
-#require 'phantomjs'
+# require 'phantomjs'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]
@@ -129,15 +129,17 @@ class HomeController < ApplicationController
     def initialize(year, month, day)
       Capybara.register_driver :poltergeist do |app|
         Capybara::Poltergeist::Driver.new(app)
-        # phantomjs: :Phantomjs.path
+        #:phantomjs => Phantomjs.path
       end
       
       Capybara.default_selector = :xpath
       session = Capybara::Session.new(:poltergeist)
       session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
       session.visit "http://su.or.kr/03bible/daily/qtView.do?qtType=QT2"
-      session.execute_script("document.all['Form'].action = '/03bible/daily/qtView.do'; document.all['Form'].year.value=#{year}; document.all['Form'].month.value=#{month}; document.all['Form'].day.value=#{day}; document.all['Form'].submit(); ")
-      sleep 1
+      unless Time.current.year == year && Time.current.month == month && Time.current.day == day
+        session.execute_script("document.all['Form'].action = '/03bible/daily/qtView.do'; document.all['Form'].year.value=#{year}; document.all['Form'].month.value=#{month}; document.all['Form'].day.value=#{day}; document.all['Form'].submit(); ")
+        sleep 1
+      end
       @doc = Nokogiri::HTML.parse(session.html)
     end
     
