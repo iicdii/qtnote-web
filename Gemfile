@@ -4,6 +4,7 @@ ruby '2.3.0'
 gem 'bootstrap-growl-rails'
 gem 'devise'
 gem 'nokogiri'
+
 gem 'poltergeist'
 gem 'phantomjs', require: :'phantomjs/poltergeist'
 
