@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'poltergeist'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]
