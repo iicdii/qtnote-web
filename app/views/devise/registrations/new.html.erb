@@ -1,0 +1,30 @@
+<div class="section" style="height:83vh;overflow:hidden;padding-bottom:120px;">
+  <div class ="container" style="max-width:480px;">
+    <h2 class="text-center qt-link-danger"><a href="/">QTNote</a></h2>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <div class="field">
+      <label for="user_email">이메일</label><br />
+      <%= f.email_field :email, autofocus: true, :class => 'form-control' %>
+    </div>
+  
+    <div class="field">
+      <label for="user_password">패스워드</label><br />
+      <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
+    </div>
+    
+    <div class="field">
+      <label for="user_password_confirmation">패스워드 확인</label><br />
+      <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
+    </div>
+  
+    <div class="actions" style="margin-top:20px;">
+      <%= f.submit "회원가입", :class => 'btn btn-danger btn-fill btn-block' %>
+    </div>
+    <% end %>
+    <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
+      <%- if controller_name != 'sessions' %>
+        <%= link_to "로그인", new_session_path(resource_name) %>
+      <% end -%>
+    </div>
+  </div>
+</div>

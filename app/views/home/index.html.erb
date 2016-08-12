@@ -1,0 +1,123 @@
+<div class="main-header">
+    <div class="motto">
+        <h1 class="title-uppercase">QT NOTE</h1>
+        <h3>매일매일 큐티 내용을 기록하세요.</h3>
+        <br>
+        <button id="doIt" class="btn btn-danger">시작하기</a>
+    </div>
+</div>
+
+<div class="main section" style="padding:40px 0 40px 0;">
+    <div class="container">
+        <h3>오늘의 말씀 <i class="fa fa-check-square fa-2" aria-hidden="true" <% if @today_post %>style="color:#7ac29a;"<% end %>></i></h3>
+        <div>
+            <div class="row" style="padding:5px 0 5px 0;">
+                <div class="col-md-12">
+                    <span class="label label-danger">제목</span>
+                    <span style="margin-left:5px;"><%= @title %></span>
+                </div>
+            </div>
+            <div class="row" style="padding:5px 0 5px 0;">
+                <div class="col-md-12">
+                    <span class="label label-danger">본문</span>
+                    <span style="margin-left:5px;"><%= @book_line %></span>
+                </div>
+            </div>
+        </div>
+        <table class="table" style="font-size:13px;border-top:2px solid #ccbb9f;">
+            <tbody>
+                <% @words.each do |t| %>
+                    <tr>
+                        <th><%= t.first %></th>
+                        <td><%= t.second %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <form action="<%= @today_post ? '/modify' : '/write' %>" method="post">
+            <input type="hidden" name="id" value="<%= @today_post? @today_post.id : "" %>">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>이해하기&nbsp;
+                    <button class="btn btn-xs btn-success btn-fill right-button" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                      보기
+                    </button>
+                    </h5>
+                    <div class="collapse" id="collapse1">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                            <% @info1.each do |t| %>
+                                <p class="qt-p"><%= t %></p>
+                            <% end %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>하나님은 어떤 분입니까?&nbsp;
+                    <button class="btn btn-xs btn-success btn-fill right-button" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                      보기
+                    </button>
+                    </h5>
+                    <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post 
+                                @today_post.whois 
+                            elsif @temp_post 
+                                @temp_post.first
+                            end %></textarea>
+                    <div class="collapse" id="collapse2">
+                        <div class="panel panel-success" style="margin-top:10px;">
+                            <div class="panel-body">
+                                <p class="qt-p"><%= @info2 %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>내게 주시는 교훈은 무엇입니까?&nbsp;
+                    <button class="btn btn-xs btn-success btn-fill right-button" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                      보기
+                    </button>
+                    </h5>
+                    <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="10자 이상 입력해 주세요."><%= if @today_post 
+                            @today_post.lesson 
+                        elsif @temp_post 
+                            @temp_post.last
+                        end %></textarea>
+                    <div class="collapse" id="collapse3">
+                        <div class="panel panel-success" style="margin-top:10px;">
+                            <div class="panel-body">
+                                <p class="qt-p"><%= @info3 %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right" style="margin-top:20px;">
+                <% unless @is_logged_in %>
+                    <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal">저장</button>
+                <% else %>
+                    <% if @today_post %>
+                        <button type="submit" class="btn btn-info">수정</button>
+                    <% else %>
+                        <button type="submit" class="btn btn-success">저장</button>
+                    <% end %>
+                <% end %>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
+    <% if @temp_post %>
+        <% if @temp_post.first.length > 0 || @temp_post.second.length > 0 %>
+    $('html, body').animate({
+        scrollTop: 1100
+    }, 500);
+        <% end %>
+    <% end %>
+    $("#doIt").click(function() {
+        $('html, body').animate({
+            scrollTop: $(".main").offset().top
+        }, 700);
+    });
+</script>

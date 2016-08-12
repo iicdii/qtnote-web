@@ -1,0 +1,90 @@
+class ApplicationController < ActionController::Base
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  # protect_from_forgery with: :exception
+  
+  def require_login
+    unless user_signed_in?
+      redirect_to "/users/sign_in"
+    else
+      @is_logged_in = true
+      @current_user = current_user
+    end
+  end
+  
+  def calculate_exp
+    if user_signed_in?
+      #다음 경험치 계산
+      unless @next_exps
+        @next_exps = Array.new
+        for i in 0..99
+           @next_exps.push(50 + (i * 242))
+        end
+      end
+      #레벨업
+      if current_user.now_exp/@next_exps[current_user.level-1] >= 1
+        current_user.now_exp = current_user.now_exp - @next_exps[current_user.level-1]
+        current_user.level = current_user.level + 1
+        current_user.save
+        add_to_flash_array :info, "레벨이 올랐습니다!"
+      end
+    end
+  end
+  
+  def calculate_achievement
+    if user_signed_in?
+      achievements = current_user.achievements
+      #3번 접속 달성시
+      if current_user.sign_in_count >= 3 && achievements.any? { |a| a[:id] == 0 } == false
+        achievements << {id: 0, created_at: Time.current}
+        current_user.achievements = achievements
+        current_user.save
+        achievement_title = Achievement.find_by(id: 0).title
+        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!"
+      end
+    end
+  end
+  
+  after_filter :store_location
+  before_filter :store_current_location, :unless => :devise_controller?
+  
+  private
+  
+  # override the devise helper to store the current location so we can
+  # redirect to it after loggin in or out. This override makes signing in
+  # and signing up work automatically.
+  def after_sign_in_path_for(resource)
+    
+    # redirect to the form if there is a post data in the session
+    if session[:post].present?
+      @post = session[:post]
+    end
+    session[:previous_url] || root_path
+  end
+  
+  def after_sign_out_path_for(resource_or_scope)
+    request.referrer || root_path
+  end
+  
+  def store_current_location
+    store_location_for(:user, request.url)
+  end
+  
+  def store_location
+    # store last url - this is needed for post-login redirect to whatever the user last visited.
+    return unless request.get? 
+    if (request.path != "/users/sign_in" &&
+        request.path != "/users/sign_up" &&
+        request.path != "/users/password/new" &&
+        request.path != "/users/password/edit" &&
+        request.path != "/users/confirmation" &&
+        request.path != "/users/sign_out" &&
+        !request.xhr?) # don't store ajax calls
+        if request.format == "text/html" || request.content_type == "text/html"
+          session[:previous_url] = request.fullpath
+          session[:last_request_time] = Time.now.utc.to_i
+        end
+    end
+  end
+
+end

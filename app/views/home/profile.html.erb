@@ -1,0 +1,145 @@
+<div class="profile-header"></div>
+
+<div class="container">
+    <div class="main" style="padding:40px 0 40px 0;">
+        <h3>프로필</h3>
+        <div class="nav-tabs-navigation" role="tablist">
+            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                <li class="active" role="presentation"><a href="#summary" aria-controls="summary" data-toggle="tab" aria-expanded="true">요약</a></li>
+                <li role="presentation"><a href="#myqt" aria-controls="myqt" data-toggle="tab" aria-expanded="false">내 QT</a></li>
+                <li role="presentation"><a href="#achievement" aria-controls="achievement" data-toggle="tab" aria-expanded="false">업적</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="summary">
+                <div class="row" style="padding-right: 15px;padding-bottom: 20px;">
+                    <div class="col-md-2">
+                        <span class="qt-user-id"><%= current_user.email.split("@").first %></span>
+                        <span class="qt-level"><%= current_user.level %></span>
+                    </div>
+                    <div class="col-md-offset-10 text-right">
+                        <span style="font-size:20px;">Lv. <%= current_user.level %></span>
+                    </div>
+                </div>
+                <p>총 QT 횟수 : <%= @post_count %>번</p>
+                <div class="progress" style="margin-top:40px; margin-bottom:5px;">
+                  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<%= ((@current_user.now_exp/@next_exps[@current_user.level-1].to_f)*100).floor %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= ((@current_user.now_exp/@next_exps[@current_user.level-1].to_f)*100).floor %>%;">
+                    <span class="sr-only"></span>
+                  </div>
+                </div>
+                <div style="overflow: auto;">
+                  <span style="float: left;"><%= @current_user.level %></span>
+                  <span style="float: right;"><%= @current_user.level+1 %></span>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="myqt">
+                <div>
+                    <div style="font-size:24px;">
+                        <span class="label label-info"><%= @date ? @date.year : Time.current.year %></span>
+                        <span class="label label-success"><%= @date ? @date.month : Time.current.month %></span>
+                    </div>
+                    <ul class="pagination pagination-success qt-pagination" style="margin-top:10px;">
+                      <li><a href="/profile?year=<%= @last_year %>&month=<%= @last_month %>&day=1">«</a></li>
+                      <% 1.upto(@last_day){ |d| %>
+                        <li 
+                            <% if request.query_parameters.present? %>
+                                <%= if request.query_parameters[:day].to_i == d then 'class=active' end %>
+                            <% elsif Time.current.day == d %>
+                                <%= 'class=active' %>
+                            <% end %>
+                            <% if @complete_days.include? d %>
+                                <% if request.query_parameters.present? %>
+                                    <%= unless request.query_parameters[:day].to_i == d then 'class=complete' end %>
+                                <% else %>
+                                    <%= 'class=complete' %>
+                                <% end %>
+                            <% end %>
+                            <%= 'class=disabled' if !@date && d > Time.current.day %>
+                        >
+                            <a 
+                                href="/profile?year=<%= request.query_parameters.present? ? request.query_parameters[:year] : Time.current.year %>&month=<%= request.query_parameters.present? ? request.query_parameters[:month] : Time.current.month %>&day=<%= d %>"
+                            >
+                                <%= d %>
+                            </a>
+                        </li>
+                      <% } %>
+                      <li <%= 'class=disabled' if !@date %>><a href="/profile?year=<%= @next_year %>&month=<%= @next_month %>&day=1">»</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="row" style="padding:5px 0 5px 0;">
+                        <div class="col-md-12">
+                            <span class="label label-danger">제목</span>
+                            <span style="margin-left:5px;"><%= @today_qt ? @today_qt[:title] : "" %></span>
+                        </div>
+                    </div>
+                    <div class="row" style="padding:5px 0 5px 0;">
+                        <div class="col-md-12">
+                            <span class="label label-danger">본문</span>
+                            <span style="margin-left:5px;"><%= @today_qt ? @today_qt[:book_line] : "" %></span>
+                        </div>
+                    </div>
+                </div>
+                <table class="table" style="font-size:13px;border-top:2px solid #ccbb9f;">
+                    <tbody>
+                        <% if @today_qt %>
+                            <% @today_qt[:words].each do |t| %>
+                            <tr>
+                                <th><%= t.first %></th>
+                                <td><%= t.second %></td>
+                            </tr>
+                            <% end %>
+                        <% else %>
+                            <%= "" %>
+                        <% end %>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>이해하기</h5>
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <% if @today_qt %>
+                                    <% @today_qt[:explanation].each do |t| %>
+                                    <p><%= t %></p>
+                                    <% end %>
+                                <% else %>
+                                    <%= "" %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>하나님은 어떤 분입니까?</h5>
+                        <textarea id="whois" name="whois" class="form-control" rows="5" readonly><%= @today_post ? @today_post.whois : "" %></textarea>
+                        <div class="panel panel-success" style="margin-top:10px;">
+                            <div class="panel-body">
+                                <%= @today_qt ? @today_qt[:whois] : "" %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>내게 주시는 교훈은 무엇입니까?</h5>
+                        <textarea id="lesson" name="lesson" class="form-control" rows="5" readonly><%= @today_post ? @today_post.lesson : "" %></textarea>
+                        <div class="panel panel-success" style="margin-top:10px;">
+                            <div class="panel-body">
+                                <%= @today_qt ? @today_qt[:lesson] : "" %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="achievement">
+                내 업적
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        //쿼리가 있으면 myqt 탭을 활성화한다.
+        <% if request.query_parameters.present? %>
+            $('#tabs a[href="#myqt"]').tab('show')
+        <% end %>
+    });
+</script>

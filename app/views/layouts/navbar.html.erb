@@ -1,0 +1,36 @@
+<nav class="navbar navbar-default" role="navigation-demo" id="demo-navbar">
+<div class="container">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a href="/">
+          <div class="logo-container">
+              <div class="brand">
+                  QTNote
+              </div>
+          </div>
+      </a>
+  </div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="navigation-example-2">
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+      <% if @is_logged_in %>
+        <a class="btn btn-simple" href="/users/sign_out" id="sign">로그아웃</a>
+      <% else %>
+        <a class="btn btn-simple" data-toggle="modal" data-target="#loginModal" id="sign">로그인</a>
+      <% end %>
+      </li>
+      <li id="profile" style="display: <%= @is_logged_in? 'block' : 'none' %>">
+        <a href="/profile" class="btn btn-simple">프로필</a>
+      </li>
+     </ul>
+  </div><!-- /.navbar-collapse -->
+</div><!-- /.container-->
+</nav>
