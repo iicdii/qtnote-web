@@ -1,26 +1,7 @@
-require 'capybara/poltergeist'
-#require 'phantomjs'
-
 module QtHelper
   class NewQt
     def initialize(year, month, day)
-      #오늘 날짜 qt를 불러올땐 Nokogiri로 파싱하고 아니면 Phantom으로 파싱한다.
-      if Time.current.year == year && Time.current.month == month && Time.current.day == day
-        @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT2"))
-      else
-        Capybara.register_driver :poltergeist do |app|
-          Capybara::Poltergeist::Driver.new(app)
-          #:phantomjs => Phantomjs.path
-        end
-        
-        Capybara.default_selector = :xpath
-        session = Capybara::Session.new(:poltergeist)
-        session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
-        session.visit "http://su.or.kr/03bible/daily/qtView.do?qtType=QT2"
-        session.execute_script("document.all['Form'].action = '/03bible/daily/qtView.do'; document.all['Form'].year.value=#{year}; document.all['Form'].month.value=#{month}; document.all['Form'].day.value=#{day}; document.all['Form'].submit(); ")
-        sleep 1
-        @doc = Nokogiri::HTML.parse(session.html)
-      end
+      @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT2&year=#{year}&month=#{month}&day=#{day}"))
     end
     
     def get_title
