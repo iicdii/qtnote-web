@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'capybara/poltergeist'
+require 'phantomjs'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]
@@ -18,8 +19,7 @@ class HomeController < ApplicationController
     @temp_post = cookies[:post]
     cookies[:post] = nil
     
-    data = cookies[:data] ? cookies[:data] : NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
-    cookies[:data] = data unless cookies[:data]
+    data = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
     
     #본문 제목 가져오기
     @title = data[:title]
@@ -34,7 +34,6 @@ class HomeController < ApplicationController
     @info1 = data[:explanation]
     @info2 = data[:whois]
     @info3 = data[:lesson]
-    
  
   end
   
@@ -115,7 +114,7 @@ class HomeController < ApplicationController
       @last_month = Time.current.last_month.month
       @next_month = Time.current.next_month.month
       @posts_of_this_month = @posts.where(:created_at => Time.current.beginning_of_month..Time.current.end_of_month)
-      @today_qt = cookies[:data] ? cookies[:data] : NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
+      @today_qt = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
       @today_post = @posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first
       if @posts_of_this_month.exists?
         @posts_of_this_month.each { |p| @complete_days << p.created_at.day }
@@ -129,7 +128,7 @@ class HomeController < ApplicationController
   class NewQt
     def initialize(year, month, day)
       Capybara.register_driver :poltergeist do |app|
-        Capybara::Poltergeist::Driver.new(app)
+        Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
       end
       
       Capybara.default_selector = :xpath
@@ -137,7 +136,7 @@ class HomeController < ApplicationController
       session.driver.headers = { 'User-Agent' => "Mozilla/5.0 (Macintosh; Intel Mac OS X)" }
       session.visit "http://su.or.kr/03bible/daily/qtView.do?qtType=QT2"
       session.execute_script("document.all['Form'].action = '/03bible/daily/qtView.do'; document.all['Form'].year.value=#{year}; document.all['Form'].month.value=#{month}; document.all['Form'].day.value=#{day}; document.all['Form'].submit(); ")
-      sleep 3
+      sleep 1
       @doc = Nokogiri::HTML.parse(session.html)
     end
     
