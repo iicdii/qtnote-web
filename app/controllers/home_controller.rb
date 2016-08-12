@@ -163,7 +163,7 @@ class HomeController < ApplicationController
       end
       info.delete("")
       last_index = info.index("적용하기")
-      info1 = info[1..last_index-1]
+      info1 = info[1..(last_index - 1)] if last_index
       
       first_index = info.index("하나님은 어떤 분입니까?") ? info.index("하나님은 어떤 분입니까?")+1 : false
       info2 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
@@ -175,6 +175,7 @@ class HomeController < ApplicationController
         :whois => info2,
         :lesson => info3
       }
+      return result
     end
     
     def to_h
