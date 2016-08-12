@@ -56,8 +56,10 @@
                             <% end %>
                             <%= 'class=disabled' if !@date && d > Time.current.day %>
                             <% if @date %>
-                                <%= 'class=disabled' if @date.year == Time.current.year && @date.month == Time.current.month && d > Time.current.day %>
-                            <%= end %>
+                                <% if @date.year == Time.current.year && @date.month == Time.current.month && d > Time.current.day %>
+                                    <%= 'class=disabled' %>
+                                <% end %>
+                            <% end %>
                         >
                             <a 
                                 href="/profile?year=<%= request.query_parameters.present? ? request.query_parameters[:year] : Time.current.year %>&month=<%= request.query_parameters.present? ? request.query_parameters[:month] : Time.current.month %>&day=<%= d %>"
