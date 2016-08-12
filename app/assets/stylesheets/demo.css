@@ -242,7 +242,7 @@ ul{
 }
 .profile-header{
     background-size: cover;
-    background-image: url(/assets/background.png);
+    background-image: url('<%= asset_path("background.png") %>');
     background-position: center top;
     margin-top: -100px;
     min-height: 300px;
