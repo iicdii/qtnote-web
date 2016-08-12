@@ -130,7 +130,7 @@ class HomeController < ApplicationController
   class NewQt
     def initialize(year, month, day)
       Capybara.register_driver :poltergeist do |app|
-        Capybara::Poltergeist::Driver.new(app, :phantomjs => Phantomjs.path)
+        Capybara::Poltergeist::Driver.new(app)
       end
       
       Capybara.default_selector = :xpath
