@@ -338,9 +338,6 @@ ul{
     -o-transition: all .2s;
     transition: all .2s;
 }
-.presentation{
-
-}
 .presentation .section{
     padding: 100px 0;
 }
@@ -1115,3 +1112,50 @@ pre.prettyprint{
 .qt-p {
     font-size: 14px;
 }
+.achievements .row {
+    margin: 0 0 6px 0;    
+}
+.achievements p {
+    margin: 0;
+}
+.achievements .row > div:first-child {
+    color:#fff;
+    background-color:#777;
+    height:64px !important;
+    opacity: 0.5;
+    filter:alpha(opacity=50);
+}
+.achievements .row.active > div:first-child {
+    color:#777;
+    background-color:#555;
+    opacity: 1;
+    filter:alpha(opacity=100);
+}
+.achievements .row > div:last-child {
+    color:#777;
+    background-color:#eee;
+    height:64px !important;
+}
+.achievements .row.active > div:last-child {
+    color:#fff;
+    background-color:#666;
+}
+.achievements .row > div:last-child > div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.achievements .row > div:last-child > div > p:first-child {
+    font-size:20px;
+}
+.achievements .row > div:last-child > div > p:first-child .date {
+    font-size:13px;
+    color:#aaa;
+}
+<% (1..2).each do |d| %>
+.qt-achievement-<%= d %> {
+    background-size: contain;
+    background-image: url('<%= asset_path("achievement_#{d}.png") %>');
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+<% end %>

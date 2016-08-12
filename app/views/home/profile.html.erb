@@ -18,7 +18,7 @@
                         <span class="qt-level"><%= current_user.level %></span>
                     </div>
                     <div class="col-md-offset-10 text-right">
-                        <span style="font-size:20px;">Lv. <%= current_user.level %></span>
+                        <span style="font-size:20px;"><%= current_user.talent %> 달란트</span>
                     </div>
                 </div>
                 <p>총 QT 횟수 : <%= @post_count %>번</p>
@@ -68,7 +68,7 @@
                             </a>
                         </li>
                       <% } %>
-                      <li <%= 'class=disabled' if !@date %>><a href="/profile?year=<%= @next_year %>&month=<%= @next_month %>&day=1">»</a></li>
+                      <li <%= 'class=disabled' if !@date || (@date && @date.year == Time.current.year && @date.month == Time.current.month)  %>><a href="/profile?year=<%= @next_year %>&month=<%= @next_month %>&day=1">»</a></li>
                     </ul>
                 </div>
                 <div>
@@ -135,7 +135,20 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="achievement">
-                내 업적
+                <div class="achievements">
+                    <% @achievements.each do |a| %>
+                    <div class="row <%= 'active' if a[:is_active] == true %>">
+                        <div class="col-md-1 col-xs-2 qt-achievement-<%= a[:id] %>">
+                        </div>
+                        <div class="col-md-6 col-xs-10">
+                            <div>
+                                <p><%= a[:title] %> <span class="date"><%= a[:created_at].to_s(:custom_datetime) if a[:is_active] == true %></span></p>
+                                <p class="qt-p"><%= a[:description] %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <% end %>
+                </div>
             </div>
         </div>
     </div>

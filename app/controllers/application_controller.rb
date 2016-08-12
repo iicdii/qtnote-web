@@ -35,11 +35,11 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       achievements = current_user.achievements
       #3번 접속 달성시
-      if current_user.sign_in_count >= 3 && achievements.any? { |a| a[:id] == 0 } == false
-        achievements << {id: 0, created_at: Time.current}
+      if current_user.sign_in_count >= 3 && achievements.any? { |a| a[:id] == 1 } == false
+        achievements << {id: 1, created_at: Time.current}
         current_user.achievements = achievements
         current_user.save
-        achievement_title = Achievement.find_by(id: 0).title
+        achievement_title = (Achievement.find_by(id: 1)).title
         add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!"
       end
     end

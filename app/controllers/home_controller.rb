@@ -15,8 +15,10 @@ class HomeController < ApplicationController
     end
     
     #작성중이던 글이 있으면 불러온다.
-    @temp_post = cookies[:post]
-    cookies[:post] = nil
+    if session[:post]
+      @temp_post = session[:post]
+      session[:post] = nil
+    end
     
     data = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
     
@@ -61,7 +63,7 @@ class HomeController < ApplicationController
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
-          cookies[:post] = [params[:whois], params[:lesson]]
+          session[:post] = [params[:whois], params[:lesson]]
         end
       end
     end
@@ -89,10 +91,11 @@ class HomeController < ApplicationController
   
   def profile
     @complete_days = Array.new
+    @achievements = Array.new
     @posts = Post.where(:user_id => current_user.id)
     @post_count = @posts.length
     
-    #쿼리가 있으면 쿼리에 해당하는 날짜의 qt를 불러오고, 없으면 오늘 qt를 불러온다.
+    #쿼리가 있으면 쿼리에 해당하는 날짜의 post를 불러오고, 없으면 오늘 post를 불러온다.
     if params[:year] && params[:month] && params[:day]
       year = params[:year].to_i
       month = params[:month].to_i
@@ -122,6 +125,18 @@ class HomeController < ApplicationController
       @last_year = @last_month == 12 ? Time.current.last_year.year : Time.current.year
       @next_year = @next_month == 1 ? Time.current.next_year.year : Time.current.year
     end
+    
+    #업적을 불러온다.
+    Achievement.all.each do |a|
+      @achievements << {
+        :id => a.id,
+        :title => a.title,
+        :description => a.description,
+        :is_active => (current_user.achievements.any? {|h| h[:id] == a.id}) ? true : false,
+        :created_at => a.created_at
+      }
+    end
+    
   end
   
 end
