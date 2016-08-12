@@ -180,13 +180,13 @@ class HomeController < ApplicationController
     
     def to_h
       info = get_info
-      data = {
+      return data = {
         :title => get_title,
         :book_line => get_book_line,
         :words => get_words,
-        :explanation => info[:explanation],
-        :whois => info[:whois],
-        :lesson => info[:lesson],
+        :explanation => info[:explanation] || "",
+        :whois => info[:whois] || "",
+        :lesson => info[:lesson] || "",
         :created_at => Time.zone.now
       }
     end
