@@ -1,6 +1,5 @@
 require 'open-uri'
-require 'capybara'
-require 'capybara/poltergeist'
+require 'phantomjs'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]
