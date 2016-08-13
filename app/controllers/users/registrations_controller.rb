@@ -9,7 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    cookies[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson]] : nil
+    session[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson]] : nil
     super
   end
 
