@@ -33,14 +33,41 @@ class ApplicationController < ActionController::Base
   
   def calculate_achievement
     if user_signed_in?
-      achievements = current_user.achievements
-      #3번 접속 달성시
-      if current_user.sign_in_count >= 3 && achievements.any? { |a| a[:id] == 1 } == false
-        achievements << {id: 1, created_at: Time.current}
-        current_user.achievements = achievements
+      #1. 3번 접속 달성시
+      if current_user.sign_in_count_per_day >= 3 && achievements.any? { |a| a[:id] == 1 } == false
+        current_user.achievements<< {id: 1, created_at: Time.current}
         current_user.save
-        achievement_title = (Achievement.find_by(id: 1)).title
-        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!"
+        achievement_title = Achievement.find_by(id: 1).title
+        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
+        {url: '/profile?type=achievement', target: "_self"},
+        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
+      end
+      #2. 5레벨 달성시
+      if current_user.level >= 5 && achievements.any? { |a| a[:id] == 2 } == false
+        current_user.achievements<< {id: 2, created_at: Time.current}
+        current_user.save
+        achievement_title = Achievement.find_by(id: 2).title
+        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
+        {url: '/profile?type=achievement', target: "_self"},
+        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
+      end
+      #3. 50레벨 달성시
+      if current_user.level >= 50 && achievements.any? { |a| a[:id] == 3 } == false
+        current_user.achievements<< {id: 3, created_at: Time.current}
+        current_user.save
+        achievement_title = Achievement.find_by(id: 2).title
+        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
+        {url: '/profile?type=achievement', target: "_self"},
+        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
+      end
+      #4. 99레벨 달성시
+      if current_user.level >= 99 && achievements.any? { |a| a[:id] == 4 } == false
+        current_user.achievements<< {id: 4, created_at: Time.current}
+        current_user.save
+        achievement_title = Achievement.find_by(id: 3).title
+        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
+        {url: '/profile?type=achievement', target: "_self"},
+        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
       end
     end
   end

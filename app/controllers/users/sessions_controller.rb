@@ -1,5 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
 # before_action :configure_sign_in_params, only: [:create]
+after_filter :after_login, :only => :create
 
   # GET /resource/sign_in
   # def new
@@ -8,7 +9,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    session[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson]] : nil
+    cookies[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson]] : nil
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:info, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)
@@ -31,4 +32,14 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+  
+  def after_login
+    #오늘 접속 기록이 없으면 일 단위 로그인 기록을 하나 늘리고 방문을 기록한다.
+    logs = Visit.where({ user_id: current_user.id, created_at: Time.now.beginning_of_day..Time.now.end_of_day })
+    if !logs.exists?
+      current_user.sign_in_count_per_day = current_user.sign_in_count_per_day + 1
+      current_user.save
+    end
+    Visit.create!(user_id: current_user.id, user_ip: current_user.current_sign_in_ip, user_email: current_user.email)
+  end
 end

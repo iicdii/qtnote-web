@@ -61,7 +61,7 @@
                     </h5>
                     <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post 
                                 @today_post.whois 
-                            elsif @temp_post 
+                            elsif @temp_post && @temp_post.is_a?(Array)
                                 @temp_post.first
                             end %></textarea>
                     <div class="collapse" id="collapse2">
@@ -80,7 +80,7 @@
                     </h5>
                     <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="10자 이상 입력해 주세요."><%= if @today_post 
                             @today_post.lesson 
-                        elsif @temp_post 
+                        elsif @temp_post && @temp_post.is_a?(Array)
                             @temp_post.last
                         end %></textarea>
                     <div class="collapse" id="collapse3">
@@ -108,7 +108,7 @@
 </div>
 <script>
     // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
-    <% if @temp_post %>
+    <% if @temp_post && @temp_post.is_a?(Array) %>
         <% if @temp_post.first.length > 0 || @temp_post.second.length > 0 %>
     $('html, body').animate({
         scrollTop: 1100

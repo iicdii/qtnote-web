@@ -42,14 +42,14 @@
                       <li><a href="/profile?year=<%= @last_year %>&month=<%= @last_month %>&day=1">«</a></li>
                       <% 1.upto(@last_day){ |d| %>
                         <li 
-                            <% if request.query_parameters.present? %>
-                                <%= if request.query_parameters[:day].to_i == d then 'class=active' end %>
+                            <% if @date %>
+                                <%= if @date.day == d then 'class=active' end %>
                             <% elsif Time.current.day == d %>
                                 <%= 'class=active' %>
                             <% end %>
                             <% if @complete_days.include? d %>
-                                <% if request.query_parameters.present? %>
-                                    <%= unless request.query_parameters[:day].to_i == d then 'class=complete' end %>
+                                <% if @date %>
+                                    <%= unless @date.day == d then 'class=complete' end %>
                                 <% else %>
                                     <%= 'class=complete' %>
                                 <% end %>
@@ -62,7 +62,7 @@
                             <% end %>
                         >
                             <a 
-                                href="/profile?year=<%= request.query_parameters.present? ? request.query_parameters[:year] : Time.current.year %>&month=<%= request.query_parameters.present? ? request.query_parameters[:month] : Time.current.month %>&day=<%= d %>"
+                                href="/profile?year=<%= @date ? @date.year : Time.current.year %>&month=<%= @date ? @date.month : Time.current.month %>&day=<%= d %>"
                             >
                                 <%= d %>
                             </a>
@@ -155,9 +155,12 @@
 </div>
 <script>
     $(document).ready(function() {
-        //쿼리가 있으면 myqt 탭을 활성화한다.
         <% if request.query_parameters.present? %>
-            $('#tabs a[href="#myqt"]').tab('show')
+            <% if (request.query_parameters[:year] && request.query_parameters[:month] && request.query_parameters[:day]) || request.query_parameters[:type] == 'myqt'  %>
+            $('#tabs a[href="#myqt"]').tab('show');
+            <% elsif request.query_parameters[:type] == 'achievement' %>
+            $('#tabs a[href="#achievement"]').tab('show');
+            <% end %>
         <% end %>
     });
 </script>

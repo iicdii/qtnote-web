@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810145054) do
+ActiveRecord::Schema.define(version: 20160813110832) do
 
   create_table "achievements", force: :cascade do |t|
     t.string   "title"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160810145054) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.integer  "sign_in_count_per_day",  default: 0,  null: false
     t.integer  "level",                  default: 1,  null: false
     t.integer  "now_exp",                default: 0,  null: false
     t.integer  "talent",                 default: 0,  null: false
@@ -49,5 +50,13 @@ ActiveRecord::Schema.define(version: 20160810145054) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "visits", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "user_ip"
+    t.string   "user_email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

@@ -15,9 +15,9 @@ class HomeController < ApplicationController
     end
     
     #작성중이던 글이 있으면 불러온다.
-    if session[:post]
-      @temp_post = session[:post]
-      session[:post] = nil
+    if cookies[:post]
+      @temp_post = cookies[:post]
+      cookies[:post] = nil
     end
     
     data = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
@@ -63,7 +63,7 @@ class HomeController < ApplicationController
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
-          session[:post] = [params[:whois], params[:lesson]]
+          cookies[:post] = [params[:whois], params[:lesson]]
         end
       end
     end

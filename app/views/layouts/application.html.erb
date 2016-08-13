@@ -145,12 +145,28 @@
           <% name = 'danger' %>
         <% end %>
         <% unless msg.is_a? String %>
-          <% msg.each do |m| %>
+          <% puts msg %>
+          <% msg.each do |m, options, settings| %>
             $.notify({
-              message: "<%= m %>"
+              message: "<%= m %>",
+              <% if options.is_a?(::Hash) %>
+                <% options.each do |key, val| %>
+                <%= key %>: "<%= val %>",
+                <% end %>
+              <% end %>
             },{
-              type: "<%= name %>"
+              type: "<%= name %>",
+              <% if settings.is_a?(::Hash) %>
+                <% settings.each do |key, val| %>
+                <% if val.is_a?(::Hash) %>
+                  <%= key %>: {<% val.each do |k,v| %> <%= k %>: "<%= v %>", <% end %>},
+                <% else %>
+                  <%= key %>: "<%= val %>",
+                <% end %>
+                <% end %>
+              <% end %>
             });
+            
           <% end %>
         <% else  %>
           $.notify({
