@@ -111,13 +111,13 @@
     <% if @temp_post && @temp_post.is_a?(Array) %>
         <% if @temp_post.first.length > 0 || @temp_post.second.length > 0 %>
     $('html, body').animate({
-        scrollTop: 1100
+        scrollTop: 1500
     }, 500);
         <% end %>
     <% end %>
     $("#doIt").click(function() {
         $('html, body').animate({
-            scrollTop: $("footer").offset().top
+            scrollTop: $(".main").offset().top
         }, 700);
     });
 </script>
