@@ -111,7 +111,7 @@
     <% if @temp_post && @temp_post.is_a?(Array) %>
         <% if @temp_post.first.length > 0 || @temp_post.second.length > 0 %>
     $('html, body').animate({
-        scrollTop: 1500
+        scrollTop: $(document).height()
     }, 500);
         <% end %>
     <% end %>
