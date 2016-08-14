@@ -3,7 +3,7 @@
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: 'Montserrat', "Helvetica", Arial, sans-serif;
+  font-family: 'Nanum Gothic', 'Montserrat', "Helvetica", Arial, sans-serif;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
@@ -103,7 +103,7 @@ blockquote small {
 body {
   color: #66615b;
   font-size: 16px;
-  font-family: 'Montserrat', "Helvetica", Arial, sans-serif;
+  font-family: 'Nanum Gothic', 'Montserrat', "Helvetica", Arial, sans-serif;
 }
 
 a {
@@ -1188,7 +1188,7 @@ textarea.form-control {
 
 .alert-danger {
   background-color: #FF8F5E;
-  color: #B33C12;
+  color: #FFF;
 }
 
 /*           Labels & Progress-bar              */

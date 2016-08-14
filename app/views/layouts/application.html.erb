@@ -9,6 +9,7 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/earlyaccess/nanumgothic.css' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 </head>
@@ -26,7 +27,7 @@
           </button>
           <a href="/">
               <div class="logo-container">
-                  <div class="brand">
+                  <div class="brand qt-eng">
                       QTNote
                   </div>
               </div>
@@ -38,7 +39,7 @@
         <ul class="nav navbar-nav navbar-right">
           <% if @is_logged_in %>
           <li class="dropdown qt-dropdown" id="qt-dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><%= @current_user.email %> <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= @current_user.email %></span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/profile">프로필</a></li>
               <li class="divider"></li>
@@ -113,7 +114,7 @@
       </div>
     </div>
   </div>
-  <footer class="footer footer-demo section-dark">
+  <footer class="footer footer-demo section-dark qt-eng">
     <div class="container">
       <nav class="pull-left">
           <ul>
@@ -156,6 +157,7 @@
               <% end %>
             },{
               type: "<%= name %>",
+              offset: 50,
               <% if settings.is_a?(::Hash) %>
                 <% settings.each do |key, val| %>
                 <% if val.is_a?(::Hash) %>
@@ -172,6 +174,7 @@
           $.notify({
             message: "<%= msg %>"
           },{
+            offset: 93,
             type: "<%= name %>"
           });
         <% end %>
