@@ -77,7 +77,7 @@ class HomeController < ApplicationController
     if @one_post
       @one_post.whois = params[:whois]
       @one_post.lesson = params[:lesson]
-      @one_post.pray = params[:post]
+      @one_post.pray = params[:pray]
       if @one_post.save
         add_to_flash_array :info, "수정되었습니다."
       else
