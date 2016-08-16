@@ -49,6 +49,7 @@ class HomeController < ApplicationController
       new_post.user_id = current_user.id
       new_post.whois = params[:whois]
       new_post.lesson = params[:lesson]
+      new_post.pray = params[:pray]
       
       if new_post.save
         now_exp = current_user.now_exp
@@ -76,6 +77,7 @@ class HomeController < ApplicationController
     if @one_post
       @one_post.whois = params[:whois]
       @one_post.lesson = params[:lesson]
+      @one_post.pray = params[:post]
       if @one_post.save
         add_to_flash_array :info, "수정되었습니다."
       else
