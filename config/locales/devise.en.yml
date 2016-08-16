@@ -7,7 +7,7 @@ en:
       send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
-      already_authenticated: "You are already signed in."
+      already_authenticated: "이미 로그인 되어있습니다."
       inactive: "Your account is not activated yet."
       invalid: "유효하지 않은 %{authentication_keys} 또는 패스워드 입니다."
       locked: "Your account is locked."
@@ -32,7 +32,7 @@ en:
       no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
       send_instructions: "입력하신 이메일로 비밀번호 변경 안내 메일을 발송하였습니다."
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
-      updated: "Your password has been changed successfully. You are now signed in."
+      updated: "비밀번호가 변경되었습니다."
       updated_not_active: "Your password has been changed successfully."
     registrations:
       destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
