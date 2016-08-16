@@ -9,9 +9,10 @@ after_filter :after_login, :only => :create
 
   # POST /resource/sign_in
   def create
-    session[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson]] : nil
+    pray = params[:pray] || ""
+    session[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson], pray] : nil
     self.resource = warden.authenticate!(auth_options)
-    set_flash_message(:info, :signed_in) if is_navigational_format?
+    set_flash_message(:success, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)
     if !session[:return_to].blank?
       redirect_to session[:return_to]

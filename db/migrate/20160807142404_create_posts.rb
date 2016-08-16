@@ -5,6 +5,7 @@ class CreatePosts < ActiveRecord::Migration
       t.integer "user_id"
       t.string "whois"
       t.string "lesson"
+      t.string "pray"
 
       t.timestamps null: false
     end

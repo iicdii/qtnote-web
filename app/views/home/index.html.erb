@@ -81,7 +81,7 @@
                     <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="10자 이상 입력해 주세요."><%= if @today_post 
                             @today_post.lesson 
                         elsif @temp_post && @temp_post.is_a?(Array)
-                            @temp_post.last
+                            @temp_post.second
                         end %></textarea>
                     <div class="collapse" id="collapse3">
                         <div class="panel panel-success" style="margin-top:10px;">
@@ -90,6 +90,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-md-4 col-md-offset-8">
+                    <h5>기도하기</h5>
+                    <textarea id="pray" name="pray" class="form-control" rows="3"><%= if @today_post 
+                            @today_post.pray 
+                        elsif @temp_post && @temp_post.is_a?(Array)
+                            @temp_post.third
+                        end %></textarea>
                 </div>
             </div>
             <div class="text-right" style="margin-top:20px;">

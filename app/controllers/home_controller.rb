@@ -63,7 +63,7 @@ class HomeController < ApplicationController
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
-          session[:post] = [params[:whois], params[:lesson]]
+          session[:post] = [params[:whois], params[:lesson], params[:pray]]
         end
       end
     end
@@ -128,12 +128,13 @@ class HomeController < ApplicationController
     
     #업적을 불러온다.
     Achievement.all.each do |a|
+      achievement = current_user.achievements.find {|h| h[:id] == a.id }
       @achievements << {
         :id => a.id,
         :title => a.title,
         :description => a.description,
-        :is_active => (current_user.achievements.any? {|h| h[:id] == a.id}) ? true : false,
-        :created_at => a.created_at
+        :is_active => achievement ? true : false,
+        :created_at => achievement ? achievement[:created_at] : a.created_at
       }
     end
     

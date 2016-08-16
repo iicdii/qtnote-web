@@ -158,7 +158,7 @@
               <% end %>
             },{
               type: "<%= name %>",
-              offset: 93,
+              offset: 98,
               <% if settings.is_a?(::Hash) %>
                 <% settings.each do |key, val| %>
                 <% if val.is_a?(::Hash) %>
@@ -175,7 +175,7 @@
           $.notify({
             message: "<%= msg %>"
           },{
-            offset: 93,
+            offset: 98,
             type: "<%= name %>"
           });
         <% end %>
