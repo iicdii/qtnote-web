@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
         {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
       end
       #4. 7일 연속 QT 달성시
-      if current_user.level >= 99 && current_user.achievements.any? { |a| a[:id] == 5 } == false
+      if @streak_days >= 7 && current_user.achievements.any? { |a| a[:id] == 5 } == false
         current_user.achievements<< {id: 5, created_at: Time.current}
         current_user.save
         achievement_title = Achievement.find_by(id: 5).title
