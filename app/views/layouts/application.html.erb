@@ -43,6 +43,8 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= @current_user.email %></span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="/profile">프로필</a></li>
+              <li><a href="/profile?type=myqt">내 QT</a></li>
+              <li><a href="/profile?type=setting">설정</a></li>
               <li class="divider"></li>
               <li><a href="/users/sign_out">로그아웃</a></li>
             </ul>
@@ -80,9 +82,12 @@
               <div class="modal-body">
                   <input type="hidden" id="whois1" name="whois" value="">
                   <input type="hidden" id="lesson1" name="lesson" value="">
+                  <input type="hidden" id="pray1" name="pray" value="">
                   <div class="form-group">
                     <label for="user_email">이메일</label>
-                    <%= f.text_field :email, :class => 'form-control' %>
+                    <%= f.text_field :email, autofocus: true, :class => 'form-control' %>
+                  </div>
+                  <div class="form-group">
                     <label for="user_password">패스워드</label>
                     <%= f.password_field :password, :class => 'form-control' %>
                   </div>
@@ -110,13 +115,18 @@
               <div class="modal-body">
                   <input type="hidden" id="whois2" name="whois" value="">
                   <input type="hidden" id="lesson2" name="lesson" value="">
+                  <input type="hidden" id="pray2" name="pray" value="">
                   <div class="form-group">
                     <label for="user_email">이메일</label>
-                    <%= f.text_field :email, :class => 'form-control' %>
+                    <%= f.email_field :email, :class => 'form-control' %>
+                  </div>
+                  <div class="form-group">
                     <label for="user_password">패스워드</label>
-                    <%= f.password_field :password, :class => 'form-control' %>
+                    <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
+                  </div>
+                  <div class="form-group">
                     <label for="user_password_confirmation">패스워드 확인</label>
-                    <%= f.password_field :password_confirmation, :class => 'form-control' %>
+                    <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
                   </div>
                   <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
                     <%- if devise_mapping.recoverable? %>
@@ -206,6 +216,8 @@
         $("#whois2").val($("#whois").val())
         $("#lesson1").val($("#lesson").val())
         $("#lesson2").val($("#lesson").val())
+        $("#pray1").val($("#pray").val())
+        $("#pray2").val($("#pray").val())
       });
     });
   </script>

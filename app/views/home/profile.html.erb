@@ -8,6 +8,7 @@
                 <li class="active" role="presentation"><a href="#summary" aria-controls="summary" data-toggle="tab" aria-expanded="true">요약</a></li>
                 <li role="presentation"><a href="#myqt" aria-controls="myqt" data-toggle="tab" aria-expanded="false">내 QT</a></li>
                 <li role="presentation"><a href="#achievement" aria-controls="achievement" data-toggle="tab" aria-expanded="false">업적</a></li>
+                <li role="presentation"><a href="#setting" aria-controls="setting" data-toggle="tab" aria-expanded="false">설정</a></li>
             </ul>
         </div>
         <div class="tab-content">
@@ -156,6 +157,35 @@
                     <% end %>
                 </div>
             </div>
+            <div role="tabpanel" class="tab-pane" id="setting">
+                <div style="max-width:480px;">
+                    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                    <div class="form-group">
+                        <label for="user_email">이메일</label>
+                        <%= f.email_field :email, :class => 'form-control', :value => @current_user.email %>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_password">패스워드 <span class="qt-info" style="margin-left:5px;">변경하지 않으려면 공백으로 남겨주세요.</span></label>
+                        <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_password_confirmation">패스워드 확인</label>
+                        <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
+                    </div>
+                    <div class="form-group">
+                        <label for="user_password_confirmation">현재 비밀번호 <span class="qt-info" style="margin-left:5px;">안전한 수정을 위해서 현재 비밀번호를 입력해 주세요.</span></label>
+                        <%= f.password_field :current_password, autocomplete: "off", :class => 'form-control', autocomplete: "off" %>
+                    </div>
+                    <div class="actions">
+                      <%= f.submit "수정", :class => 'btn btn-info' %>
+                    </div>
+                    <% end %>
+                </div>
+                <hr>
+                <div class="text-right">
+                    <%= button_to "회원 탈퇴", registration_path(resource_name), data: { confirm: "회원님의 모든 정보가 삭제됩니다. 정말 탈퇴하시겠습니까?" }, method: :delete, class: "btn btn-danger" %>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -166,6 +196,8 @@
             $('#tabs a[href="#myqt"]').tab('show');
             <% elsif request.query_parameters[:type] == 'achievement' %>
             $('#tabs a[href="#achievement"]').tab('show');
+            <% elsif request.query_parameters[:type] == 'setting' %>
+            $('#tabs a[href="#setting"]').tab('show');
             <% end %>
         <% end %>
     });
