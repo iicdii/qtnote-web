@@ -33,6 +33,9 @@ class ApplicationController < ActionController::Base
   
   def calculate_achievement
     if user_signed_in?
+      #연속 QT일 계산
+      @streak_days = current_user.streak_start && current_user.streak_end && current_user.streak_end > 24.hours.ago ? current_user.streak_end.day - current_user.streak_start.day : 0
+      
       #1. 3번 접속 달성시
       if current_user.sign_in_count_per_day >= 3 && current_user.achievements.any? { |a| a[:id] == 1 } == false
         current_user.achievements<< {id: 1, created_at: Time.current}
@@ -55,7 +58,7 @@ class ApplicationController < ActionController::Base
       if current_user.level >= 50 && current_user.achievements.any? { |a| a[:id] == 3 } == false
         current_user.achievements<< {id: 3, created_at: Time.current}
         current_user.save
-        achievement_title = Achievement.find_by(id: 2).title
+        achievement_title = Achievement.find_by(id: 3).title
         add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
         {url: '/profile?type=achievement', target: "_self"},
         {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
@@ -64,7 +67,16 @@ class ApplicationController < ActionController::Base
       if current_user.level >= 99 && current_user.achievements.any? { |a| a[:id] == 4 } == false
         current_user.achievements<< {id: 4, created_at: Time.current}
         current_user.save
-        achievement_title = Achievement.find_by(id: 3).title
+        achievement_title = Achievement.find_by(id: 4).title
+        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
+        {url: '/profile?type=achievement', target: "_self"},
+        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
+      end
+      #4. 7일 연속 QT 달성시
+      if current_user.level >= 99 && current_user.achievements.any? { |a| a[:id] == 5 } == false
+        current_user.achievements<< {id: 5, created_at: Time.current}
+        current_user.save
+        achievement_title = Achievement.find_by(id: 5).title
         add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
         {url: '/profile?type=achievement', target: "_self"},
         {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}

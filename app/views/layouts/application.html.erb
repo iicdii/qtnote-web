@@ -49,6 +49,11 @@
               <li><a href="/users/sign_out">로그아웃</a></li>
             </ul>
           </li>
+          <li class="qt-streak" data-toggle="tooltip" title="<%= @streak_days %>일 연속" data-placement="bottom" data-original-title="<%= @streak_days %>일 연속">
+            <span class="qt-icon qt-flame" aria-hidden="true">
+              <span class="qt-num"><%= @streak_days %></span>
+            </span>
+          </li>
           <% else %>
           <li>
             <a href="#" class="btn btn-simple" data-toggle="modal" data-target="#loginModal">로그인</a>
@@ -167,6 +172,9 @@
       $.notifyDefaults({
         z_index: 99999
       });
+      
+      //툴팁 활성화
+      $('[data-toggle="tooltip"]').tooltip(); 
       
       //플래시가 있으면 growl 알림을 띄운다.
       <% flash.each do |name, msg| %>
