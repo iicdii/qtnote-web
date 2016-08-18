@@ -39,7 +39,6 @@ class HomeController < ApplicationController
   end
   
   def write
-    
     today_posts = Post.where("created_at >= ?", Time.zone.now.beginning_of_day)
     today_post = today_posts.find_by user_id: current_user.id
     if today_post
@@ -107,7 +106,7 @@ class HomeController < ApplicationController
       @next_month = @date.next_month.month
       @posts_of_this_month = @posts.where(:created_at => @date.beginning_of_month..@date.end_of_month)
       @today_qt = NewQt.new(year, month, day).to_h
-      @today_post = @posts.where(:created_at => @date...@date + 1).first
+      @today_post = @posts.where(:created_at => @date.beginning_of_day...@date.end_of_day).first
       if @posts_of_this_month.exists?
         @posts_of_this_month.each { |p| @complete_days << p.created_at.day }
       end
