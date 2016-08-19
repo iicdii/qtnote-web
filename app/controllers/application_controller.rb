@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   def calculate_achievement
     if user_signed_in?
       #연속 QT일 계산
-      @streak_days = current_user.streak_start && current_user.streak_end && current_user.streak_end > 24.hours.ago ? current_user.streak_end.day - current_user.streak_start.day : 0
+      @streak_days = current_user.streak_start && current_user.streak_end && current_user.streak_end > Time.zone.yesterday.beginning_of_day ? current_user.streak_end.day - current_user.streak_start.day : 0
       
       #1. 3번 접속 달성시
       if current_user.sign_in_count_per_day >= 3 && current_user.achievements.any? { |a| a[:id] == 1 } == false

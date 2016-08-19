@@ -22,7 +22,7 @@ class Post < ActiveRecord::Base
     
     def update_streak
         if self.user.streak_end
-            self.user.touch(:streak_start) unless self.user.streak_end > 24.hours.ago
+            self.user.touch(:streak_start) unless self.user.streak_end > Time.zone.yesterday.beginning_of_day
         else
             self.user.touch(:streak_start)
         end
