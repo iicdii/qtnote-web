@@ -42,7 +42,7 @@ class HomeController < ApplicationController
     today_posts = Post.where("created_at >= ?", Time.zone.now.beginning_of_day)
     today_post = today_posts.find_by user_id: current_user.id
     if today_post
-      add_to_flash_array :danger, "QT는 하루에 한 번만 가능합니다."
+      add_to_flash_array :warning, "QT는 하루에 한 번만 가능합니다."
     else
       new_post = Post.new
       new_post.user_id = current_user.id
@@ -52,9 +52,13 @@ class HomeController < ApplicationController
       
       if new_post.save
         now_exp = current_user.now_exp
-        new_exp = 30 + Random.rand(50)
+        new_exp = 30 + Random.rand(30)
+        new_exp -= new_exp % 5
+        
         now_talent = current_user.talent
-        new_talent = 5 + Random.rand(15)
+        new_talent = 5 + Random.rand(10)
+        new_talent -= new_talent % 5
+        
         current_user.now_exp = now_exp + new_exp
         current_user.talent = now_talent + new_talent
         current_user.save
@@ -85,7 +89,7 @@ class HomeController < ApplicationController
         end
       end
     else
-       add_to_flash_array :danger, "유효하지 않은 게시물입니다."
+       add_to_flash_array :warning, "유효하지 않은 게시물입니다."
     end
     redirect_to "/"
   end

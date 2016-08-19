@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       unless @next_exps
         @next_exps = Array.new
         for i in 0..99
-           @next_exps.push(50 + (i * 242))
+           @next_exps.push(50 + (i * 7))
         end
       end
       #레벨업
