@@ -30,7 +30,7 @@ class Post < ActiveRecord::Base
     def update_streak
         if self.user.streak_end
             streak_days = self.user.streak_end.day - self.user.streak_start.day
-            if streak_days > self.user.max_streak_days
+            if streak_days >= self.user.max_streak_days
                 self.user.max_streak_days = streak_days
                 self.user.save
             end
