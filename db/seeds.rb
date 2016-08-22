@@ -11,7 +11,8 @@ achievements = [
     {title: "레벨 5 달성", description: "5레벨 달성"},
     {title: "레벨 50 달성", description: "50레벨 달성"},
     {title: "레벨 99 달성", description: "99레벨 달성"},
-    {title: "7일 연속", description: "7일 연속 QT"}
+    {title: "7일 연속", description: "7일 연속 QT"},
+    {title: "달란트 부자", description: "10,000 달란트 이상 보유"}
     ]
 achievements.each do |attrs|
     Achievement.create(attrs) unless Achievement.where(attrs).first

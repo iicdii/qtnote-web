@@ -14,15 +14,13 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="summary">
                 <div class="row" style="padding-right: 15px;padding-bottom: 20px;">
-                    <div class="col-md-2 col-xs-2">
+                    <div class="col-md-2 col-xs-3">
                         <span class="qt-user-id qt-eng"><%= current_user.email.split("@").first %></span>
                         <span class="qt-level qt-num"><%= current_user.level %></span>
                     </div>
-                    <div class="col-md-offset-10 col-xs-offset-10 text-right">
-                        <span style="font-size:20px;"><%= current_user.talent %> 달란트</span>
-                    </div>
                 </div>
                 <p>총 QT 횟수 : <%= @post_count %>번</p>
+                <p>최대 연속 QT 횟수 : <%= @current_user.max_streak_days %>번</p>
                 <div class="progress" style="margin-top:40px; margin-bottom:5px;">
                   <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<%= ((@current_user.now_exp/@next_exps[@current_user.level-1].to_f)*100).floor %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= ((@current_user.now_exp/@next_exps[@current_user.level-1].to_f)*100).floor %>%;">
                     <span class="sr-only"></span>
@@ -30,7 +28,7 @@
                 </div>
                 <div style="overflow: auto;">
                   <span class="qt-num" style="float: left; width:33.3%; text-align:left; font-size:22px; font-style: italic;"><%= @current_user.level %></span>
-                  <span class="qt-num" style="float: left; width:33.3%; text-align:center;"><%= @current_user.now_exp %>/<%= @next_exps[current_user.level-1] %> XP</span>
+                  <span class="qt-num" style="float: left; width:33.3%; text-align:center;"><%= @current_user.now_exp %>/<%= @next_exps[@current_user.level-1] %> XP</span>
                   <span class="qt-num" style="float: left; width:33.3%; text-align:right; font-size:22px; font-style: italic;"><%= @current_user.level+1 %></span>
                 </div>
             </div>
@@ -135,10 +133,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-8">
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-offset-4 col-md-4">
+                        <h5>적용하기</h5>
+                        <textarea id="apply" name="apply" class="form-control" rows="3" readonly><%= @today_post ? @today_post.pray : "" %></textarea>
+                    </div>
+                    <div class="col-md-4">
                         <h5>기도하기</h5>
-                        <textarea id="pray" name="pray" class="form-control" rows="3" readonly><%= @today_qt ? @today_qt[:pray] : "" %></textarea>
+                        <textarea id="pray" name="pray" class="form-control" rows="3" readonly><%= @today_post ? @today_post.apply : "" %></textarea>
                     </div>
                 </div>
             </div>

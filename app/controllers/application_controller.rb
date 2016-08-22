@@ -14,14 +14,14 @@ class ApplicationController < ActionController::Base
   
   def calculate_exp
     if user_signed_in?
-      #다음 경험치 계산
+      # 다음 경험치 계산
       unless @next_exps
         @next_exps = Array.new
         for i in 0..99
            @next_exps.push(50 + (i * 7))
         end
       end
-      #레벨업
+      # 레벨업
       if current_user.now_exp/@next_exps[current_user.level-1] >= 1
         current_user.now_exp = current_user.now_exp - @next_exps[current_user.level-1]
         current_user.level = current_user.level + 1
@@ -31,55 +31,54 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def notify(title)
+    add_to_flash_array :info, "#{title} 업적을 달성하였습니다!", 
+    {url: '/profile?type=achievement', target: "_self"},
+    {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
+  end
+  
   def calculate_achievement
     if user_signed_in?
-      #연속 QT일 계산
+      # 연속 QT일 계산
       @streak_days = current_user.streak_start && current_user.streak_end && current_user.streak_end > Time.zone.yesterday.beginning_of_day ? current_user.streak_end.day - current_user.streak_start.day : 0
       
-      #1. 3번 접속 달성시
-      if current_user.sign_in_count_per_day >= 3 && current_user.achievements.any? { |a| a[:id] == 1 } == false
-        current_user.achievements<< {id: 1, created_at: Time.current}
-        current_user.save
-        achievement_title = Achievement.find_by(id: 1).title
-        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
-        {url: '/profile?type=achievement', target: "_self"},
-        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
-      end
-      #2. 5레벨 달성시
-      if current_user.level >= 5 && current_user.achievements.any? { |a| a[:id] == 2 } == false
-        current_user.achievements<< {id: 2, created_at: Time.current}
-        current_user.save
-        achievement_title = Achievement.find_by(id: 2).title
-        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
-        {url: '/profile?type=achievement', target: "_self"},
-        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
-      end
-      #3. 50레벨 달성시
-      if current_user.level >= 50 && current_user.achievements.any? { |a| a[:id] == 3 } == false
-        current_user.achievements<< {id: 3, created_at: Time.current}
-        current_user.save
-        achievement_title = Achievement.find_by(id: 3).title
-        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
-        {url: '/profile?type=achievement', target: "_self"},
-        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
-      end
-      #4. 99레벨 달성시
-      if current_user.level >= 99 && current_user.achievements.any? { |a| a[:id] == 4 } == false
-        current_user.achievements<< {id: 4, created_at: Time.current}
-        current_user.save
-        achievement_title = Achievement.find_by(id: 4).title
-        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
-        {url: '/profile?type=achievement', target: "_self"},
-        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
-      end
-      #4. 7일 연속 QT 달성시
-      if @streak_days >= 7 && current_user.achievements.any? { |a| a[:id] == 5 } == false
-        current_user.achievements<< {id: 5, created_at: Time.current}
-        current_user.save
-        achievement_title = Achievement.find_by(id: 5).title
-        add_to_flash_array :info, "#{achievement_title} 업적을 달성하였습니다!", 
-        {url: '/profile?type=achievement', target: "_self"},
-        {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
+      (1..6).each do |id|
+        if current_user.achievements.any? { |a| a[:id] == id } == false
+          case id
+          when 1 # 3번 접속 달성시
+            if current_user.sign_in_count_per_day >= 3
+              current_user.achievements << {id: id, created_at: Time.current} 
+              notify(Achievement.find_by(id: id).title)
+            end
+          when 2 # 5레벨 달성시
+            if current_user.level >= 5
+              current_user.achievements << {id: id, created_at: Time.current} 
+              notify(Achievement.find_by(id: id).title)
+            end
+          when 3 # 50레벨 달성시
+            if current_user.level >= 50
+              current_user.achievements << {id: id, created_at: Time.current} 
+              notify(Achievement.find_by(id: id).title)
+            end
+          when 4 # 99레벨 달성시
+            if current_user.level >= 99
+              current_user.achievements << {id: id, created_at: Time.current} 
+              notify(Achievement.find_by(id: id).title)
+            end
+          when 5 # 7일 연속 QT 달성시
+            if @streak_days >= 7
+              current_user.achievements << {id: id, created_at: Time.current} 
+              notify(Achievement.find_by(id: id).title)
+            end
+          when 6 # 10,000달란트 달성시
+            if current_user.talent >= 10000
+              current_user.achievements << {id: id, created_at: Time.current}
+              notify(Achievement.find_by(id: id).title)
+            end
+          else
+          end
+          current_user.save
+        end
       end
     end
   end

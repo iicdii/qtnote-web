@@ -49,9 +49,14 @@
               <li><a href="/users/sign_out">로그아웃</a></li>
             </ul>
           </li>
-          <li class="qt-streak" data-toggle="tooltip" title="<%= @streak_days %>일 연속" data-placement="bottom" data-original-title="<%= @streak_days %>일 연속">
+          <li class="qt-top-icon" style="padding-right:15px;" data-toggle="tooltip" title="<%= @streak_days %>일 연속" data-placement="bottom" data-original-title="<%= @streak_days %>일 연속">
             <span class="qt-icon qt-flame" aria-hidden="true">
               <span class="qt-num"><%= @streak_days %></span>
+            </span>
+          </li>
+          <li class="qt-top-icon" data-toggle="tooltip" title="달란트" data-placement="bottom" data-original-title="달란트">
+            <span class="qt-icon qt-talent" aria-hidden="true">
+              <span class="qt-num"><%= @current_user.talent %></span>
             </span>
           </li>
           <% else %>
@@ -87,6 +92,7 @@
               <div class="modal-body">
                   <input type="hidden" id="whois1" name="whois" value="">
                   <input type="hidden" id="lesson1" name="lesson" value="">
+                  <input type="hidden" id="apply1" name="apply" value="">
                   <input type="hidden" id="pray1" name="pray" value="">
                   <div class="form-group">
                     <label for="user_email">이메일</label>
@@ -120,6 +126,7 @@
               <div class="modal-body">
                   <input type="hidden" id="whois2" name="whois" value="">
                   <input type="hidden" id="lesson2" name="lesson" value="">
+                  <input type="hidden" id="apply" name="apply" value="">
                   <input type="hidden" id="pray2" name="pray" value="">
                   <div class="form-group">
                     <label for="user_email">이메일</label>
@@ -224,6 +231,8 @@
         $("#whois2").val($("#whois").val())
         $("#lesson1").val($("#lesson").val())
         $("#lesson2").val($("#lesson").val())
+        $("#apply1").val($("#apply").val())
+        $("#apply2").val($("#apply").val())
         $("#pray1").val($("#pray").val())
         $("#pray2").val($("#pray").val())
       });
