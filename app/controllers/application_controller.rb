@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
       # 연속 QT일 계산
       @streak_days = current_user.streak_start && current_user.streak_end && current_user.streak_end > Time.zone.yesterday.beginning_of_day ? current_user.streak_end.day - current_user.streak_start.day : 0
       if @streak_days >= current_user.max_streak_days
-        current_user.max_streak_days = @streak_days if @streak_days >= self.user.max_streak_days
+        current_user.max_streak_days = @streak_days if @streak_days >= current_user.max_streak_days
         current_user.save
       end
       
