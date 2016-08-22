@@ -29,12 +29,6 @@ class Post < ActiveRecord::Base
     
     def update_streak
         if self.user.streak_end
-            streak_days = self.user.streak_end.day - self.user.streak_start.day
-            if streak_days >= self.user.max_streak_days
-                self.user.max_streak_days = streak_days
-                self.user.save
-            end
-            
             self.user.touch(:streak_start) unless self.user.streak_end > Time.zone.yesterday.beginning_of_day
         else
             self.user.touch(:streak_start)
