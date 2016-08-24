@@ -100,7 +100,7 @@
                             <i class="fa fa-1 fa-question" style="margin:0 1.3px 0 0;" aria-hidden="true"></i>
                         </button>
                     </h5>
-                    <textarea id="apply" name="apply" class="form-control" rows="3" placeholder="5자 이상 입력해 주세요."><%= if @today_post && @today_post.apply
+                    <textarea id="apply" name="apply" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post && @today_post.apply
                             @today_post.apply 
                         elsif @temp_post && @temp_post.is_a?(Array)
                             @temp_post.third
@@ -108,7 +108,7 @@
                 </div>
                 <div class="col-md-4">
                     <h5>기도하기</h5>
-                    <textarea id="pray" name="pray" class="form-control" rows="3"><%= if @today_post && @today_post.pray
+                    <textarea id="pray" name="pray" class="form-control" rows="5"><%= if @today_post && @today_post.pray
                             @today_post.pray 
                         elsif @temp_post && @temp_post.is_a?(Array)
                             @temp_post.last
