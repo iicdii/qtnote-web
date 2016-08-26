@@ -1,6 +1,6 @@
 <div class="section" style="height:83vh;overflow:hidden;padding-bottom:120px;">
   <div class="container" style="max-width:480px;">
-    <h2 class="text-center qt-link-danger"><a href="/">QTNote</a></h2>
+    <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field">
       <label for="user_email">이메일</label><br />
@@ -24,14 +24,27 @@
     <div class="actions">
       <%= f.submit "로그인", :class => 'btn btn-danger btn-fill btn-block' %>
     </div>
+    <div class="text-center">
+      <h6 style="margin-top:20px;">SNS 계정으로 로그인</h6>
+      <div class="row" style="margin: 20px 0;">
+        <div class="col-md-12">
+          <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+        </div>
+      </div>
+    </div>
     <% end %>
     <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
       <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
         <%= link_to "회원가입", new_registration_path(resource_name) %>
       <% end -%>
+      <span class="qt-between">/</span>
       <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
         <%= link_to "비밀번호 찾기", new_password_path(resource_name) %>
       <% end -%>
+      <span class="qt-between">/</span>
+      <%- if devise_mapping.confirmable? %>
+        <%= link_to "이메일 인증", new_confirmation_path(resource_name) %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -27,6 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
+      flash.now[:warning] = flash[:warning].to_a.concat resource.errors.full_messages
       respond_with resource
     end
   end

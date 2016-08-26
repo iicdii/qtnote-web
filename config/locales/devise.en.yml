@@ -4,14 +4,14 @@ en:
   devise:
     confirmations:
       confirmed: "이메일 주소가 성공적으로 인증되었습니다."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_instructions: "이메일로 이메일 주소 인증 지침이 전송되었습니다."
+      send_paranoid_instructions: "이메일 주소가 이미 등록되어 있으며, 이메일 주소 인증 지침 메일을 잠시 후 받을 수 있습니다."
     failure:
       already_authenticated: "이미 로그인 되어있습니다."
       inactive: "계정이 아직 활성화되지 않았습니다."
       invalid: "유효하지 않은 %{authentication_keys} 또는 패스워드 입니다."
       locked: "계정이 잠겨있습니다."
-      last_attempt: "You have one more attempt before your account is locked."
+      last_attempt: "이번 로그인 시도를 실패하면 계정이 잠깁니다."
       not_found_in_database: "유효하지 않은 %{authentication_keys} 또는 패스워드입니다."
       timeout: "세션이 만료되었습니다, 계속하시려면 로그인해주세요."
       unauthenticated: "이용하시려면 로그인하거나 가입하셔야 합니다."
@@ -26,8 +26,8 @@ en:
       password_change:
         subject: "비밀번호가 변경되었습니다."
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: " %{kind} 계정을 인증할 수 없습니다. 사유: \"%{reason}\"."
+      success: "%{kind} 계정으로 로그인 되었습니다."
     passwords:
       no_token: "비밀번호 재설정 이메일을 거치지 않고 이 페이지에 접근할 수 없습니다. 비밀번호 재설정 이메일에서 오셨다면, 주소가 제대로 되었는지 확인해 주세요."
       send_instructions: "어떻게 비밀번호를 재설정하는지 안내하는 메일을 발송하였습니다. 잠시후 확인해 보세요."
@@ -39,8 +39,8 @@ en:
       signed_up: "회원가입이 완료되었습니다."
       signed_up_but_inactive: "성공적으로 가입되었지만, 아직 계정이 활성화되어 있지 않아 로그인 할 수 없습니다."
       signed_up_but_locked: "성공적으로 가입되었지만, 계정이 잠겨있어 로그인 할 수 없습니다."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
+      signed_up_but_unconfirmed: "인증 주소가 포함된 메시지를 이메일 주소로 보냈습니다. 계정을 활성화하기 위해 메일을 확인하세요."
+      update_needs_confirmation: " 계정이 성공적으로 수정되었지만, 새로운 이메일 주소를 확인해야 합니다. 이메일로 전송된 이메일 인증 주소를 클릭하여 새로운 이메일 주소를 인증해 주세요."
       updated: "계정이 성공적으로 수정되었습니다."
     sessions:
       signed_in: "정상적으로 로그인했습니다."
@@ -48,13 +48,13 @@ en:
       already_signed_out: "이미 로그아웃 되었습니다."
       invalid: "유효하지 않은 이메일 또는 패스워드입니다."
     unlocks:
-      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
-      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
-      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      send_instructions: "잠시 후 이메일로 계정 잠금 해제 지침을 받아보실 수 있습니다."
+      send_paranoid_instructions: "계정이 존재하면, 잠시 후 이메일로 계정 잠금 해제 지침을 받아보실 수 있습니다."
+      unlocked: "계정이 성공적으로 잠금 해제되었습니다. 로그인하여 계속해 주세요."
   errors:
     messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      already_confirmed: "는 이미 인증되었습니다. 다시 로그인해 보세요."
+      confirmation_period_expired: "%{period} 이내에 이메일 인증을 해야 합니다. 새로 요청해 주세요"
       expired: "가 만료되었습니다. 새로 요청해 주세요."
       not_found: "찾을 수 없습니다."
       not_locked: "(은)는 잠기지 않았습니다."

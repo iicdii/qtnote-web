@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
+gem 'omniauth-google-oauth2'
 gem 'awesome_print', require: 'ap'
 gem 'bootstrap-growl-rails'
 gem 'devise'

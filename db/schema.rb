@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822145959) do
+ActiveRecord::Schema.define(version: 20160825080406) do
 
   create_table "achievements", force: :cascade do |t|
     t.string   "title"
@@ -51,8 +51,15 @@ ActiveRecord::Schema.define(version: 20160822145959) do
     t.datetime "streak_start"
     t.datetime "streak_end"
     t.integer  "max_streak_days",        default: 0
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 

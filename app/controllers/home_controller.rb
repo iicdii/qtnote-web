@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   before_action :calculate_exp
   before_action :calculate_achievement
   include ApplicationHelper
+  include FlashHelper
   include QtHelper
 
   def index

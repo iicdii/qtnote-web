@@ -16,6 +16,13 @@
 </head>
 <body>
   <div class="wrapper">
+    <% if user_signed_in? && !current_user.confirmed? %>
+        <div class="alert alert-warning" style="margin:0">
+          <div class="container">
+            이메일 인증이 필요한 계정입니다. 회원님의 이메일로 발송된 메일을 확인해 주세요.
+          </div>
+        </div>
+    <% end %>
     <nav class="navbar navbar-default" role="navigation-demo" id="demo-navbar">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -110,14 +117,29 @@
                       <%= f.check_box :remember_me, :datatoggle => "checkbox" %>기억하기
                     </label>
                   <% end -%>
-                  <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
+              </div>
+              <div class="modal-footer" style="border-top:transparent;padding:10px 0 20px 0;text-align:center;">
+                <div class="row">
+                  <div class="col-md-12">
+                    <%= f.submit '로그인', :class => 'btn btn-danger' %>
+                  </div>
+                </div>
+                <h6 style="margin-top:20px;">SNS 계정으로 로그인</h6>
+                <div class="row" style="margin: 20px 0;">
+                  <div class="col-md-12">
+                    <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+                  </div>
+                </div>
+                <hr>
+                <div class="qt-link-danger text-center" style="font-size:14px;">
                   <%- if devise_mapping.recoverable? %>
                     <%= link_to "비밀번호 찾기", new_password_path(resource_name) %>
                   <% end -%>
-                  </div>
-              </div>
-              <div class="modal-footer" style="border-top:transparent;padding:10px 0 10px 0;text-align:center;">
-                <%= f.submit '로그인', :class => 'btn btn-danger' %>
+                  <span class="qt-between">/</span>
+                  <%- if devise_mapping.confirmable? %>
+                    <%= link_to "이메일 인증", new_confirmation_path(resource_name) %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -140,14 +162,25 @@
                     <label for="user_password_confirmation">패스워드 확인</label>
                     <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
                   </div>
-                  <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
-                    <%- if devise_mapping.recoverable? %>
-                      <%= link_to "비밀번호 찾기", new_password_path(resource_name) %>
-                    <% end -%>
-                  </div>
               </div>
-              <div class="modal-footer" style="border-top:transparent;padding:0 0 15px 0;text-align:center;">
+              <div class="modal-footer" style="border-top:transparent;padding:0 0 20px 0;text-align:center;">
                 <%= f.submit "회원가입", :class => 'btn btn-danger' %>
+                <h6 style="margin-top:20px;">SNS 계정으로 회원가입</h6>
+                <div class="row" style="margin: 20px 0;">
+                  <div class="col-md-12">
+                    <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+                  </div>
+                </div>
+                <hr>
+                <div class="qt-link-danger text-center" style="font-size:14px;">
+                  <%- if devise_mapping.recoverable? %>
+                    <%= link_to "비밀번호 찾기", new_password_path(resource_name) %>
+                  <% end -%>
+                  <span class="qt-between">/</span>
+                  <%- if devise_mapping.confirmable? %>
+                    <%= link_to "이메일 인증", new_confirmation_path(resource_name) %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>
@@ -190,7 +223,6 @@
           <% name = 'danger' %>
         <% end %>
         <% unless msg.is_a? String %>
-          <% puts msg %>
           <% msg.each do |m, options, settings| %>
             $.notify({
               message: "<%= m %>",
