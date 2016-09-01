@@ -120,9 +120,9 @@
                     <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal">저장</button>
                 <% else %>
                     <% if @today_post %>
-                        <button type="submit" class="btn btn-info">수정</button>
+                        <button type="submit" class="btn btn-info submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> 전송중..">수정</button>
                     <% else %>
-                        <button type="submit" class="btn btn-success">저장</button>
+                        <button type="submit" class="btn btn-success submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> 전송중..">저장</button>
                     <% end %>
                 <% end %>
             </div>
@@ -142,5 +142,12 @@
         $('html, body').animate({
             scrollTop: $(".main").offset().top
         }, 700);
+    });
+    $('.submit').on('click', function() {
+    var $this = $(this);
+      $this.button('loading');
+        setTimeout(function() {
+           $this.button('reset');
+       }, 8000);
     });
 </script>

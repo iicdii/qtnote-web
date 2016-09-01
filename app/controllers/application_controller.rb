@@ -26,7 +26,8 @@ class ApplicationController < ActionController::Base
         current_user.now_exp = current_user.now_exp - @next_exps[current_user.level-1]
         current_user.level = current_user.level + 1
         current_user.save
-        add_to_flash_array :info, "레벨이 올랐습니다!"
+        flash.now[:info] = "레벨이 올랐습니다!"
+        @leveled_up = true
       end
     end
   end
@@ -83,6 +84,21 @@ class ApplicationController < ActionController::Base
           end
           current_user.save
         end
+      end
+    end
+  end
+  
+  def remove_cookies
+    
+    if cookies[:done]
+      data = Hash.new
+      data = ActiveSupport::JSON.decode(cookies[:done])
+      if data['is_showed'] == true
+        cookies.delete(:done)
+      else
+        cookies[:done] = ActiveSupport::JSON.encode({
+          exp: data['exp'], talent: data['talent'], is_showed: true
+        })
       end
     end
   end

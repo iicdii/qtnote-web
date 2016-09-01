@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   before_action :require_login, except: [:index]
   before_action :calculate_exp
   before_action :calculate_achievement
+  before_action :remove_cookies, except: [:write]
   include ApplicationHelper
   include FlashHelper
   include QtHelper
@@ -36,7 +37,12 @@ class HomeController < ApplicationController
     @info1 = data[:explanation]
     @info2 = data[:whois]
     @info3 = data[:lesson]
- 
+    
+    #쿠키 데이터 가져오기
+    if cookies[:done]
+      @done_data = Hash.new
+      @done_data = ActiveSupport::JSON.decode(cookies[:done])
+    end
   end
   
   def write
@@ -58,14 +64,13 @@ class HomeController < ApplicationController
         new_exp -= new_exp % 5
         
         now_talent = current_user.talent
-        new_talent = 5 + Random.rand(10)
+        new_talent = 5 + Random.rand(18)
         new_talent -= new_talent % 5
         
         current_user.now_exp = now_exp + new_exp
         current_user.talent = now_talent + new_talent
         current_user.save
-        add_to_flash_array :success, "저장되었습니다."
-        add_to_flash_array :info, "#{new_exp} 경험치와 #{new_talent} 달란트를 획득하였습니다."
+        cookies[:done] = ActiveSupport::JSON.encode({exp: new_exp, talent: new_talent, is_showed: false})
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
@@ -111,7 +116,7 @@ class HomeController < ApplicationController
       @date = Date.new(year, month, day)
       @last_month = @date.last_month.month
       @next_month = @date.next_month.month
-      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', @date.month).order("created_at DESC")   
+      @posts_of_this_month = @posts.where("cast(strftime('%Y', created_at) as int) = ?", @date.month).order("created_at DESC")   
       @today_qt = NewQt.new(year, month, day).to_h
       @today_post = @posts.where(:created_at => @date.beginning_of_day...@date.end_of_day).first
       @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
@@ -121,7 +126,7 @@ class HomeController < ApplicationController
     else
       @last_month = Time.current.last_month.month
       @next_month = Time.current.next_month.month
-      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', Time.current.month).order("created_at DESC")
+      @posts_of_this_month = @posts.where("cast(strftime('%Y', created_at) as int) = ?", Time.current.month).order("created_at DESC")
       @today_qt = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
       @today_post = @posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first
       @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
