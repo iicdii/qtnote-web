@@ -100,9 +100,9 @@ class HomeController < ApplicationController
   def profile
     @complete_days = Array.new
     @achievements = Array.new
-    @posts = Post.where(:user_id => current_user.id)
+    @posts = current_user.posts
     @post_count = @posts.length
-    
+
     #쿼리가 있으면 쿼리에 해당하는 날짜의 post를 불러오고, 없으면 오늘 post를 불러온다.
     if params[:year] && params[:month] && params[:day]
       year = params[:year].to_i
@@ -111,24 +111,20 @@ class HomeController < ApplicationController
       @date = Date.new(year, month, day)
       @last_month = @date.last_month.month
       @next_month = @date.next_month.month
-      @posts_of_this_month = @posts.where(:created_at => @date.beginning_of_month..@date.end_of_month)
+      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', @date.month).order("created_at DESC")   
       @today_qt = NewQt.new(year, month, day).to_h
       @today_post = @posts.where(:created_at => @date.beginning_of_day...@date.end_of_day).first
-      if @posts_of_this_month.exists?
-        @posts_of_this_month.each { |p| @complete_days << p.created_at.day }
-      end
+      @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
       @last_day = Date.civil(year, month, -1).day
       @last_year = @last_month == 12 ? @date.last_year.year : year
       @next_year = @next_month == 1 ? @date.next_year.year : year
     else
       @last_month = Time.current.last_month.month
       @next_month = Time.current.next_month.month
-      @posts_of_this_month = @posts.where(:created_at => Time.current.beginning_of_month..Time.current.end_of_month)
+      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', Time.current.month).order("created_at DESC")
       @today_qt = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
       @today_post = @posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first
-      if @posts_of_this_month.exists?
-        @posts_of_this_month.each { |p| @complete_days << p.created_at.day }
-      end
+      @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
       @last_day = Date.civil(Time.current.year, Time.current.month, -1).day
       @last_year = @last_month == 12 ? Time.current.last_year.year : Time.current.year
       @next_year = @next_month == 1 ? Time.current.next_year.year : Time.current.year
