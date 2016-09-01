@@ -193,6 +193,7 @@
   </div>
   
   <!-- Modal to show post is uploaded -->
+  <% if user_signed_in %>
   <div class="modal fade" id="postModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" style="max-width:768px;" role="document">
       <div class="modal-content">
@@ -214,8 +215,8 @@
             <p class="title">오늘의 큐티가 등록되었어요!</p>
           </div>
           <div class="text-center">
-            <p style="font-size:17px; color:#7ac29a; font-weight: bold;">+ <%= @done_data ? @done_data['exp'] : 0 %> 경험치</p>
-            <p style="font-size:17px; color:#7ac29a; font-weight: bold;">+ <%= @done_data ? @done_data['talent'] : 0 %> 달란트</p>
+            <p class="qt-num" style="font-size:17px; color:#7ac29a; font-weight: bold;">+ <%= @done_data ? @done_data['exp'] : 0 %> XP</p>
+            <p class="qt-num" style="font-size:17px; color:#7ac29a; font-weight: bold;">+ <%= @done_data ? @done_data['talent'] : 0 %> TALENT</p>
             <div class="progress" style="margin-top:20px; margin-bottom:10px;">
               <div class="progress-bar progress-bar-warning" id="qt-progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                 <span class="sr-only"></span>
@@ -235,6 +236,7 @@
       </div>
     </div>
   </div>
+  <% end %>
   
   <footer class="footer footer-demo section-dark qt-eng">
     <div class="container">

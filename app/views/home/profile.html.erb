@@ -19,8 +19,25 @@
                         <span class="qt-level qt-num"><%= current_user.level %></span>
                     </div>
                 </div>
-                <p>총 QT 횟수 : <%= @post_count %>번</p>
-                <p>최대 연속 QT 횟수 : <%= @current_user.max_streak_days %>번</p>
+                <div class="row">
+                    <div class="qt-profile-box col-md-6 col-xs-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>총 QT 횟수</p>
+                                <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @post_count %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qt-profile-box col-md-6 col-xs-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>QT 연속 최고 기록</p>
+                                <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @current_user.max_streak_days %></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="progress" style="margin-top:40px; margin-bottom:5px;">
                   <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<%= ((@current_user.now_exp/@next_exps[@current_user.level-1].to_f)*100).floor %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= ((@current_user.now_exp/@next_exps[@current_user.level-1].to_f)*100).floor %>%;">
                     <span class="sr-only"></span>
