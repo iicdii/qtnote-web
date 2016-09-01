@@ -12,9 +12,7 @@ class HomeController < ApplicationController
   def index
     @is_logged_in = user_signed_in?
     today_posts = Post.where("created_at >= ?", Time.zone.now.beginning_of_day)
-    if user_signed_in?
-      @today_post = today_posts.find_by user_id: current_user.id
-    end
+    @today_post = today_posts.find_by user_id: current_user.id if user_signed_in?
     
     #작성중이던 글이 있으면 불러온다.
     if session[:post]
