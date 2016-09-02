@@ -11,9 +11,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   def create
     build_resource(sign_up_params)
-    pray = params[:pray] || ""
-    apply = params[:apply] || ""
-    session[:post] = params[:whois] && params[:lesson] ? [params[:whois], params[:lesson], apply, pray] : nil
+    cookies[:whois] = params[:whois]
+    cookies[:lesson] = params[:lesson]
+    cookies[:apply] = params[:apply]
+    cookies[:pray] = params[:pray]
     if resource.save
       yield resource if block_given?
       if resource.active_for_authentication?

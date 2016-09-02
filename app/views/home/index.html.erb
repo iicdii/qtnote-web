@@ -34,7 +34,7 @@
                 <% end %>
             </tbody>
         </table>
-        <form action="<%= @today_post ? '/modify' : '/write' %>" method="post">
+        <form action="<%= @today_post ? '/modify' : '/write' %>" method="post" id="qt_form">
             <input type="hidden" name="id" value="<%= @today_post? @today_post.id : "" %>">
             <div class="row">
                 <div class="col-md-4">
@@ -61,8 +61,8 @@
                     </h5>
                     <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post 
                                 @today_post.whois 
-                            elsif @temp_post && @temp_post.is_a?(Array)
-                                @temp_post.first
+                            elsif @temp_post
+                                @temp_post[:whois]
                             end %></textarea>
                     <div class="collapse" id="collapse2">
                         <div class="panel panel-success" style="margin-top:10px;">
@@ -80,8 +80,8 @@
                     </h5>
                     <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="10자 이상 입력해 주세요."><%= if @today_post
                             @today_post.lesson 
-                        elsif @temp_post && @temp_post.is_a?(Array)
-                            @temp_post.second
+                        elsif @temp_post
+                            @temp_post[:lesson]
                         end %></textarea>
                     <div class="collapse" id="collapse3">
                         <div class="panel panel-success" style="margin-top:10px;">
@@ -94,7 +94,7 @@
             </div>
             <div class="row" style="margin-top:10px;">
                 <div class="col-md-offset-4 col-md-4">
-                    <h5>적용하기
+                    <h5>적용하기&nbsp;
                         <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="적용하기" data-content="오늘 말씀을 보고 내가 구체적으로 할 수 있는 일을 기록하세요.
 ">
                             <i class="fa fa-1 fa-question" style="margin:0 1.3px 0 0;" aria-hidden="true"></i>
@@ -102,16 +102,16 @@
                     </h5>
                     <textarea id="apply" name="apply" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post && @today_post.apply
                             @today_post.apply 
-                        elsif @temp_post && @temp_post.is_a?(Array)
-                            @temp_post.third
+                        elsif @temp_post
+                            @temp_post[:apply]
                         end %></textarea>
                 </div>
                 <div class="col-md-4">
                     <h5>기도하기</h5>
                     <textarea id="pray" name="pray" class="form-control" rows="5"><%= if @today_post && @today_post.pray
                             @today_post.pray 
-                        elsif @temp_post && @temp_post.is_a?(Array)
-                            @temp_post.last
+                        elsif @temp_post
+                            @temp_post[:pray]
                         end %></textarea>
                 </div>
             </div>
@@ -130,24 +130,26 @@
     </div>
 </div>
 <script>
-    // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
-    <% if @temp_post && @temp_post.is_a?(Array) %>
-        <% if @temp_post.first.length > 0 || @temp_post.second.length > 0 %>
-    $('html, body').animate({
-        scrollTop: $(document).height()
-    }, 500);
+    $(document).ready(function() {
+        // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
+        <% if @temp_post %>
+            $('html, body').animate({
+                scrollTop: $(document).height()
+            }, 500);
         <% end %>
-    <% end %>
-    $("#doIt").click(function() {
-        $('html, body').animate({
-            scrollTop: $(".main").offset().top
-        }, 700);
-    });
-    $('.submit').on('click', function() {
-    var $this = $(this);
-      $this.button('loading');
-        setTimeout(function() {
-           $this.button('reset');
-       }, 8000);
+        $("#doIt").click(function() {
+            $('html, body').animate({
+                scrollTop: $(".main").offset().top
+            }, 700);
+        });
+        $('.submit').on('click', function() {
+        var $this = $(this);
+          $this.button('loading');
+            setTimeout(function() {
+               $this.button('reset');
+           }, 8000);
+        });
+        
+        $("#qt_form").sisyphus({ timeout: 10 });
     });
 </script>

@@ -15,9 +15,13 @@ class HomeController < ApplicationController
     @today_post = today_posts.find_by user_id: current_user.id if user_signed_in?
     
     #작성중이던 글이 있으면 불러온다.
-    if session[:post]
-      @temp_post = session[:post]
-      session[:post] = nil
+    if cookies[:whois] || cookies[:lesson] || cookies[:apply] || cookies[:pray]
+      @temp_post = {
+        :whois => cookies[:whois] ? cookies[:whois] : "",
+        :lesson => cookies[:lesson] ? cookies[:lesson] : "",
+        :apply => cookies[:apply] ? cookies[:apply] : "",
+        :pray => cookies[:pray] ? cookies[:pray] : ""
+      }
     end
     
     data = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
@@ -72,7 +76,10 @@ class HomeController < ApplicationController
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
-          session[:post] = [params[:whois], params[:lesson], params[:apply], params[:pray]]
+          cookies[:whois] = params[:whois]
+          cookies[:lesson] = params[:lesson]
+          cookies[:apply] = params[:apply]
+          cookies[:pray] = params[:pray]
         end
       end
     end
