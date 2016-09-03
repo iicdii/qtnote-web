@@ -11,7 +11,7 @@ class HomeController < ApplicationController
 
   def index
     @is_logged_in = user_signed_in?
-    @today_post = current_user.posts.where("created_at >= ?", Time.zone.now.beginning_of_day) if user_signed_in?
+    @today_post = current_user.posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first if user_signed_in?
     
     #작성중이던 글이 있으면 불러온다.
     if cookies[:whois] || cookies[:lesson] || cookies[:apply] || cookies[:pray]
