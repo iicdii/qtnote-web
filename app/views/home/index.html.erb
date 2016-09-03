@@ -175,6 +175,7 @@
 
 <script>
     $(document).ready(function() {
+        // sudo service postgresql restart
         // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
         <% if @temp_post && @temp_post[:lesson].length > 10 %>
         $('html, body').animate({
