@@ -115,7 +115,11 @@
                         end %></textarea>
                 </div>
             </div>
-            <div class="text-right" style="margin-top:20px;">
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-3 col-xs-3 text-left">
+
+                </div>
+                <div class="col-md-2 col-xs-3 col-xs-offset-6 col-md-offset-7 text-right">
                 <% unless @is_logged_in %>
                     <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal">저장</button>
                 <% else %>
@@ -125,23 +129,64 @@
                         <button type="submit" class="btn btn-success submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> 전송중..">저장</button>
                     <% end %>
                 <% end %>
+                </div>
             </div>
         </form>
     </div>
 </div>
+
+<div class="section section-nude text-center">
+    <div class="container">
+        <h3 class="text-center">공유하기</h3>
+        <p>친구, 가족 또는 지인에게 큐티노트를 알려보세요.</p>
+        <div class="row" style="margin-top:20px;">
+            <div class="col-md-3 col-xs-3">
+                <a id="kakao-link-btn" href="javascript:;">
+                    <img src="//dev.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" class="kakao-talk" />
+                </a>
+                <p class="qt-sns-title">카카오톡</p>
+            </div>
+            <div class="col-md-3 col-xs-3">
+                <a id="kakaostory-share-button" href="javascript:shareKakaoStory('http://qtnote.co.kr', '큐티노트에서 매일매일 큐티를 기록하세요.');">
+                    <img src="https://developers.kakao.com/assets/img/about/buttons/kakaostory/icon/flat/kakaostory_icon_flat_96x96.png" class="kakao-story" />
+                </a>
+                <p class="qt-sns-title">카카오스토리</p>
+            </div>
+            <div class="col-md-3 col-xs-3">
+                <div class="social">
+                    <a href="javascript:shareFacebook('http://qtnote.co.kr')">
+                        <i class="fa fa-facebook" style="background-color:#3b5998;" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <p class="qt-sns-title">페이스북</p>
+            </div>
+            <div class="col-md-3 col-xs-3">
+                <div class="social">
+                    <a href="javascript:shareTwitter('http://qtnote.co.kr', '큐티노트에서 매일매일 큐티를 기록하세요.');">
+                        <i class="fa fa-twitter" style="background-color:#00aced;" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <p class="qt-sns-title">트위터</p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
         <% if @temp_post %>
-            $('html, body').animate({
-                scrollTop: $(document).height()
-            }, 500);
+        $('html, body').animate({
+            scrollTop: $("#qt_form").offset().top
+        }, 800);
         <% end %>
         $("#doIt").click(function() {
             $('html, body').animate({
                 scrollTop: $(".main").offset().top
-            }, 700);
+            }, 800);
         });
+        
         $('.submit').on('click', function() {
         var $this = $(this);
           $this.button('loading');
@@ -150,6 +195,39 @@
            }, 8000);
         });
         
+        // 자동 저장
         $("#qt_form").sisyphus({ timeout: 10 });
+        
+        //<![CDATA[
+        Kakao.init('c4d2ae3d66986351a92450b6b8bb7f8b');
+        Kakao.Link.createTalkLinkButton({
+          container: '#kakao-link-btn',
+          label: '큐티노트',
+          image: {
+            src: 'https://i.imgur.com/RcmlX9F.png',
+            width: '300',
+            height: '160'
+          },
+          webButton: {
+            text: '큐티노트 홈페이지로',
+            url: 'http://qtnote.co.kr' // 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
+          }
+        });
+        //]]>
     });
+    
+    function shareFacebook(url){
+    	window.open("http://www.facebook.com/sharer/sharer.php?u=" + url, "_blank", "width=600, height=400;");
+    };
+    
+    function shareTwitter(url, text){
+        window.open("https://twitter.com/intent/tweet?text=" + text + "&url=" + url, "_blank", "width=600, height=447;");
+    };
+    
+    function shareKakaoStory(url, text){
+        Kakao.Story.share({
+            url: url,
+            text: text
+        });
+    };
 </script>
