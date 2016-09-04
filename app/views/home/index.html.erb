@@ -189,15 +189,15 @@
         });
         
         $('.submit').on('click', function() {
-        var $this = $(this);
-          $this.button('loading');
-            setTimeout(function() {
-               $this.button('reset');
-           }, 8000);
+            var $this = $(this);
+              $this.button('loading');
+                setTimeout(function() {
+                   $this.button('reset');
+               }, 8000);
         });
         
         // 자동 저장
-        $("#qt_form").sisyphus({ timeout: 10 });
+        $("#qt_form").sisyphus({ timeout: 10, autoRelease: true });
         
         //<![CDATA[
         Kakao.init('c4d2ae3d66986351a92450b6b8bb7f8b');
