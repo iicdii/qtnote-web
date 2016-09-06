@@ -3,7 +3,7 @@ module ApplicationHelper
   def add_to_flash_array key, value, options={}, settings={}
     # set empty array as default value
     flash[key] ||= [] 
-    flash[key] << [value, options, settings]
+    flash[key] << [value, options, settings] if flash[key].is_a? Array
   end
   
   def resource_name
