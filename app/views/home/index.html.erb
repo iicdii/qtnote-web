@@ -177,10 +177,12 @@
     $(document).ready(function() {
         // sudo service postgresql restart
         // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
-        <% if @temp_post && @temp_post[:lesson].length > 10 %>
+        <% if @temp_post %>
+            <% if @temp_post[:whois].length > 3 || @temp_post[:lesson].length > 3 %>
         $('html, body').animate({
             scrollTop: $("#qt_form").offset().top
         }, 800);
+            <% end %>
         <% end %>
         $("#doIt").click(function() {
             $('html, body').animate({
@@ -197,7 +199,7 @@
         });
         
         // 자동 저장
-        $("#qt_form").sisyphus({ timeout: 10, autoRelease: true });
+        // $("#qt_form").sisyphus({ timeout: 10, autoRelease: true });
         
         //<![CDATA[
         Kakao.init('c4d2ae3d66986351a92450b6b8bb7f8b');
