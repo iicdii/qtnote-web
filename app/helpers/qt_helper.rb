@@ -28,7 +28,14 @@ module QtHelper
       last_index = info.index("적용하기")
       info1 = info[1..(last_index - 1)] if last_index
       
-      first_index = info.index("하나님은 어떤 분입니까?") ? info.index("하나님은 어떤 분입니까?")+1 : false
+      if info.index("하나님은 어떤 분입니까?")
+        first_index = info.index("하나님은 어떤 분입니까?")+1
+      elsif info.index("예수님은 어떤 분입니까?")
+        first_index = info.index("예수님은 어떤 분입니까?")+1
+      else
+        first_index = false
+      end
+      
       info2 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
       
       first_index = info.index("내게 주시는 교훈은 무엇입니까?") ? info.index("내게 주시는 교훈은 무엇입니까?")+1 : false

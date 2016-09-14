@@ -13,6 +13,7 @@ after_filter :after_login, :only => :create
     cookies[:lesson] = params[:lesson]
     cookies[:apply] = params[:apply]
     cookies[:pray] = params[:pray]
+    cookies[:public] = params[:is_public]
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:success, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)

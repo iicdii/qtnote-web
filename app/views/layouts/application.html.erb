@@ -51,7 +51,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="qt-navigation">
         <ul class="nav navbar-nav navbar-right">
-          <% if @is_logged_in %>
+          <% if user_signed_in? %>
           <li class="dropdown qt-dropdown" id="qt-dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= @current_user.email %></span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -109,6 +109,7 @@
                   <input type="hidden" id="lesson1" name="lesson" value="">
                   <input type="hidden" id="apply1" name="apply" value="">
                   <input type="hidden" id="pray1" name="pray" value="">
+                  <input type="hidden" id="public1" name="public" value="">
                   <div class="form-group">
                     <label for="user_email">이메일</label>
                     <%= f.text_field :email, autofocus: true, :class => 'form-control' %>
@@ -158,6 +159,7 @@
                   <input type="hidden" id="lesson2" name="lesson" value="">
                   <input type="hidden" id="apply" name="apply" value="">
                   <input type="hidden" id="pray2" name="pray" value="">
+                  <input type="hidden" id="public2" name="public" value="">
                   <div class="form-group">
                     <label for="user_email">이메일</label>
                     <%= f.email_field :email, :class => 'form-control' %>
@@ -232,7 +234,10 @@
               <span class="qt-num" id="current_exp" style="float: left; width:33.3%; text-align:center;"><%= !@leveled_up ? current_user.now_exp : @next_exps[current_user.level-2] %>/<%= !@leveled_up ? @next_exps[current_user.level-1] : @next_exps[current_user.level-2] %> XP</span>
               <span class="qt-num" id="next_level" style="float: left; width:33.3%; text-align:right; font-size:22px; font-style: italic;"><%= !@leveled_up ? current_user.level+1 : current_user.level %></span>
             </div>
-            <p id="level-up" style="font-size: 15px; display:none; font-weight: bold;">레벨이 올랐습니다!</p>
+            <% if @done_data && @done_data['is_public'] %>
+            <p class="qt-num" style="font-size:17px; color:#F3BB45; font-weight: bold;">+ 20% BONUS XP</p>
+            <% end %>
+            <p id="level-up" style="font-size:15px; display:none; font-weight: bold;">레벨이 올랐습니다!</p>
           </div>
         </div>
         <div class="modal-footer" style="border-top:none;padding:15px;">
@@ -321,6 +326,8 @@
         $("#apply2").val($("#apply").val())
         $("#pray1").val($("#pray").val())
         $("#pray2").val($("#pray").val())
+        $("#public1").val($("#public").val())
+        $("#public2").val($("#public").val())
       });
       <% if cookies[:done] %>
       $('#postModal').modal('show');

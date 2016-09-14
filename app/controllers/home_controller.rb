@@ -10,40 +10,43 @@ class HomeController < ApplicationController
   include QtHelper
 
   def index
-    @is_logged_in = user_signed_in?
     @today_post = current_user.posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first if user_signed_in?
     
-    #작성중이던 글이 있으면 불러온다.
-    if cookies[:whois] || cookies[:lesson] || cookies[:apply] || cookies[:pray]
+    # 작성중이던 글이 있으면 불러온다.
+    if cookies[:whois] || cookies[:lesson] || cookies[:apply] || cookies[:pray] || cookies[:public]
       @temp_post = {
         :whois => cookies[:whois] ? cookies[:whois] : "",
         :lesson => cookies[:lesson] ? cookies[:lesson] : "",
         :apply => cookies[:apply] ? cookies[:apply] : "",
-        :pray => cookies[:pray] ? cookies[:pray] : ""
+        :pray => cookies[:pray] ? cookies[:pray] : "",
+        :is_public => cookies[:public] ? cookies[:public] : false
       }
     end
     
     data = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
     
-    #본문 제목 가져오기
+    # 본문 제목 가져오기
     @title = data[:title]
     
-    #본문 말씀 가져오기
+    # 본문 말씀 가져오기
     @words = data[:words]
     
-    #본문 가져오기
+    # 본문 가져오기
     @book_line = data[:book_line]
     
-    #본문 해설 가져오기
+    # 본문 해설 가져오기
     @info1 = data[:explanation]
     @info2 = data[:whois]
     @info3 = data[:lesson]
     
-    #쿠키 데이터 가져오기
+    # 쿠키 데이터 가져오기
     if cookies[:done]
       @done_data = Hash.new
       @done_data = ActiveSupport::JSON.decode(cookies[:done])
     end
+    
+    # 오늘 QT 묵상 불러오기
+    @today_posts = Post.where("created_at >= ? and is_public = ?", Time.zone.now.beginning_of_day, true).order(created_at: :desc).limit(7)
   end
   
   def write
@@ -58,10 +61,12 @@ class HomeController < ApplicationController
       new_post.lesson = params[:lesson]
       new_post.apply = params[:apply]
       new_post.pray = params[:pray]
+      new_post.is_public = params[:is_public]
       
       if new_post.save
         now_exp = current_user.now_exp
         new_exp = 30 + Random.rand(30)
+        new_exp += (new_exp * 0.2).ceil if params[:is_public]
         new_exp -= new_exp % 5
         
         now_talent = current_user.talent
@@ -71,7 +76,7 @@ class HomeController < ApplicationController
         current_user.now_exp = now_exp + new_exp
         current_user.talent = now_talent + new_talent
         current_user.save
-        cookies[:done] = ActiveSupport::JSON.encode({exp: new_exp, talent: new_talent, is_showed: false})
+        cookies[:done] = ActiveSupport::JSON.encode({exp: new_exp, talent: new_talent, is_showed: false, is_public: params[:is_public]})
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
@@ -79,6 +84,7 @@ class HomeController < ApplicationController
           cookies[:lesson] = params[:lesson]
           cookies[:apply] = params[:apply]
           cookies[:pray] = params[:pray]
+          cookies[:public] = params[:is_public]
         end
       end
     end
@@ -93,6 +99,7 @@ class HomeController < ApplicationController
       @one_post.lesson = params[:lesson]
       @one_post.apply = params[:apply]
       @one_post.pray = params[:pray]
+      @one_post.is_public = params[:is_public]
       if @one_post.save
         add_to_flash_array :info, "수정되었습니다."
       else

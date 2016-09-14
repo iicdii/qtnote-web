@@ -97,7 +97,7 @@ class ApplicationController < ActionController::Base
         cookies.delete(:done)
       else
         cookies[:done] = ActiveSupport::JSON.encode({
-          exp: data['exp'], talent: data['talent'], is_showed: true
+          exp: data['exp'], talent: data['talent'], is_showed: true, is_public: data['is_public']
         })
       end
     end

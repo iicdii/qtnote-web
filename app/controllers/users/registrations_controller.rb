@@ -15,6 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     cookies[:lesson] = params[:lesson]
     cookies[:apply] = params[:apply]
     cookies[:pray] = params[:pray]
+    cookies[:public] = params[:is_public]
     if resource.save
       yield resource if block_given?
       if resource.active_for_authentication?
