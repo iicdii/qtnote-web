@@ -1,8 +1,79 @@
 ko:
+  devise:
+    confirmations:
+      confirmed: "이메일 주소가 성공적으로 인증되었습니다."
+      send_instructions: "이메일로 이메일 주소 인증 지침이 전송되었습니다."
+      send_paranoid_instructions: "이메일 주소가 이미 등록되어 있으며, 이메일 주소 인증 지침 메일을 잠시 후 받을 수 있습니다."
+    failure:
+      already_authenticated: "이미 로그인 되어있습니다."
+      inactive: "계정이 아직 활성화되지 않았습니다."
+      invalid: "유효하지 않은 %{authentication_keys} 또는 패스워드 입니다."
+      locked: "계정이 잠겨있습니다."
+      last_attempt: "이번 로그인 시도를 실패하면 계정이 잠깁니다."
+      not_found_in_database: "유효하지 않은 %{authentication_keys} 또는 패스워드입니다."
+      timeout: "세션이 만료되었습니다, 계속하시려면 로그인해주세요."
+      unauthenticated: "이용하시려면 로그인하거나 가입하셔야 합니다."
+      unconfirmed: "계속하기 전에 이메일 주소를 인증해야 합니다."
+    mailer:
+      confirmation_instructions:
+        subject: "이메일 인증 지침"
+      reset_password_instructions:
+        subject: "비밀번호 재설정 지침"
+      unlock_instructions:
+        subject: "계정 잠금 해제 지침"
+      password_change:
+        subject: "비밀번호가 변경되었습니다."
+    omniauth_callbacks:
+      failure: " %{kind} 계정을 인증할 수 없습니다. 사유: \"%{reason}\"."
+      success: "%{kind} 계정으로 로그인 되었습니다."
+    passwords:
+      no_token: "비밀번호 재설정 이메일을 거치지 않고 이 페이지에 접근할 수 없습니다. 비밀번호 재설정 이메일에서 오셨다면, 주소가 제대로 되었는지 확인해 주세요."
+      send_instructions: "어떻게 비밀번호를 재설정하는지 안내하는 메일을 발송하였습니다. 잠시후 확인해 보세요."
+      send_paranoid_instructions: "데이터베이스에 회원님의 이메일 주소가 존재하면, 비밀번호 복구 링크가 담긴 이메일을 곧 받으실 수 있습니다."
+      updated: "비밀번호가 변경되었습니다."
+      updated_not_active: "비밀번호가 변경되었습니다."
+    registrations:
+      destroyed: "계정이 성공적으로 탈퇴되었습니다. 다시 볼 수 있기 바랍니다."
+      signed_up: "회원가입이 완료되었습니다."
+      signed_up_but_inactive: "성공적으로 가입되었지만, 아직 계정이 활성화되어 있지 않아 로그인 할 수 없습니다."
+      signed_up_but_locked: "성공적으로 가입되었지만, 계정이 잠겨있어 로그인 할 수 없습니다."
+      signed_up_but_unconfirmed: "인증 주소가 포함된 메시지를 이메일 주소로 보냈습니다. 계정을 활성화하기 위해 메일을 확인하세요."
+      update_needs_confirmation: "계정이 성공적으로 수정되었지만, 새로운 이메일 주소를 확인해야 합니다. 이메일로 전송된 이메일 인증 주소를 클릭하여 새로운 이메일 주소를 인증해 주세요."
+      updated: "계정이 성공적으로 수정되었습니다."
+    sessions:
+      signed_in: "정상적으로 로그인했습니다."
+      signed_out: "로그아웃되었습니다."
+      already_signed_out: "이미 로그아웃 되었습니다."
+      invalid: "유효하지 않은 이메일 또는 패스워드입니다."
+    unlocks:
+      send_instructions: "잠시 후 이메일로 계정 잠금 해제 지침을 받아보실 수 있습니다."
+      send_paranoid_instructions: "계정이 존재하면, 잠시 후 이메일로 계정 잠금 해제 지침을 받아보실 수 있습니다."
+      unlocked: "계정이 성공적으로 잠금 해제되었습니다. 로그인하여 계속해 주세요."
+  errors:
+    messages:
+      already_confirmed: "는 이미 인증되었습니다. 다시 로그인해 보세요."
+      confirmation_period_expired: "%{period} 이내에 이메일 인증을 해야 합니다. 새로 요청해 주세요"
+      expired: "가 만료되었습니다. 새로 요청해 주세요."
+      not_found: "찾을 수 없습니다."
+      not_locked: "(은)는 잠기지 않았습니다."
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count}개의 오류로 인해  %{resource} 저장이 금지 되었습니다."
   activerecord:
     errors:
       messages:
         record_invalid: 데이터 검증에 실패하였습니다. %{errors}
+    attributes:
+      user:
+        current_password: "현재 비밀번호"
+        email: "이메일"
+        password: "비밀번호"
+        password_confirmation: "비밀번호 확인"
+        remember_me: "기억하기"
+        reset_password_token: 
+        unlock_token: 
+    models:
+      user: "사용자"
   date:
     abbr_day_names:
     - 일
@@ -191,3 +262,46 @@ ko:
       long: "%Y년 %m월 %d일, %H시 %M분 %S초 %Z"
       short: "%y/%m/%d %H:%M"
     pm: 오후
+  text:
+    slogan: 매일매일 큐티 내용을 기록하세요.
+    start: 시작하기
+    profile: 프로필
+    myqt: 내 QT
+    setting: 설정
+    today_word: 오늘의 말씀
+    qt_share: 큐티나눔
+    sign_in: 로그인
+    sign_up: 회원가입
+    sign_out: 로그아웃
+    understanding: 이해하기
+    whois: 하나님은 어떤 분입니까?
+    lesson: 내게 주시는 교훈은 무엇입니까?
+    apply: 적용하기
+    prayer: 기도하기
+    more: 보기
+    share: 공유하기
+    share_sub: 친구, 가족 또는 지인에게 큐티노트를 알려보세요.
+    kakaotalk: 카카오톡
+    kakaostory: 카카오스토리
+    facebook: 페이스북
+    twitter: 트위터
+    summary: 요약
+    achievement: 업적
+    streak_days: "%{day}일 연속"
+    talent: 달란트
+    title: 제목
+    content: 본문
+    forgot_password: 비밀번호 찾기
+    reconfirmation: 이메일 인증
+    qtnote: 큐티노트
+    sns_login: SNS 계정으로 로그인
+    sns_signup: SNS 계정으로 회원가입
+    send_password_instructions: 비밀번호 변경 메일 전송
+    send_confirmation_instructions: 이메일 인증 메일 전송
+    level_up: 레벨이 올랐습니다!
+    total_qt_count: QT 횟수
+    most_streak_days: QT 연속 최고 기록
+    need_talent_to_update: "공개된 QT를 비공개로 전환하려면 <strong>20 달란트</strong>가 필요합니다."
+    at_least_character: "%{count}자 이상 입력해주세요."
+    save: 저장
+    modify: 수정

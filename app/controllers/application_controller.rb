@@ -2,6 +2,15 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
+  before_action :set_locale
+  
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+  
+  def self.default_url_options
+    { locale: I18n.locale }
+  end
   
   def require_login
     unless user_signed_in?
@@ -26,7 +35,7 @@ class ApplicationController < ActionController::Base
         current_user.now_exp = current_user.now_exp - @next_exps[current_user.level-1]
         current_user.level = current_user.level + 1
         current_user.save
-        flash.now[:info] = "레벨이 올랐습니다!"
+        flash.now[:info] = t 'text.level_up'
         @leveled_up = true
       end
     end

@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {sessions: "users/sessions", registrations: "users/registrations", omniauth_callbacks: "users/omniauth_callbacks"}
-
+  devise_for :users, skip: [:session, :password, :registration, :confirmation], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  
   root 'home#index'
-  get '/' => 'home#index'
-  get '/profile' => 'home#profile'
-  post '/write' => 'home#write'
-  post '/modify' => 'home#modify'
+  scope "(:locale)", locale: /ko|en/ do
+    devise_for :users, skip: :omniauth_callbacks, controllers: {sessions: "users/sessions", registrations: "users/registrations"}
+    get 'omniauth/:provider' => 'omniauth#localized', as: :localized_omniauth
+    
+    get '/' => 'home#index'
+    get '/profile' => 'home#profile'
+    post '/write' => 'home#write'
+    post '/modify' => 'home#modify'
+  end
+  
+  get '/:locale' => 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

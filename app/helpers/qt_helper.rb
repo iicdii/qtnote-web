@@ -1,7 +1,11 @@
 module QtHelper
   class NewQt
     def initialize(year, month, day)
-      @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT2&year=#{year}&month=#{month}&day=#{day}"))
+      if I18n.locale == :ko
+        @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT2&year=#{year}&month=#{month}&day=#{day}"))
+      else
+        @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT5&year=#{year}&month=#{month}&day=#{day}"))
+      end
     end
     
     def get_title
@@ -25,21 +29,34 @@ module QtHelper
         t.text.strip
       end
       info.delete("")
-      last_index = info.index("적용하기")
-      info1 = info[1..(last_index - 1)] if last_index
-      
-      if info.index("하나님은 어떤 분입니까?")
-        first_index = info.index("하나님은 어떤 분입니까?")+1
-      elsif info.index("예수님은 어떤 분입니까?")
-        first_index = info.index("예수님은 어떤 분입니까?")+1
+      if I18n.locale == :ko
+        last_index =  info.index("적용하기")
+        info1 = info[1..(last_index - 1)] if last_index
+        
+        if info.index("하나님은 어떤 분입니까?")
+          first_index = info.index("하나님은 어떤 분입니까?")+1
+        elsif info.index("예수님은 어떤 분입니까?")
+          first_index = info.index("예수님은 어떤 분입니까?")+1
+        else
+          first_index = false
+        end
+        
+        info2 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
+        
+        first_index = info.index("내게 주시는 교훈은 무엇입니까?") ? info.index("내게 주시는 교훈은 무엇입니까?")+1 : false
+        info3 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
       else
-        first_index = false
+        last_index = info.index("Who is God?") ? info.index("Who is God?") : info.index("What lesson is God teaching me?")
+        info1 = info[1..(last_index - 1)] if last_index
+        
+        first_index = info.index("Who is God?") ? info.index("Who is God?")+1 : false
+        
+        info2 = first_index ? info[first_index] : "There is no commentary today."
+        
+        first_index = info.index("What lesson is God teaching me?") ? info.index("What lesson is God teaching me?")+1 : false
+        info3 = first_index ? info[first_index] : "There is no commentary today."
       end
-      
-      info2 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
-      
-      first_index = info.index("내게 주시는 교훈은 무엇입니까?") ? info.index("내게 주시는 교훈은 무엇입니까?")+1 : false
-      info3 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
+
       result = {
         :explanation => info1,
         :whois => info2,

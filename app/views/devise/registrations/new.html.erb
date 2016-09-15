@@ -3,25 +3,24 @@
     <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <div class="field">
-      <label for="user_email">이메일</label><br />
+      <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label><br />
       <%= f.email_field :email, autofocus: true, :class => 'form-control' %>
     </div>
-  
     <div class="field">
-      <label for="user_password">패스워드</label><br />
+      <label for="user_password"><%=t 'activerecord.attributes.user.password' %></label><br />
       <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
     </div>
     
     <div class="field">
-      <label for="user_password_confirmation">패스워드 확인</label><br />
+      <label for="user_password_confirmation"><%=t 'activerecord.attributes.user.password_confirmation' %></label><br />
       <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
     </div>
   
     <div class="actions" style="margin-top:20px;">
-      <%= f.submit "회원가입", :class => 'btn btn-danger btn-fill btn-block' %>
+      <%= f.submit t('text.sign_up') , :class => 'btn btn-danger btn-fill btn-block' %>
     </div>
     <div class="text-center">
-      <h6 style="margin-top:20px;">SNS 계정으로 회원가입</h6>
+      <h6 style="margin-top:20px;"><%=t 'text.sns_signup' %></h6>
       <div class="row" style="margin: 20px 0;">
         <div class="col-md-12">
           <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
@@ -31,11 +30,11 @@
     <% end %>
     <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
       <%- if controller_name != 'sessions' %>
-        <%= link_to "로그인", new_session_path(resource_name) %>
+        <%= link_to t("text.sign_in"), new_session_path(resource_name) %>
       <% end -%>
       <span class="qt-between">/</span>
       <%- if devise_mapping.confirmable? %>
-        <%= link_to "이메일 인증", new_confirmation_path(resource_name) %>
+        <%= link_to t("text.reconfirmation"), new_confirmation_path(resource_name) %>
       <% end %>
     </div>
   </div>

@@ -12,6 +12,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.from_omniauth(request.env["omniauth.auth"])
+    I18n.locale = session[:omniauth_login_locale] || I18n.default_locale
 
     if @user.persisted?
       flash[:success] = I18n.t "devise.omniauth_callbacks.success", :kind => "Google"

@@ -20,3 +20,60 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    attributes:
+      user:
+        current_password: Current password
+        email: Email
+        password: Password
+        password_confirmation: Password confirmation
+        remember_me: Remember me
+        reset_password_token: Reset password token
+        unlock_token: Unlock token
+    models:
+      user: User
+  text:
+    slogan: Write QT everyday.
+    start: Getting started
+    profile: Profile
+    myqt: My QT
+    setting: Settings
+    today_word: Word of the day
+    qt_share: QT Sharing
+    sign_in: Sign In
+    sign_up: Sign Up
+    sign_out: Sign Out
+    whois: Who is God?
+    lesson: What lesson is God teaching me?
+    apply: Apply
+    prayer: Prayer
+    more: more
+    share: Share
+    share_sub: Share QTNote with your friends, family, and acquaintance.
+    kakaotalk: KakaoTalk
+    kakaostory: KakaoStory
+    facebook: Facebook
+    twitter: Twitter
+    summary: Summary
+    achievement: Achievement
+    streak_days: "%{day} day streak"
+    talent: Talent
+    title: title
+    content: text
+    forgot_password: Forgot your password?
+    reconfirmation: Didn't receive confirmation instructions?
+    qtnote: QTNote
+    sns_login: Sign in with
+    sns_signup: Sign up with
+    send_password_instructions: Send me reset password instructions
+    send_confirmation_instructions: Resend confirmation instructions
+    level_up: Level Up!
+    total_qt_count: QTs
+    most_streak_days: MOST STREAK DAYS
+    leave_password_blank: Leave blank unless you want to change your password.
+    enter_current_password: Enter your current password to safe update.
+    need_talent_to_update: "You need to pay <strong>20 talent</strong> to change private to public."
+    at_least_character: "Enter at least %{count} characters"
+    save: Save
+    modify: Modify
+    sending: Sending

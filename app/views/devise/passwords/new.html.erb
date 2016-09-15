@@ -3,25 +3,25 @@
     <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
     <div class="field">
-      <label for="user_email">이메일</label><br />
+      <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label><br />
       <%= f.email_field :email, autofocus: true, :class => 'form-control' %>
     </div>
   
     <div class="actions" style="margin-top:20px;">
-      <%= f.submit "비밀번호 찾기", :class => 'btn btn-danger btn-fill btn-block' %>
+      <%= f.submit t("text.send_password_instructions"), :class => 'btn btn-danger btn-fill btn-block' %>
     </div>
     <% end %>
     <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">
       <%- if controller_name != 'sessions' %>
-        <%= link_to "로그인", new_session_path(resource_name) %>
+        <%= link_to t("text.sign_in"), new_session_path(resource_name) %>
       <% end -%>
       <span class="qt-between">/</span>
       <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-        <%= link_to "회원가입", new_registration_path(resource_name) %>
+        <%= link_to t("text.sign_up"), new_registration_path(resource_name) %>
       <% end -%>
       <span class="qt-between">/</span>
       <%- if devise_mapping.confirmable? %>
-        <%= link_to "이메일 인증", new_confirmation_path(resource_name) %>
+        <%= link_to t("text.reconfirmation"), new_confirmation_path(resource_name) %>
       <% end %>
     </div>
   </div>

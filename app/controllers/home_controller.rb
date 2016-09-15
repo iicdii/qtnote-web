@@ -1,6 +1,7 @@
 require 'open-uri'
 
 class HomeController < ApplicationController
+  before_action :set_locale
   before_action :require_login, except: [:index]
   before_action :calculate_exp
   before_action :calculate_achievement
@@ -89,12 +90,22 @@ class HomeController < ApplicationController
       end
     end
     
-    redirect_to "/"
+    redirect_to root_path
   end
   
   def modify
     @one_post = Post.find(params[:id])
     if @one_post
+      # 공개에서 비공개로 수정시 달란트를 소모하고 없으면 알림을 띄운다.
+      if @one_post.is_public && !params[:is_public]
+        if current_user.talent < 20
+          flash.now[:warning] = "달란트가 부족합니다." 
+          return redirect_to root_path
+        else
+          current_user.update_attributes(:talent => current_user.talent - 20)
+        end
+      end
+      
       @one_post.whois = params[:whois]
       @one_post.lesson = params[:lesson]
       @one_post.apply = params[:apply]
@@ -107,11 +118,14 @@ class HomeController < ApplicationController
           add_to_flash_array :danger, error
         end
       end
+      
     else
        add_to_flash_array :warning, "유효하지 않은 게시물입니다."
     end
-    redirect_to "/"
+    redirect_to root_path
   end
+  
+
   
   def profile
     @complete_days = Array.new

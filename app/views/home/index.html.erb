@@ -1,9 +1,9 @@
 <div class="main-header">
     <div class="motto">
         <h1 class="title-uppercase qt-eng">QT NOTE</h1>
-        <h3>매일매일 큐티 내용을 기록하세요.</h3>
+        <h3><%=t "text.slogan" %></h3>
         <br>
-        <button id="doIt" class="btn btn-danger">시작하기</a>
+        <button id="doIt" class="btn btn-danger"><%=t "text.start" %></a>
     </div>
 </div>
 
@@ -11,13 +11,13 @@
     <div class="container">
         <div class="nav-tabs-navigation" style="border-bottom: 1px solid #D8C1AB;" role="tablist">
             <ul id="tabs" class="nav nav-tabs qt-nav-tabs" data-tabs="tabs">
-                <li class="active" role="presentation"><a href="#word" aria-controls="word" data-toggle="tab" aria-expanded="true">오늘의 말씀</a></li>
-                <li role="presentation"><a href="#shareQT" aria-controls="shareQT" data-toggle="tab" aria-expanded="false">큐티나눔</a></li>
+                <li class="active" role="presentation"><a href="#word" aria-controls="word" data-toggle="tab" aria-expanded="true"><%=t "text.today_word" %></a></li>
+                <li role="presentation"><a href="#shareQT" aria-controls="shareQT" data-toggle="tab" aria-expanded="false"><%=t "text.qt_share" %></a></li>
             </ul>
         </div>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="word">
-                <h3>오늘의 말씀 <i class="fa fa-check-square fa-2" aria-hidden="true" <% if @today_post %>style="color:#7ac29a;"<% end %>></i></h3>
+                <h3><%=t "text.today_word" %>&nbsp;<i class="fa fa-check-square fa-2" aria-hidden="true" <% if @today_post %>style="color:#7ac29a;"<% end %>></i></h3>
                 <div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
@@ -42,13 +42,13 @@
                         <% end %>
                     </tbody>
                 </table>
-                <form action="<%= @today_post ? '/modify' : '/write' %>" method="post" id="qt_form">
+                <%= form_tag({controller: "home", action: @today_post ? 'modify' : 'write'}, {id: "qt_form", method: "post"}) do |f| %>
                     <input type="hidden" name="id" value="<%= @today_post? @today_post.id : "" %>">
                     <div class="row">
                         <div class="col-md-4">
-                            <h5>이해하기&nbsp;
+                            <h5><%=t "text.understanding" %>&nbsp;
                             <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                              보기
+                              <%=t "text.more" %>
                             </button>
                             </h5>
                             <div class="collapse" id="collapse1">
@@ -62,16 +62,12 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <h5>하나님은 어떤 분입니까?&nbsp;
+                            <h5><%=t "text.whois" %>&nbsp;
                                 <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                  보기
+                                  <%=t "text.more" %>
                                 </button>
                             </h5>
-                            <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post 
-                                        @today_post.whois 
-                                    elsif @temp_post
-                                        @temp_post[:whois]
-                                    end %></textarea>
+                            <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 5 %>"><%= if @today_post then @today_post.whois elsif @temp_post then @temp_post[:whois] end %></textarea>
                             <div class="collapse" id="collapse2">
                                 <div class="panel panel-success" style="margin-top:10px;">
                                     <div class="panel-body">
@@ -81,16 +77,12 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <h5>내게 주시는 교훈은 무엇입니까?&nbsp;
+                            <h5 <% if I18n.locale == :en then %>style="font-size:1.1em;margin-top:11px;margin-bottom:17px;"<% end %>><%=t "text.lesson" %>&nbsp;
                                 <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                                  보기
+                                  <%=t "text.more" %>
                                 </button>
                             </h5>
-                            <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="10자 이상 입력해 주세요."><%= if @today_post
-                                    @today_post.lesson 
-                                elsif @temp_post
-                                    @temp_post[:lesson]
-                                end %></textarea>
+                            <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 10 %>"><%= if @today_post then @today_post.lesson elsif @temp_post then @temp_post[:lesson] end %></textarea>
                             <div class="collapse" id="collapse3">
                                 <div class="panel panel-success" style="margin-top:10px;">
                                     <div class="panel-body">
@@ -102,25 +94,16 @@
                     </div>
                     <div class="row" style="margin-top:10px;">
                         <div class="col-md-offset-4 col-md-4">
-                            <h5>적용하기&nbsp;
-                                <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="적용하기" data-content="오늘 말씀을 보고 내가 구체적으로 할 수 있는 일을 기록하세요.
-        ">
+                            <h5><%=t "text.apply" %>&nbsp;
+                                <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="적용하기" data-content="오늘 말씀을 보고 내가 구체적으로 할 수 있는 일을 기록하세요.">
                                     <i class="fa fa-1 fa-question" style="margin:0 1.3px 0 0;" aria-hidden="true"></i>
                                 </button>
                             </h5>
-                            <textarea id="apply" name="apply" class="form-control" rows="5" placeholder="5자 이상 입력해 주세요."><%= if @today_post && @today_post.apply
-                                    @today_post.apply 
-                                elsif @temp_post
-                                    @temp_post[:apply]
-                                end %></textarea>
+                            <textarea id="apply" name="apply" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 5 %>"><%= if @today_post && @today_post.apply then @today_post.apply elsif @temp_post then @temp_post[:apply] end %></textarea>
                         </div>
                         <div class="col-md-4">
-                            <h5>기도하기</h5>
-                            <textarea id="pray" name="pray" class="form-control" rows="5"><%= if @today_post && @today_post.pray
-                                    @today_post.pray 
-                                elsif @temp_post
-                                    @temp_post[:pray]
-                                end %></textarea>
+                            <h5><%=t "text.prayer" %></h5>
+                            <textarea id="pray" name="pray" class="form-control" rows="5"><%= if @today_post && @today_post.pray then @today_post.pray elsif @temp_post then @temp_post[:pray] end %></textarea>
                         </div>
                     </div>
                     <div class="row" style="margin-top:20px;">
@@ -128,25 +111,25 @@
         
                         </div>
                         <div class="col-md-7 col-xs-7 col-xs-offset-2 col-md-offset-2 text-right">
-                            <div style="display:inline-block; vertical-align:middle; padding-right: 25px;">
+                            <div style="display:inline-block; vertical-align:middle; padding-right: 25px;" <% if @today_post && @today_post.is_public then %>data-toggle="tooltip"<% end %> title="<%=t 'text.need_talent_to_update' %>" data-html="true">
                                 <i id="lock" class="fa fa-lock fa-2x" style="margin-right: 10px;" aria-hidden="true"></i>
                                 <input type="checkbox" name="is_public" id="is_public" <%= (@today_post && @today_post.is_public) || (@temp_post && @temp_post[:is_public]) ? "checked" : "" %> />
                                 <i id="unlock" class="fa fa-unlock fa-2x" style="margin-left: 5px;" aria-hidden="true"></i>
                             </div>
                             <div style="display: inline-block;">
                             <% unless user_signed_in? %>
-                                <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal">저장</button>
+                                <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal"><%=t 'text.save' %></button>
                             <% else %>
                                 <% if @today_post %>
-                                    <button type="submit" class="btn btn-info submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> 전송중..">수정</button>
+                                    <button type="submit" class="btn btn-info submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.modify' %></button>
                                 <% else %>
-                                    <button type="submit" class="btn btn-success submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> 전송중..">저장</button>
+                                    <button type="submit" class="btn btn-success submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.save' %></button>
                                 <% end %>
                             <% end %>
                             </div>
                         </div>
                     </div>
-                </form>
+                <% end %>
             </div>
             <div role="tabpanel" class="tab-pane" id="shareQT">
                 <h3>오늘의 큐티나눔</h3>
@@ -171,9 +154,9 @@
                                                         <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
                                                     </div>
                                                     <div class="talk me text-left">
-                                                        <span>하나님은 어떤 분입니까?</span>
+                                                        <span><%=t 'text.whois' %></span>
                                                         <p><%= p.whois %></p>
-                                                        <span>내게 주시는 교훈은 무엇입니까?</span>
+                                                        <span><%=t 'text.lesson' %></span>
                                                         <p style="margin:0;"><%= p.lesson %></p>
                                                     </div>
                                                 </div>
@@ -203,9 +186,9 @@
                                                 </div>
                                                 <div class="col-md-10 col-table" style="padding-right: 10px;">
                                                     <div class="talk other">
-                                                        <span>하나님은 어떤 분입니까?</span>
+                                                        <span><%=t 'text.whois' %></span>
                                                         <p><%= p.whois %></p>
-                                                        <span>내게 주시는 교훈은 무엇입니까?</span>
+                                                        <span><%=t 'text.lesson' %></span>
                                                         <p style="margin:0;"><%= p.lesson %></p>
                                                     </div>
                                                     <div class="col-table" style="vertical-align:bottom; padding-left: 10px; padding-right: 10px;">
@@ -230,20 +213,20 @@
 
 <div class="section section-nude text-center">
     <div class="container">
-        <h3 class="text-center">공유하기</h3>
-        <p>친구, 가족 또는 지인에게 큐티노트를 알려보세요.</p>
+        <h3 class="text-center"><%=t "text.share" %></h3>
+        <p><%=t "text.share_sub" %></p>
         <div class="row" style="margin-top:20px;">
             <div class="col-md-3 col-xs-3">
                 <a id="kakao-link-btn" href="javascript:;">
                     <img src="//dev.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" class="kakao-talk" />
                 </a>
-                <p class="qt-sns-title">카카오톡</p>
+                <p class="qt-sns-title"><%=t "text.kakaotalk" %></p>
             </div>
             <div class="col-md-3 col-xs-3">
-                <a id="kakaostory-share-button" href="javascript:shareKakaoStory('http://qtnote.co.kr', '큐티노트에서 매일매일 큐티를 기록하세요.');">
+                <a id="kakaostory-share-button" href="javascript:shareKakaoStory('http://qtnote.co.kr', '<%=t 'text.slogan' %>');">
                     <img src="https://developers.kakao.com/assets/img/about/buttons/kakaostory/icon/flat/kakaostory_icon_flat_96x96.png" class="kakao-story" />
                 </a>
-                <p class="qt-sns-title">카카오스토리</p>
+                <p class="qt-sns-title"><%=t "text.kakaostory" %></p>
             </div>
             <div class="col-md-3 col-xs-3">
                 <div class="social">
@@ -251,15 +234,15 @@
                         <i class="fa fa-facebook" style="background-color:#3b5998;" aria-hidden="true"></i>
                     </a>
                 </div>
-                <p class="qt-sns-title">페이스북</p>
+                <p class="qt-sns-title"><%=t "text.facebook" %></p>
             </div>
             <div class="col-md-3 col-xs-3">
                 <div class="social">
-                    <a href="javascript:shareTwitter('http://qtnote.co.kr', '큐티노트에서 매일매일 큐티를 기록하세요.');">
+                    <a href="javascript:shareTwitter('http://qtnote.co.kr', '<%=t 'text.slogan' %>');">
                         <i class="fa fa-twitter" style="background-color:#00aced;" aria-hidden="true"></i>
                     </a>
                 </div>
-                <p class="qt-sns-title">트위터</p>
+                <p class="qt-sns-title"><%=t "text.twitter" %></p>
             </div>
             
         </div>
@@ -298,7 +281,7 @@
         Kakao.init('c4d2ae3d66986351a92450b6b8bb7f8b');
         Kakao.Link.createTalkLinkButton({
           container: '#kakao-link-btn',
-          label: '큐티노트',
+          label: '<%=t 'text.qtnote' %>',
           image: {
             src: 'https://i.imgur.com/RcmlX9F.png',
             width: '300',
