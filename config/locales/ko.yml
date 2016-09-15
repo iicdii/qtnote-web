@@ -305,3 +305,4 @@ ko:
     at_least_character: "%{count}자 이상 입력해주세요."
     save: 저장
     modify: 수정
+    sending: 전송중
