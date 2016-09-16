@@ -42,8 +42,8 @@ class ApplicationController < ActionController::Base
   end
   
   def notify(title)
-    add_to_flash_array :info, "#{title} 업적을 달성하였습니다!", 
-    {url: '/profile?type=achievement', target: "_self"},
+    add_to_flash_array :info, title, 
+    {title: '<strong>' + t("text.new_achievement") + '</strong>', url: '/profile?type=achievement', target: "_self"},
     {animate: {enter: 'animated bounceIn', exit: 'animated bounceOut' }}
   end
   
@@ -56,38 +56,40 @@ class ApplicationController < ActionController::Base
         current_user.save
       end
       
+      achievements = get_achievements
+      
       (1..6).each do |id|
         if current_user.achievements.any? { |a| a[:id] == id } == false
           case id
           when 1 # 3번 접속 달성시
             if current_user.sign_in_count_per_day >= 3
               current_user.achievements << {id: id, created_at: Time.current} 
-              notify(Achievement.find_by(id: id).title)
+              notify(achievements.find{|h| h[:id] == id }[:title])
             end
           when 2 # 5레벨 달성시
             if current_user.level >= 5
               current_user.achievements << {id: id, created_at: Time.current} 
-              notify(Achievement.find_by(id: id).title)
+              notify(achievements.find{|h| h[:id] == id }[:title])
             end
           when 3 # 50레벨 달성시
             if current_user.level >= 50
               current_user.achievements << {id: id, created_at: Time.current} 
-              notify(Achievement.find_by(id: id).title)
+              notify(achievements.find{|h| h[:id] == id }[:title])
             end
           when 4 # 99레벨 달성시
             if current_user.level >= 99
               current_user.achievements << {id: id, created_at: Time.current} 
-              notify(Achievement.find_by(id: id).title)
+              notify(achievements.find{|h| h[:id] == id }[:title])
             end
           when 5 # 7일 연속 QT 달성시
             if @streak_days >= 7
               current_user.achievements << {id: id, created_at: Time.current} 
-              notify(Achievement.find_by(id: id).title)
+              notify(achievements.find{|h| h[:id] == id }[:title])
             end
           when 6 # 10,000달란트 달성시
             if current_user.talent >= 10000
               current_user.achievements << {id: id, created_at: Time.current}
-              notify(Achievement.find_by(id: id).title)
+              notify(achievements.find{|h| h[:id] == id }[:title])
             end
           else
           end

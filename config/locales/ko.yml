@@ -301,8 +301,20 @@ ko:
     level_up: 레벨이 올랐습니다!
     total_qt_count: QT 횟수
     most_streak_days: QT 연속 최고 기록
+    leave_password_blank: 비밀번호 변경을 원하시지 않으면 빈 칸으로 남겨주세요.
+    enter_current_password: 안전한 수정을 위해 현재 비밀번호를 입력해 주세요.
     need_talent_to_update: "공개된 QT를 비공개로 전환하려면 <strong>20 달란트</strong>가 필요합니다."
     at_least_character: "%{count}자 이상 입력해주세요."
     save: 저장
     modify: 수정
     sending: 전송중
+    new_achievement: "새로운 업적을 달성하였습니다!"
+    achievements:
+      sign_in_x_times: "%{number}번 접속"
+      sign_in_x_times_description: "%{number}번 로그인"
+      level_x: "레벨 %{level}"
+      level_x_description: "레벨 %{level} 달성"
+      x_days_streak: "%{days}일 연속"
+      x_days_streak_description: "%{days}일 연속 QT"
+      millionaire: "백만장자"
+      millionaire_description: "%{talent} 달란트 이상 보유"

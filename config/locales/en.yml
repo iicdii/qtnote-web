@@ -50,13 +50,13 @@ en:
     prayer: Prayer
     more: more
     share: Share
-    share_sub: Share QTNote with your friends, family, and acquaintance.
+    share_sub: Share QTNote with your friends, family, and acquaintances.
     kakaotalk: KakaoTalk
     kakaostory: KakaoStory
     facebook: Facebook
     twitter: Twitter
     summary: Summary
-    achievement: Achievement
+    achievement: Achievements
     streak_days: "%{day} day streak"
     talent: Talent
     title: title
@@ -70,11 +70,21 @@ en:
     send_confirmation_instructions: Resend confirmation instructions
     level_up: Level Up!
     total_qt_count: QTs
-    most_streak_days: MOST STREAK DAYS
+    most_streak_days: MOST CONSECUTIVE DAYS
     leave_password_blank: Leave blank unless you want to change your password.
     enter_current_password: Enter your current password to safe update.
     need_talent_to_update: "You need to pay <strong>20 talent</strong> to change private to public."
     at_least_character: "Enter at least %{count} characters"
     save: Save
-    modify: Modify
+    modify: Edit
     sending: Sending
+    new_achievement: "New Achievement!"
+    achievements:
+      sign_in_x_times: "Sign in %{number} times"
+      sign_in_x_times_description: "Sign in %{number} times."
+      level_x: "Level %{level}"
+      level_x_description: "Reach level %{level}."
+      x_days_streak: "%{days} days streak"
+      x_days_streak_description: "QT streak of %{days} consecutive days."
+      millionaire: "Millionaire"
+      millionaire_description: "Earn %{talent} talent."

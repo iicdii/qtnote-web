@@ -301,7 +301,7 @@
               message: "<%= m %>",
               <% if options.is_a?(::Hash) %>
                 <% options.each do |key, val| %>
-                <%= key %>: "<%= val %>",
+                <%= key %>: "<%= val.html_safe %>",
                 <% end %>
               <% end %>
             },{

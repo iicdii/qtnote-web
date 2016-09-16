@@ -161,14 +161,15 @@ class HomeController < ApplicationController
     end
     
     #업적을 불러온다.
-    Achievement.all.each do |a|
-      achievement = current_user.achievements.find {|h| h[:id] == a.id }
+    achievements = get_achievements
+    achievements.each do |a|
+      achievement = current_user.achievements.find {|h| h[:id] == a[:id] }
       @achievements << {
-        :id => a.id,
-        :title => a.title,
-        :description => a.description,
+        :id => a[:id],
+        :title => a[:title],
+        :description => a[:description],
         :is_active => achievement ? true : false,
-        :created_at => achievement ? achievement[:created_at] : a.created_at
+        :created_at => achievement ? achievement[:created_at] : ""
       }
     end
     
