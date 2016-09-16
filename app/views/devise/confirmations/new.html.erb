@@ -3,7 +3,7 @@
     <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
     <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
     
-      <div class="field">
+      <div class="form-group">
         <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label><br />
         <%= f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control' %>
       </div>

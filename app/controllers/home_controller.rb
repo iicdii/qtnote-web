@@ -1,10 +1,7 @@
 require 'open-uri'
 
 class HomeController < ApplicationController
-  before_action :set_locale
   before_action :require_login, except: [:index]
-  before_action :calculate_exp
-  before_action :calculate_achievement
   before_action :remove_cookies, except: [:write]
   include ApplicationHelper
   include FlashHelper

@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
   before_action :set_locale
+  before_action :calculate_exp
+  before_action :calculate_achievement
+  before_action :configure_permitted_parameters, if: :devise_controller?
+  
+  include ApplicationHelper
   
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -14,10 +19,7 @@ class ApplicationController < ActionController::Base
   
   def require_login
     unless user_signed_in?
-      redirect_to "/users/sign_in"
-    else
-      @is_logged_in = true
-      @current_user = current_user
+      redirect_to new_user_session_url
     end
   end
   
@@ -46,7 +48,7 @@ class ApplicationController < ActionController::Base
     {
       icon: ActionController::Base.helpers.image_path('achievement_' + id.to_s + '.png'),
       title: '<strong>' + t("text.new_achievement") + '</strong>',
-      url: '/profile?type=achievement',
+      url: I18n.locale == :en ? '/en/profile?type=achievement' : '/profile?type=achievement',
       target: "_self"
     },
     {
@@ -143,6 +145,10 @@ class ApplicationController < ActionController::Base
     request.referrer || root_path
   end
   
+  def after_update_path_for(resource)
+    session[:previous_url] || root_path
+  end
+  
   def store_current_location
     store_location_for(:user, request.url)
   end
@@ -162,6 +168,12 @@ class ApplicationController < ActionController::Base
           session[:last_request_time] = Time.now.utc.to_i
         end
     end
+  end
+  
+  protected
+  
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:account_update, keys: [:nickname])
   end
 
 end

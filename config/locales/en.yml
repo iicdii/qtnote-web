@@ -21,11 +21,32 @@
 
 en:
   activerecord:
+    errors:
+      models:
+        post:
+          attributes:
+            whois:
+              presence: "Who is god can't be blank."
+              too_short: "Minimum of %{count} characters is required for who is god."
+              too_long: "Maximum of %{count} characters is required for who is god."
+            lesson:
+              presence: "Lesson can't be blank."
+              too_short: "Minimum of %{count} characters is required for lesson."
+              too_long: "Maximum of %{count} characters is required for lesson."
+            apply:
+              presence: "Presence can't be blank."
+              too_short: "Minimum of %{count} characters is required for apply."
+              too_long: "Maximum of %{count} characters is required for apply."
+        user:
+          attributes:
+            nickname:
+              too_long: "is too long (maximum  %{count} characters.)"
     attributes:
       user:
         current_password: Current password
         email: Email
         password: Password
+        nickname: Nickname
         password_confirmation: Password confirmation
         remember_me: Remember me
         reset_password_token: Reset password token
@@ -78,7 +99,16 @@ en:
     save: Save
     modify: Edit
     sending: Sending
-    new_achievement: "New Achievement!"
+    new_achievement: New Achievement!
+    back: Back
+    close: Close
+    cancel_my_account: Cancel my account
+    are_you_sure: Are you sure?
+    shared_qt_of_today: Shared QT of today
+    no_shared_qt_today: No shared QT today.
+    qt_is_registered: QT is registered!
+    apply_description: After reading today's passage, write specific things you can put into action.
+    sharing_x_qt_total: "Sharing ${count} QT total."
     achievements:
       sign_in_x_times: "Sign in %{number} times"
       sign_in_x_times_description: "Sign in %{number} times."

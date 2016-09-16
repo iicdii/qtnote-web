@@ -2,16 +2,16 @@
   <div class ="container" style="max-width:480px;">
     <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <div class="field">
+    <div class="form-group">
       <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label><br />
       <%= f.email_field :email, autofocus: true, :class => 'form-control' %>
     </div>
-    <div class="field">
+    <div class="form-group">
       <label for="user_password"><%=t 'activerecord.attributes.user.password' %></label><br />
       <%= f.password_field :password, autocomplete: "off", :class => 'form-control' %>
     </div>
     
-    <div class="field">
+    <div class="form-group">
       <label for="user_password_confirmation"><%=t 'activerecord.attributes.user.password_confirmation' %></label><br />
       <%= f.password_field :password_confirmation, autocomplete: "off", :class => 'form-control' %>
     </div>

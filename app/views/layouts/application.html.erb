@@ -67,11 +67,11 @@
           </li>
           <% if user_signed_in? %>
           <li class="dropdown qt-dropdown" id="qt-dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= @current_user.email %></span> <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= current_user.email %></span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to t('text.profile'), { controller: 'home', action: 'profile' } %></li>
-              <li><%= link_to t('text.myqt'), { controller: 'home', action: 'profile', type: 'myqt' } %></li>
-              <li><%= link_to t('text.setting'), { controller: 'home', action: 'profile', type: 'setting' } %></li>
+              <li><%= link_to t('text.profile'), { controller: '/home', action: 'profile' } %></li>
+              <li><%= link_to t('text.myqt'), { controller: '/home', action: 'profile', type: 'myqt' } %></li>
+              <li><%= link_to t('text.setting'), { controller: '/home', action: 'profile', type: 'setting' } %></li>
               <li class="divider"></li>
               <li><%= link_to t('text.sign_out'), destroy_user_session_path %></li>
             </ul>
@@ -83,7 +83,7 @@
           </li>
           <li class="qt-top-icon" data-toggle="tooltip" data-placement="bottom" title="<%=t 'text.talent' %>">
             <span class="qt-icon qt-talent" aria-hidden="true">
-              <span class="qt-num"><%= @current_user.talent %></span>
+              <span class="qt-num"><%= current_user.talent %></span>
             </span>
           </li>
           <% else %>
@@ -233,7 +233,7 @@
               	74.1,108.4 48.2,86.4 "/>
               <circle class="spin" fill="none" stroke="#7DB0D5" stroke-width="4" stroke-miterlimit="10" stroke-dasharray="12.2175,12.2175" cx="80.6" cy="80.6" r="73.9"/>
             </svg>
-            <p class="title">오늘의 큐티가 등록되었어요!</p>
+            <p class="title"><%=t "text.qt_is_registered" %></p>
           </div>
           <div class="text-center">
             <p class="qt-num" style="font-size:17px; color:#7ac29a; font-weight: bold;">+ <%= @done_data ? @done_data['exp'] : 0 %> XP</p>
@@ -255,7 +255,7 @@
           </div>
         </div>
         <div class="modal-footer" style="border-top:none;padding:15px;">
-          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal"><%=t "text.close" %></button>
         </div>
       </div>
     </div>

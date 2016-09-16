@@ -61,6 +61,25 @@ ko:
         other: "%{count}개의 오류로 인해  %{resource} 저장이 금지 되었습니다."
   activerecord:
     errors:
+      models:
+        post:
+          attributes:
+            whois:
+              presence: "하나님이 어떤 분인지 작성해 주세요."
+              too_short: "하나님이 어떤 분인지 최소 %{count}자 이상 입력해주세요."
+              too_long: "하나님이 어떤 분인지에 대해서 최대 %{count}자 까지만 입력할 수 있습니다."
+            lesson:
+              presence: "교훈을 입력해 주세요."
+              too_short: "교훈은 최소 %{count}자 이상 입력해주세요."
+              too_long: "교훈은 최대 %{count}자 까지만 입력할 수 있습니다."
+            apply:
+              presence: "적용을 입력해 주세요."
+              too_short: "적용은 최소 %{count}자 이상 입력해주세요."
+              too_long: "적용은 최대 %{count}자 까지만 입력할 수 있습니다."
+        user:
+          attributes:
+            nickname:
+              too_long: "은 최대 %{count}자 까지만 입력 가능합니다."
       messages:
         record_invalid: 데이터 검증에 실패하였습니다. %{errors}
     attributes:
@@ -68,6 +87,7 @@ ko:
         current_password: "현재 비밀번호"
         email: "이메일"
         password: "비밀번호"
+        nickname: "닉네임"
         password_confirmation: "비밀번호 확인"
         remember_me: "기억하기"
         reset_password_token: 
@@ -262,6 +282,9 @@ ko:
       long: "%Y년 %m월 %d일, %H시 %M분 %S초 %Z"
       short: "%y/%m/%d %H:%M"
     pm: 오후
+  validation:
+    too_short: "%{count}자 이상 입력해 주세요."
+    too_long: "%{count}자 까지만 입력할 수 있습니다."
   text:
     slogan: 매일매일 큐티 내용을 기록하세요.
     start: 시작하기
@@ -308,7 +331,16 @@ ko:
     save: 저장
     modify: 수정
     sending: 전송중
-    new_achievement: "새로운 업적을 달성하였습니다!"
+    new_achievement: 새로운 업적을 달성하였습니다!
+    back: 돌아가기
+    close: 닫기
+    cancel_my_account: 회원탈퇴
+    are_you_sure: 회원님의 모든 정보가 삭제됩니다. 정말 탈퇴하시겠습니까?
+    shared_qt_of_today: 오늘의 큐티나눔
+    no_shared_qt_today: 오늘 작성된 큐티나눔이 없습니다.
+    qt_is_registered: 큐티가 등록되었습니다!
+    apply_description: 오늘 말씀을 보고 내가 구체적으로 할 수 있는 일을 기록하세요.
+    sharing_x_qt_total: "총 ${count}개의 묵상을 나누고 있습니다."
     achievements:
       sign_in_x_times: "%{number}번 접속"
       sign_in_x_times_description: "%{number}번 로그인"

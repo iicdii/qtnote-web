@@ -95,7 +95,7 @@
                     <div class="row" style="margin-top:10px;">
                         <div class="col-md-offset-4 col-md-4">
                             <h5><%=t "text.apply" %>&nbsp;
-                                <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="<%=t "text.apply" %>" data-content="오늘 말씀을 보고 내가 구체적으로 할 수 있는 일을 기록하세요.">
+                                <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="<%=t "text.apply" %>" data-content="<%=t "text.apply_description" %>">
                                     <i class="fa fa-1 fa-question" style="margin:0 1.3px 0 0;" aria-hidden="true"></i>
                                 </button>
                             </h5>
@@ -132,7 +132,7 @@
                 <% end %>
             </div>
             <div role="tabpanel" class="tab-pane" id="shareQT">
-                <h3>오늘의 큐티나눔</h3>
+                <h3><%=t "text.shared_qt_of_today" %></h3>
                 <% if @today_posts.exists? %>
                     <p style="font-size:14px;">총 <%= @today_posts.count %>개의 묵상을 나누고 있습니다.</p>
                     <div class="msgbox">
@@ -142,7 +142,7 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-11 col-sm-10 col-xs-9 text-right" style="padding-bottom: 10px;">
-                                            <span class="qt-eng"><%= current_user.email.split("@").first %></span>
+                                            <span class="qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
                                             <span class="qt-level-sm qt-num"><%= current_user.level %></span>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                     <div class="row">
                                         <div class="col-md-1 col-sm-2 col-xs-4"></div>
                                         <div class="col-md-11" style="padding-bottom: 10px; padding-left: 75px;">
-                                            <span class="qt-eng"><%= User.find_by(id: p.user_id).email.split("@").first %></span>
+                                            <span class="qt-eng"><%= User.find_by(id: p.user_id).nickname ? User.find_by(id: p.user_id).nickname : User.find_by(id: p.user_id).email.split("@").first %></span>
                                             <span class="qt-level-sm qt-num"><%= User.find_by(id: p.user_id).level %></span>
                                         </div>
                                     </div>
@@ -204,7 +204,7 @@
                     <% end %>
                     </div>
                 <% else %>
-                    <p>오늘 작성된 큐티나눔이 없습니다.</p>
+                    <p><%=t "text.no_shared_qt_today" %></p>
                 <% end %>
             </div>
         </div>
