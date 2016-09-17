@@ -18,7 +18,7 @@ class Post < ActiveRecord::Base
         presence: true,
         length: {
             minimum: 5,
-            maximum: 300
+            maximum: 1000
         }
     
     def update_streak

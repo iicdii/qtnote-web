@@ -21,14 +21,18 @@
                 <div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
-                            <span class="label label-danger">제목</span>
-                            <span style="margin-left:5px;font-weight:600;"><%= @title %></span>
+                            <p class="qt-no-margin">
+                                <span class="label label-danger"><%=t 'text.title' %></span>
+                                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @title %></span>
+                            </p>
                         </div>
                     </div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
-                            <span class="label label-danger">본문</span>
-                            <span style="margin-left:5px;font-weight:600;"><%= @book_line %></span>
+                            <p class="qt-no-margin">
+                                <span class="label label-danger"><%=t 'text.content' %></span>
+                                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @book_line %></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -154,10 +158,10 @@
                                                         <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
                                                     </div>
                                                     <div class="talk me text-left">
-                                                        <span><%=t 'text.whois' %></span>
-                                                        <p><%= p.whois %></p>
-                                                        <span><%=t 'text.lesson' %></span>
-                                                        <p style="margin:0;"><%= p.lesson %></p>
+                                                        <span class="qt-font-sm"><%=t 'text.whois' %></span>
+                                                        <p class="qt-font-sm"><%= p.whois %></p>
+                                                        <span class="qt-font-sm"><%=t 'text.lesson' %></span>
+                                                        <p class="qt-font-sm" style="margin:0;"><%= p.lesson %></p>
                                                     </div>
                                                 </div>
                                                 <div style="position: absolute; right: 0; top: 0;">
@@ -173,7 +177,7 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-1 col-sm-2 col-xs-4"></div>
-                                        <div class="col-md-11" style="padding-bottom: 10px; padding-left: 75px;">
+                                        <div class="col-md-11" style="padding-bottom: 10px;">
                                             <span class="qt-eng"><%= User.find_by(id: p.user_id).nickname ? User.find_by(id: p.user_id).nickname : User.find_by(id: p.user_id).email.split("@").first %></span>
                                             <span class="qt-level-sm qt-num"><%= User.find_by(id: p.user_id).level %></span>
                                         </div>
@@ -184,12 +188,12 @@
                                                 <div class="col-md-1 col-table" style="padding-right: 25px;">
                                                     <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
                                                 </div>
-                                                <div class="col-md-10 col-table" style="padding-right: 10px;">
+                                                <div class="col-md-11 col-table" style="padding-right: 10px;">
                                                     <div class="talk other">
-                                                        <span><%=t 'text.whois' %></span>
-                                                        <p><%= p.whois %></p>
-                                                        <span><%=t 'text.lesson' %></span>
-                                                        <p style="margin:0;"><%= p.lesson %></p>
+                                                        <span class="qt-font-sm"><%=t 'text.whois' %></span>
+                                                        <p class="qt-font-sm"><%= p.whois %></p>
+                                                        <span class="qt-font-sm"><%=t 'text.lesson' %></span>
+                                                        <p class="qt-font-sm" style="margin:0;"><%= p.lesson %></p>
                                                     </div>
                                                     <div class="col-table" style="vertical-align:bottom; padding-left: 10px; padding-right: 10px;">
                                                         <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
