@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
-gem 'sisyphus-rails'
 gem 'activerecord-session_store'
 gem 'omniauth-google-oauth2'
 gem 'awesome_print', require: 'ap'
