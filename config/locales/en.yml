@@ -108,7 +108,8 @@ en:
     no_shared_qt_today: No shared QT today.
     qt_is_registered: QT is registered!
     apply_description: After reading today's passage, write specific things you can put into action.
-    sharing_x_qt_total: "Sharing ${count} QT total."
+    sharing_x_qt_total: "Sharing %{count} QT total."
+    read_more: Read more
     achievements:
       sign_in_x_times: "Sign in %{number} times"
       sign_in_x_times_description: "Sign in %{number} times."

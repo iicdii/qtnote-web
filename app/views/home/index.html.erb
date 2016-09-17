@@ -21,7 +21,7 @@
                 <div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
-                            <p class="qt-no-margin">
+                            <p class="no-margin">
                                 <span class="label label-danger"><%=t 'text.title' %></span>
                                 <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @title %></span>
                             </p>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
-                            <p class="qt-no-margin">
+                            <p class="no-margin">
                                 <span class="label label-danger"><%=t 'text.content' %></span>
                                 <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @book_line %></span>
                             </p>
@@ -138,7 +138,7 @@
             <div role="tabpanel" class="tab-pane" id="shareQT">
                 <h3><%=t "text.shared_qt_of_today" %></h3>
                 <% if @today_posts.exists? %>
-                    <p style="font-size:14px;">총 <%= @today_posts.count %>개의 묵상을 나누고 있습니다.</p>
+                    <p class="qt-font-sm" style="margin-bottom:20px;"><%=t("text.sharing_x_qt_total", count: @today_posts.count) %></p>
                     <div class="msgbox">
                     <% @today_posts.each do |p| %>
                         <% if user_signed_in? && p.user_id == current_user.id %>
@@ -157,12 +157,23 @@
                                                     <div class="col-table text-center" style="vertical-align:bottom; padding-left: 15px; padding-right: 10px;">
                                                         <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
                                                     </div>
-                                                    <div class="talk me text-left">
-                                                        <span class="qt-font-sm"><%=t 'text.whois' %></span>
-                                                        <p class="qt-font-sm"><%= p.whois %></p>
-                                                        <span class="qt-font-sm"><%=t 'text.lesson' %></span>
-                                                        <p class="qt-font-sm" style="margin:0;"><%= p.lesson %></p>
-                                                    </div>
+                                                    <article class="talk me text-left">
+                                                        <p class="no-margin qt-font-sm">
+                                                          <% if (t('text.whois') + tag("br") + p.whois + tag("br") + t('text.lesson') + tag("br") + p.lesson).length > 500 %>
+                                                            <%= truncate(t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
+                                                            <br />
+                                                            <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
+                                                            <script>
+                                                              $('.read-more-<%= p.id %>').on('click', function(e) {
+                                                                e.preventDefault()
+                                                                $(this).parent().html('<%= raw escape_javascript (t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson) %>')
+                                                              })
+                                                            </script>
+                                                          <% else %>
+                                                            <%= raw t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson %>
+                                                          <% end %>
+                                                        </p>
+                                                    </article>
                                                 </div>
                                                 <div style="position: absolute; right: 0; top: 0;">
                                                     <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
@@ -189,12 +200,23 @@
                                                     <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
                                                 </div>
                                                 <div class="col-md-11 col-table" style="padding-right: 10px;">
-                                                    <div class="talk other">
-                                                        <span class="qt-font-sm"><%=t 'text.whois' %></span>
-                                                        <p class="qt-font-sm"><%= p.whois %></p>
-                                                        <span class="qt-font-sm"><%=t 'text.lesson' %></span>
-                                                        <p class="qt-font-sm" style="margin:0;"><%= p.lesson %></p>
-                                                    </div>
+                                                    <article class="talk other">
+                                                        <p class="no-margin qt-font-sm">
+                                                          <% if (t('text.whois') + tag("br") + p.whois + tag("br") + t('text.lesson') + tag("br") + p.lesson).length > 500 %>
+                                                            <%= truncate(t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
+                                                            <br />
+                                                            <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
+                                                            <script>
+                                                              $('.read-more-<%= p.id %>').on('click', function(e) {
+                                                                e.preventDefault()
+                                                                $(this).parent().html('<%= raw escape_javascript (t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson) %>')
+                                                              })
+                                                            </script>
+                                                          <% else %>
+                                                            <%= raw t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson %>
+                                                          <% end %>
+                                                        </p>
+                                                    </article>
                                                     <div class="col-table" style="vertical-align:bottom; padding-left: 10px; padding-right: 10px;">
                                                         <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
                                                     </div>
