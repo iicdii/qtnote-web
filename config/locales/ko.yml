@@ -315,7 +315,7 @@ ko:
     title: 제목
     content: 본문
     forgot_password: 비밀번호 찾기
-    reconfirmation: 이메일 인증
+    reconfirmation: 인증 메일 재전송
     qtnote: 큐티노트
     sns_login: SNS 계정으로 로그인
     sns_signup: SNS 계정으로 회원가입
