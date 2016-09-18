@@ -46,7 +46,7 @@
                         <% end %>
                     </tbody>
                 </table>
-                <hr>
+                <hr style="border-color:#E9E3D8">
                 <%= form_tag({controller: "home", action: @today_post ? 'modify' : 'write'}, {id: "qt_form", method: "post"}) do |f| %>
                     <input type="hidden" name="id" value="<%= @today_post? @today_post.id : "" %>">
                     <div class="row">
