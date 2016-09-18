@@ -110,6 +110,7 @@ en:
     apply_description: After reading today's passage, write specific things you can put into action.
     sharing_x_qt_total: "Sharing %{count} QT total."
     read_more: Read more
+    public_description: People will see your QT in QT sharing tab and you can get extra XP in public mode.
     achievements:
       sign_in_x_times: "Sign in %{number} times"
       sign_in_x_times_description: "Sign in %{number} times."

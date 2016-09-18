@@ -342,6 +342,7 @@ ko:
     apply_description: 오늘 말씀을 보고 내가 구체적으로 할 수 있는 일을 기록하세요.
     sharing_x_qt_total: "총 %{count}개의 묵상을 나누고 있습니다."
     read_more: 더 보기
+    public_description: 큐티를 공개모드로 바꾸면 큐티나눔 탭에서 다른 사람들이 내 큐티를 볼 수 있고 추가 경험치를 얻을 수 있습니다.
     achievements:
       sign_in_x_times: "%{number}번 접속"
       sign_in_x_times_description: "%{number}번 로그인"
