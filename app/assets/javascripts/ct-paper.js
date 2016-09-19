@@ -4,15 +4,17 @@ var transparent = true;
 var transparentDemo = true;
 var fixedTop = false;
 
-var navbar_initialized = false;
+// var navbar_initialized = false;
 
 $(document).ready(function(){
     window_width = $(window).width();
     
     // Init navigation toggle for small screens   
+    /*
     if(window_width < 768){
         gsdk.initRightMenu();   
     }
+    */
      
     // Activate Morpghing Buttons 
     $('[data-toggle="morphing"]').each(function () {
@@ -62,7 +64,7 @@ $(document).ready(function(){
         $(this).parent(".input-group").removeClass("input-group-focus");
     });
     
-    demo.initPickColor();
+    // demo.initPickColor();
     
      // Make the images from the card fill the hole space
     gsdk.fitBackgroundForCards();
@@ -83,16 +85,17 @@ $(document).ready(function(){
     gsdk.initVideoCards();
       
 });
-
+/*
 // activate collapse right menu when the windows is resized 
 $(window).resize(function(){
     if($(window).width() < 768){
         gsdk.initRightMenu();   
     }
 });
+*/
     
 gsdk = {
-    misc:{
+    /* misc:{
         navbar_menu_visible: 0
     },
     initRightMenu: function(){  
@@ -174,7 +177,7 @@ gsdk = {
                 }
             }
     }, 17),
-    
+    */
     fitBackgroundForCards: function(){
          $('.card').each(function(){
             if(!$(this).hasClass('card-product') && !$(this).hasClass('card-user')){
@@ -322,7 +325,7 @@ gsdk = {
         });
     }
 }
-
+/*
 demo = {
     initPickColor: function(){
         $('.pick-class-label').click(function(){
@@ -358,6 +361,7 @@ examples = {
         marker.setMap(map);
         }
 }
+*/
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
