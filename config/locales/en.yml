@@ -122,3 +122,18 @@ en:
       x_days_streak_description: "QT streak of %{days} consecutive days."
       millionaire: "Millionaire"
       millionaire_description: "Earn %{talent} talent."
+    attributes:
+      mailer:
+        confirmation:
+          1: "Welcome, %{email}!"
+          2: "You can confirm your account email through the link below:"
+          3: Confirm my account
+        password_change:
+          1: "Hello, %{email}!"
+          2: We're contacting you to notify you that your password has been changed.
+        reset_password:
+          1: "Hello, %{email}!"
+          2: Someone has requested a link to change your password. You can do this through the link below.
+          3: Change my Password
+          4: If you didn't request this, please ignore this email.
+          5: our password won't change until you access the link above and create a new one.

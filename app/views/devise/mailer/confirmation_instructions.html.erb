@@ -1,5 +1,5 @@
-<p>안녕하세요, <%= @email %>님!</p>
+<p><%=t('text.attributes.mailer.confirmation.1', email: @email.split("@").first) %></p>
 
-<p>하단의 링크를 통해서 QTNOTE의 이메일 인증을 진행하실 수 있습니다.</p>
+<p><%=t('text.attributes.mailer.confirmation.2' %></p>
 
-<p><%= link_to '이메일 인증하기', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to t('text.attributes.mailer.confirmation.3'), confirmation_url(@resource, confirmation_token: @token) %></p>
