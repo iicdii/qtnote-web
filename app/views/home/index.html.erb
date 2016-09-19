@@ -112,16 +112,16 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top:20px;">
-                        <div class="col-md-3 col-xs-3 text-left">
+                        <div class="col-md-2 col-xs-2 text-left">
         
                         </div>
-                        <div class="col-md-7 col-xs-7 col-xs-offset-2 col-md-offset-2 text-right">
+                        <div class="col-md-8 col-xs-8 col-xs-offset-2 col-md-offset-2 text-right">
                             <div style="display:inline-block; vertical-align:middle; padding-right: 25px;" data-toggle="tooltip" title="<% if @today_post && @today_post.is_public then %><%=t 'text.need_talent_to_update' %><% else %><%=t 'text.public_description' %><% end %>" data-html="true">
                                 <i id="lock" class="fa fa-lock fa-2x" style="margin-right: 10px;" aria-hidden="true"></i>
                                 <input type="checkbox" name="is_public" id="is_public" <%= (@today_post && @today_post.is_public) || (@temp_post && @temp_post[:is_public]) ? "checked" : "" %> />
                                 <i id="unlock" class="fa fa-unlock fa-2x" style="margin-left: 5px;" aria-hidden="true"></i>
                             </div>
-                            <div style="display: inline-block;">
+                            <div style="display:inline-block;">
                             <% unless user_signed_in? %>
                                 <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal"><%=t 'text.save' %></button>
                             <% else %>

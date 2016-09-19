@@ -324,7 +324,7 @@ ko:
     level_up: 레벨이 올랐습니다!
     total_qt_count: QT 횟수
     most_streak_days: QT 연속 최고 기록
-    leave_password_blank: 비밀번호 변경을 원하시지 않으면 빈 칸으로 남겨주세요.
+    leave_password_blank: 비밀번호 변경을 원하지 않으시면 빈 칸으로 남겨주세요.
     enter_current_password: 안전한 수정을 위해 현재 비밀번호를 입력해 주세요.
     need_talent_to_update: "공개된 QT를 비공개로 전환하려면 <strong>20 달란트</strong>가 필요합니다."
     at_least_character: "%{count}자 이상 입력해주세요."
@@ -343,6 +343,8 @@ ko:
     sharing_x_qt_total: "총 %{count}개의 묵상을 나누고 있습니다."
     read_more: 더 보기
     public_description: 큐티를 공개모드로 바꾸면 큐티나눔 탭에서 다른 사람들이 내 큐티를 볼 수 있고 추가 경험치를 얻을 수 있습니다.
+    nickname_placeholder: 최대 8자까지 사용 가능합니다.
+    leave_nickname_blank: 닉네임 사용을 원하지 않으시면 빈 칸으로 남겨주세요.
     achievements:
       sign_in_x_times: "%{number}번 접속"
       sign_in_x_times_description: "%{number}번 로그인"

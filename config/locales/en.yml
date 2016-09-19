@@ -111,6 +111,8 @@ en:
     sharing_x_qt_total: "Sharing %{count} QT total."
     read_more: Read more
     public_description: People will see your QT in QT sharing tab and you can get extra XP in public mode.
+    nickname_placeholder: Maximum is 8 characters.
+    nickname_description: Leave blank unless you want to use nickname.
     achievements:
       sign_in_x_times: "Sign in %{number} times"
       sign_in_x_times_description: "Sign in %{number} times."

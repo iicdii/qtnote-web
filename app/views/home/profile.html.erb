@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="qt-profile-box col-md-6 col-xs-6">
+                    <div class="qt-profile-box col-md-6 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p><%=t 'text.total_qt_count' %></p>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="qt-profile-box col-md-6 col-xs-6">
+                    <div class="qt-profile-box col-md-6 col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p><%=t 'text.most_streak_days' %></p>
@@ -187,8 +187,8 @@
                     </div>
                     <% end %>
                     <div class="form-group">
-                        <label for="user_nickname"><%=t 'activerecord.attributes.user.nickname' %></label>
-                        <%= f.text_field :nickname, :class => 'form-control', :value => current_user.nickname %>
+                        <label for="user_nickname"><%=t 'activerecord.attributes.user.nickname' %> <span class="qt-info" style="margin-left:5px;"><%=t 'text.leave_nickname_blank' %></span></label>
+                        <%= f.text_field :nickname, :class => 'form-control', :value => current_user.nickname, placeholder: t('text.nickname_placeholder') %>
                     </div>
                     <% if current_user.provider != 'google_oauth2' %>
                     <div class="form-group">
