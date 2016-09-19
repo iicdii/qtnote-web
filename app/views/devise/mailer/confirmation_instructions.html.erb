@@ -1,5 +1,5 @@
 <p><%=t('text.attributes.mailer.confirmation.1', email: @email.split("@").first) %></p>
 
-<p><%=t('text.attributes.mailer.confirmation.2' %></p>
+<p><%=t('text.attributes.mailer.confirmation.2') %></p>
 
 <p><%= link_to t('text.attributes.mailer.confirmation.3'), confirmation_url(@resource, confirmation_token: @token) %></p>
