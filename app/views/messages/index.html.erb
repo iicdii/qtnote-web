@@ -3,8 +3,8 @@
         <h3><%=t 'text.notifications.my_notifications' %></h3>
         <div class="all-notifications">
           <ul class="all-list-notifications">
-            <% if @messages.present? %>
-              <% @messages.each do |m| %>
+            <% if @my_messages.present? %>
+              <% @my_messages.each do |m| %>
               <li>
                 <%= link_to user_url(m.sender_id), class: "avatar avatar-micro" do %>
                   <img src="http://image.flaticon.com/icons/svg/149/149071.svg">

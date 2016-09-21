@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
     before_action :require_login
     
     def index
-        @messages = current_user.messages
+        @my_messages = current_user.messages
     end
     
     def read
