@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :require_login, only: [:like, :dislike]
   
   def index
-    if current_user.id == params[:id]
+    if current_user.id == Post.find_by(id: params[:id]).user_id
       @post = Post.find_by(id: params[:id])
     else
       @post = Post.find_by(id: params[:id], is_public: true)
