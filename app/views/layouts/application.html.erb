@@ -19,6 +19,7 @@
   <link href='https://fonts.googleapis.com/earlyaccess/nanumgothic.css' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
   <style>
     <% if I18n.locale != :ko %>
     h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, .td-name, td, body {
@@ -61,6 +62,16 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="qt-navigation">
         <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+          <li class="qt-top-icon text-center visible-xs" style="padding-right:15px;">
+            <span class="qt-icon qt-flame" style="margin-right: 15px;" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="<%=t 'text.streak_days', day: @streak_days %>">
+              <span class="qt-num"><%= @streak_days %></span>
+            </span>
+            <span class="qt-icon qt-talent" style="margin-right: 25px;" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="<%=t 'text.talent', day: current_user.talent %>">
+              <span class="qt-num"><%= current_user.talent %></span>
+            </span>
+          </li>
+          <% end %>
           <li>
             <% if I18n.locale == :en %>
               <%= link_to "한국어", { locale: "ko" }, { class: "btn btn-simple", style: "padding-top:10px; padding-bottom:10px; font-size: 15px;" }  %>
@@ -79,13 +90,19 @@
               <li><%= link_to t('text.sign_out'), destroy_user_session_path %></li>
             </ul>
           </li>
-          <li class="qt-top-icon text-center" style="padding-right:15px;">
-            <span class="qt-icon qt-flame" style="margin-right: 15px;" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="<%=t 'text.streak_days', day: @streak_days %>">
+          <li class="qt-top-icon text-center hidden-xs" style="padding-right:15px;">
+            <span class="qt-icon qt-flame" style="margin-right: 15px;" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="<%=t 'text.streak_days', day: @streak_days %>">
               <span class="qt-num"><%= @streak_days %></span>
             </span>
-            <span class="qt-icon qt-talent" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="<%=t 'text.talent', day: current_user.talent %>">
+            <span class="qt-icon qt-talent" style="margin-right: 30px;" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="<%=t 'text.talent', day: current_user.talent %>">
               <span class="qt-num"><%= current_user.talent %></span>
             </span>
+            <a href="#" id="pop_notifcation" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
+              <i class="fa fa-bell" aria-hidden="true"></i>
+              <% if current_user.messages.where(is_read:false).count > 0 %>
+              <span id="notification-count" class="badge"><%= current_user.messages.where(is_read:false).count %></span>
+              <% end %>
+            </a>
           </li>
           <% else %>
           <li>
@@ -96,6 +113,33 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-->
     </nav>
+    <!-- Popup for notifications -->
+    <% if user_signed_in? %>
+    <div id="qt-notifications" class="qt-notifications">
+      <ul class="qt-list-notifications">
+        <% if @messages.present? %>
+          <% @messages.limit(3).each do |m| %>
+          <li>
+            <%= link_to user_url(m.sender_id), class: "avatar avatar-micro" do %>
+              <img src="http://image.flaticon.com/icons/svg/149/149071.svg">
+            <% end %>
+            <%= link_to user_url(m.sender_id) do %>
+              <%= User.find_by(id: m.sender_id).nickname ? User.find_by(id:m.sender_id).nickname : User.find_by(id: m.sender_id).email.split("@").first %>
+            <% end %>
+            <%=t 'text.notifications.like_your_post' %> <%= link_to "\"" + Post.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"" , post_url(m.object_id) %> <span class="datetime"><%= time_ago_in_words(m.created_at) %></span>
+          </li>
+          <% end %>
+          <li class="qt-notifications-list-footer text-center">
+            <%= link_to t('text.see_all'), messages_url, class: "btn btn-info btn-sm" %>
+          </li>
+        <% else %>
+          <li style="width:370px;padding-left:10px;"><%=t 'text.notifications.no_notifcations' %> <i class="em em-smile" style="margin-bottom:5px;"></i> <%= link_to t('text.see_all'), messages_url, {class: "btn btn-info btn-xs", style: "margin-left:5px;"} %></li>
+        <% end %>
+        <div class="close"></div>
+      </ul>
+    </div>
+    <% end %>
+    <!-- /.Popup for notifications -->
     <%= yield %>
     <div class="push"></div>
   </div>
@@ -363,6 +407,26 @@
         <% end %>
       }, 500);
       <% end %>
+      
+        $("#pop_notifcation").click(function(){
+          $(".qt-notifications").fadeToggle(300);
+          $.post("<%= read_message_url %>", function(data, status){
+            if(status == 'success'){
+              $("#notification-count").hide();
+            }
+          });
+          return false;
+        });
+        
+        //Document Click hiding the popup 
+        $(document).click(function(){
+          $(".qt-notifications").hide();
+        });
+        
+        //Popup on click
+        $("#notificationContainer").click(function(){
+          return false;
+        });
     });
   </script>
 </body>

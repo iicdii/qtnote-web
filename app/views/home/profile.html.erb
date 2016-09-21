@@ -5,17 +5,17 @@
         <h3><%=t 'text.profile'%></h3>
         <div class="nav-tabs-navigation" role="tablist">
             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li class="active" role="presentation"><a href="#summary" aria-controls="summary" data-toggle="tab" aria-expanded="true"><%=t 'text.summary' %></a></li>
-                <li role="presentation"><a href="#myqt" aria-controls="myqt" data-toggle="tab" aria-expanded="false"><%=t 'text.myqt' %></a></li>
-                <li role="presentation"><a href="#achievement" aria-controls="achievement" data-toggle="tab" aria-expanded="false"><%=t 'text.achievement' %></a></li>
-                <li role="presentation"><a href="#setting" aria-controls="setting" data-toggle="tab" aria-expanded="false"><%=t 'text.setting' %></a></li>
+                <li class="<%= 'active' if !request.query_parameters[:type] %>" role="presentation"><a href="#summary" id="tab_1" aria-controls="summary" data-toggle="tab" aria-expanded="true"><%=t 'text.summary' %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "myQT" %>" role="presentation"><a href="#myqt" id="tab_2" aria-controls="myqt" data-toggle="tab" aria-expanded="false"><%=t 'text.myqt' %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "achievement" %>" role="presentation"><a href="#achievement" id="tab_3" aria-controls="achievement" data-toggle="tab" aria-expanded="false"><%=t 'text.achievement' %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "setting" %>" role="presentation"><a href="#setting" id="tab_4" aria-controls="setting" data-toggle="tab" aria-expanded="false"><%=t 'text.setting' %></a></li>
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="summary">
+            <div role="tabpanel" class="tab-pane <%= 'active' if !request.query_parameters[:type] %>" id="summary">
                 <div class="row" style="padding-right: 15px;padding-bottom: 20px;">
                     <div class="col-md-2 col-xs-3">
-                        <span class="qt-user-id qt-eng"><%= current_user.email.split("@").first %></span>
+                        <span class="qt-user-id qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
                         <span class="qt-level qt-num"><%= current_user.level %></span>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                   <span class="qt-num" style="float: left; width:33.3%; text-align:right; font-size:22px; font-style: italic;"><%= current_user.level+1 %></span>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="myqt">
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'myQT' %>" id="myqt">
                 <div>
                     <div class="qt-num" style="font-size:24px;">
                         <span class="label label-info"><%= @date ? @date.year : Time.current.year %></span>
@@ -161,7 +161,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="achievement">
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'achievement' %>" id="achievement">
                 <div class="achievements">
                     <% @achievements.each do |a| %>
                     <div class="row <%= 'active' if a[:is_active] == true %>" style="text-transform: uppercase;">
@@ -177,7 +177,7 @@
                     <% end %>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="setting">
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'setting' %>" id="setting">
                 <div style="max-width:480px;">
                     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
                     <% if current_user.provider != 'google_oauth2' %>
@@ -219,14 +219,29 @@
 </div>
 <script>
     $(document).ready(function() {
-        <% if request.query_parameters.present? %>
-            <% if (request.query_parameters[:year] && request.query_parameters[:month] && request.query_parameters[:day]) || request.query_parameters[:type] == 'myqt'  %>
-            $('#tabs a[href="#myqt"]').tab('show');
-            <% elsif request.query_parameters[:type] == 'achievement' %>
-            $('#tabs a[href="#achievement"]').tab('show');
-            <% elsif request.query_parameters[:type] == 'setting' %>
-            $('#tabs a[href="#setting"]').tab('show');
-            <% end %>
-        <% end %>
+        $('#tab_1').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_2').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=myQT';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_3').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=achievement';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_4').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=setting';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
     });
 </script>

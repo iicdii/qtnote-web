@@ -10,6 +10,12 @@ Rails.application.routes.draw do
     get '/profile' => 'home#profile'
     post '/write' => 'home#write'
     post '/modify' => 'home#modify'
+    get '/users/:id' => 'users/profile#index', as: 'user'
+    get '/posts/:id' => 'posts#index', as: 'post'
+    post '/posts/:id/like' => 'posts#like', as: 'like_post'
+    post '/posts/:id/dislike' => 'posts#dislike', as: 'dislike_post'
+    get '/messages' => 'messages#index', as: 'messages'
+    post '/messages/read' => 'messages#read', as: 'read_message'
   end
   
   get '/:locale' => 'home#index'

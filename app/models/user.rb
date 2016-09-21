@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :posts
+  has_many :messages
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -8,7 +9,7 @@ class User < ActiveRecord::Base
   serialize :achievements, Array
   
   validates :nickname,
-      length: { maximum: 8 }
+      length: { maximum: 10 }
   
   def self.from_omniauth(access_token)
       data = access_token.info
@@ -18,6 +19,7 @@ class User < ActiveRecord::Base
       unless user
         user = User.create(
           email: data["email"],
+          nickname: data["first_name"] && data["first_name"].length <= 10 ? data["first_name"] : nil,
           password: Devise.friendly_token[0,20],
           uid: access_token.uid,
           provider: access_token.provider

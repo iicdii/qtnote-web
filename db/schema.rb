@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916130857) do
+ActiveRecord::Schema.define(version: 20160920100938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,15 +23,27 @@ ActiveRecord::Schema.define(version: 20160916130857) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "sender_id"
+    t.integer  "activity_type"
+    t.integer  "object_id"
+    t.string   "object_type"
+    t.boolean  "is_read",       default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
   create_table "posts", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "whois"
-    t.string   "lesson"
+    t.text     "whois"
+    t.text     "lesson"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.string   "pray"
-    t.string   "apply"
+    t.text     "pray"
+    t.text     "apply"
     t.boolean  "is_public",  default: false
+    t.integer  "likes",      default: [],                 array: true
   end
 
   create_table "sessions", force: :cascade do |t|

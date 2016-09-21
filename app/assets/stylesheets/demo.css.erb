@@ -239,6 +239,7 @@ ul{
 .main-header .motto h3{
     margin-bottom: 0;
 }
+
 .profile-header{
     background-size: cover;
     background-image: url('<%= asset_path("background.png") %>');
@@ -1293,6 +1294,147 @@ span[data-notify="icon"] {
     }
 }
 .navbar-toggle.navbar-left {
-  float: left;
-  margin-left: 10px;
+    float: left;
+    margin-left: 10px;
+}
+.qt-bold {
+    font-weight: bold;
+}
+.qt-actions {
+    margin-top: 15px;
+}
+.qt-actions > ul {
+    list-style: none;
+    margin-bottom: 0px;
+}
+.qt-actions i {
+    font-size: 13px;
+    color: #333;
+}
+.qt-actions i.active {
+    color: #ED4956;
+}
+.qt-actions > ul li .likes-count {
+    font-size: 12px;
+    font-weight: bold;
+}
+.qt-notification {
+    position: relative;
+    padding: 0 10px 0 0 !important;
+}
+.qt-notification > .fa-bell {
+    font-size: 28px !important;
+    display: table-cell;
+    vertical-align: middle;
+    color: #FFD654;
+}
+.qt-notification > .badge {
+    background-color: #EF494C;
+    font-size: 9px;
+    display: table-cell;
+    position: absolute;
+    top: -4px;
+    right: 0px;
+}
+.qt-notifications {
+    position: fixed;
+    top: 100px;
+    left: 780px;
+    z-index: 100;
+    display: none;
+    text-align: left;
+    background-color: #fff;
+    background-clip: padding-box;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+    font-size: 15px;
+    white-space: normal;
+}
+.qt-list-notifications {
+    font-size: 15px;
+    margin: 15px;
+    color: #3c3c3c;
+    list-style: none;
+}
+.qt-list-notifications>li:first-child {
+    border-top: none;
+}
+.qt-list-notifications>li {
+    padding: 10px 0 10px 40px;
+    border-top: 2px solid #f3f3f3;
+}
+.qt-list-notifications .datetime {
+    color: #999;
+    white-space: nowrap;
+    display: inline;
+    font-size: 13px;
+}
+.qt-list-notifications .close {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #2e2e2e;
+    display: block;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+    opacity: 1;
+}
+.qt-list-notifications .close:hover {
+    cursor: pointer;
+    background: #3f3f3f;
+}
+.qt-list-notifications .close:after {
+    display: block;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    content: "";
+    width: 11px;
+    height: 11px;
+    background: url('<%= asset_path("close.svg") %>') no-repeat top left;
+    background-size: contain;
+}
+.qt-list-notifications>li .avatar {
+    margin: 0 0 0 -40px;
+    float: left;
+}
+.qt-notifications-list-footer {
+    border-top: none !important;
+    padding-left: 0px !important;
+}
+.all-notifications {
+    font-size: 15px;
+    margin: 15px;
+    color: #3c3c3c;
+}
+.all-list-notifications {
+    list-style: none;
+}
+.all-list-notifications>li {
+    padding: 15px 0 15px 40px;
+    border-top: 2px solid #f3f3f3;
+}
+.all-list-notifications>li:first-child {
+    border-top: none;
+}
+.all-list-notifications>li .avatar {
+    margin: 0 0 0 -40px;
+    float: left;
+}
+.all-list-notifications .datetime {
+    color: #999;
+    white-space: nowrap;
+    display: inline;
+    font-size: 13px;
+}
+.avatar-micro {
+    width: 30px;
+    height: 30px;
 }

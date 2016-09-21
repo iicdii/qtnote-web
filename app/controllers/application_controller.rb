@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :calculate_exp
   before_action :calculate_achievement
+  before_action :get_messages
+  before_action :remove_cookies
   before_action :configure_permitted_parameters, if: :devise_controller?
   
   include ApplicationHelper
@@ -23,15 +25,21 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def calculate_exp
+  def get_messages
     if user_signed_in?
-      # 다음 경험치 계산
-      unless @next_exps
-        @next_exps = Array.new
-        for i in 0..99
-           @next_exps.push(50 + (i * 7))
-        end
+      @messages = current_user.messages.where(is_read:false).order(created_at: :desc)
+    end
+  end
+  
+  def calculate_exp
+    # 다음 경험치 계산
+    unless @next_exps
+      @next_exps = Array.new
+      for i in 0..99
+         @next_exps.push(50 + (i * 7))
       end
+    end
+    if user_signed_in?
       # 레벨업
       if current_user.now_exp/@next_exps[current_user.level-1] >= 1
         current_user.now_exp = current_user.now_exp - @next_exps[current_user.level-1]

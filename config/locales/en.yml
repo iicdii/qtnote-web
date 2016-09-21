@@ -111,8 +111,16 @@ en:
     sharing_x_qt_total: "Sharing %{count} QT total."
     read_more: Read more
     public_description: People will see your QT in QT sharing tab and you can get extra XP in public mode.
-    nickname_placeholder: Maximum is 8 characters.
-    nickname_description: Leave blank unless you want to use nickname.
+    nickname_placeholder: Maximum is 10 characters.
+    leave_nickname_blank: Leave blank unless you want to use nickname.
+    unavailable_link: The link you followed may have expired, or the page may only be visible to an audience you're not in.
+    go_back_to_previous_page: Go back to the previous page
+    see_all: See all
+    notifications:
+      my_notifications: My Notifications
+      count: "%{count} notifications"
+      no_notifcations: All caught up!
+      like_your_post: likes your post.
     achievements:
       sign_in_x_times: "Sign in %{number} times"
       sign_in_x_times_description: "Sign in %{number} times."

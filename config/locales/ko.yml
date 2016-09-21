@@ -343,8 +343,16 @@ ko:
     sharing_x_qt_total: "총 %{count}개의 묵상을 나누고 있습니다."
     read_more: 더 보기
     public_description: 큐티를 공개모드로 바꾸면 큐티나눔 탭에서 다른 사람들이 내 큐티를 볼 수 있고 추가 경험치를 얻을 수 있습니다.
-    nickname_placeholder: 최대 8자까지 사용 가능합니다.
+    nickname_placeholder: 최대 10자까지 사용 가능합니다.
     leave_nickname_blank: 닉네임 사용을 원하지 않으시면 빈 칸으로 남겨주세요.
+    unavailable_link: 요청하신 링크는 만료되었거나, 접근할 수 없는 페이지입니다.
+    go_back_to_previous_page: 이전 페이지로 돌아가기
+    see_all: 모두 보기
+    notifications:
+      my_notifications: 내 알림
+      count: "알림 %{count} 개"
+      no_notifcations: 모두 확인했습니다!
+      like_your_post: 님이 회원님의 게시물을 좋아합니다.
     achievements:
       sign_in_x_times: "%{number}번 접속"
       sign_in_x_times_description: "%{number}번 로그인"

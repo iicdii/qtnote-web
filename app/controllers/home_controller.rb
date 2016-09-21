@@ -2,7 +2,6 @@ require 'open-uri'
 
 class HomeController < ApplicationController
   before_action :require_login, except: [:index]
-  before_action :remove_cookies, except: [:write]
   include ApplicationHelper
   include FlashHelper
   include QtHelper
@@ -121,8 +120,6 @@ class HomeController < ApplicationController
     end
     redirect_to root_path
   end
-  
-
   
   def profile
     @complete_days = Array.new

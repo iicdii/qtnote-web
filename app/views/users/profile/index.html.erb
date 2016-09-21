@@ -1,0 +1,88 @@
+<div class="profile-header"></div>
+
+<div class="container">
+    <div class="main" style="padding:40px 0 40px 0;">
+        <% if @user %>
+            <h3><%=t 'text.profile'%></h3>
+            <div class="nav-tabs-navigation" role="tablist">
+                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                    <li class="<%= 'active' if !request.query_parameters[:type] %>" role="presentation"><a href="#summary" id="tab_1" aria-controls="summary" data-toggle="tab" aria-expanded="true"><%=t 'text.summary' %></a></li>
+                    <li class="<%= 'active' if request.query_parameters[:type] == "achievement" %>" role="presentation"><a href="#achievement" id="tab_2" aria-controls="achievement" data-toggle="tab" aria-expanded="false"><%=t 'text.achievement' %></a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane <%= 'active' if !request.query_parameters[:type] %>" id="summary">
+                    <div class="row" style="padding-right: 15px;padding-bottom: 20px;">
+                        <div class="col-md-2 col-xs-3">
+                            <span class="qt-user-id qt-eng"><%= @user.nickname ? @user.nickname : @user.email.split("@").first %></span>
+                            <span class="qt-level qt-num"><%= @user.level %></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="qt-profile-box col-md-6 col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><%=t 'text.total_qt_count' %></p>
+                                    <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @user.posts.count %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qt-profile-box col-md-6 col-xs-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p><%=t 'text.most_streak_days' %></p>
+                                    <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @user.max_streak_days %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="progress" style="margin-top:40px; margin-bottom:5px;">
+                      <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="<%= ((@user.now_exp/@next_exps[@user.level-1].to_f)*100).floor %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= ((@user.now_exp/@next_exps[@user.level-1].to_f)*100).floor %>%;">
+                        <span class="sr-only"></span>
+                      </div>
+                    </div>
+                    <div style="overflow: auto;">
+                      <span class="qt-num" style="float: left; width:33.3%; text-align:left; font-size:22px; font-style: italic;"><%= @user.level %></span>
+                      <span class="qt-num" style="float: left; width:33.3%; text-align:center;"><%= @user.now_exp %>/<%= @next_exps[@user.level-1] %> XP</span>
+                      <span class="qt-num" style="float: left; width:33.3%; text-align:right; font-size:22px; font-style: italic;"><%= @user.level+1 %></span>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'achievement' %>" id="achievement">
+                    <div class="achievements">
+                        <% @achievements.each do |a| %>
+                        <div class="row <%= 'active' if a[:is_active] == true %>" style="text-transform: uppercase;">
+                            <div class="col-md-1 col-xs-2 qt-achievement-<%= a[:id] %>">
+                            </div>
+                            <div class="col-md-6 col-xs-10">
+                                <div>
+                                    <p><%= a[:title] %> <span class="date"><%= a[:created_at].to_s(:custom_datetime) if a[:is_active] == true %></span></p>
+                                    <p class="qt-p"><%= a[:description] %></p>
+                                </div>
+                            </div>
+                        </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        <% else %>
+            <p><%=t 'text.unavailable_link' %> <%= link_to t('text.go_back_to_previous_page'), session[:previous_url] %></p>
+        <% end %>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#tab_1').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_2').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=achievement';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="main" style="padding:40px 0 40px 0;">
+        <h3><%=t 'text.notifications.my_notifications' %></h3>
+        <div class="all-notifications">
+          <ul class="all-list-notifications">
+            <% if @messages.present? %>
+              <% @messages.each do |m| %>
+              <li>
+                <%= link_to user_url(m.sender_id), class: "avatar avatar-micro" do %>
+                  <img src="http://image.flaticon.com/icons/svg/149/149071.svg">
+                <% end %>
+                <%= link_to user_url(m.sender_id) do %>
+                  <%= User.find_by(id: m.sender_id).nickname ? User.find_by(id:m.sender_id).nickname : User.find_by(id: m.sender_id).email.split("@").first %>
+                <% end %>
+                <%=t 'text.notifications.like_your_post' %> <%= link_to "\"" + Post.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"" , post_url(m.object_id) %> <span class="datetime"><%= time_ago_in_words(m.created_at) %></span>
+              </li>
+              <% end %>
+            <% else %>
+              <li style="width:370px;padding-left:10px;"><%=t 'text.notifications.no_notifcations' %> <i class="em em-smile" style="margin-bottom:5px;"></i></li>
+            <% end %>
+          </ul>
+        </div>
+    </div>
+</div.    

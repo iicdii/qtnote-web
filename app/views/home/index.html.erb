@@ -11,12 +11,12 @@
     <div class="container">
         <div class="nav-tabs-navigation" style="border-bottom: 1px solid #D8C1AB;" role="tablist">
             <ul id="tabs" class="nav nav-tabs qt-nav-tabs" data-tabs="tabs">
-                <li class="active" role="presentation"><a href="#word" aria-controls="word" data-toggle="tab" aria-expanded="true"><%=t "text.today_word" %></a></li>
-                <li role="presentation"><a href="#shareQT" aria-controls="shareQT" data-toggle="tab" aria-expanded="false"><%=t "text.qt_share" %></a></li>
+                <li class="<%= 'active' if !request.query_parameters[:type] %>" role="presentation"><a href="#word" id="tab_1" aria-controls="word" data-toggle="tab" aria-expanded="true"><%=t "text.today_word" %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "shareQT" %>" role="presentation"><a href="#shareQT" id="tab_2" aria-controls="shareQT" data-toggle="tab" aria-expanded="false"><%=t "text.qt_share" %></a></li>
             </ul>
         </div>
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="word">
+            <div role="tabpanel" class="tab-pane <%= 'active' if !request.query_parameters[:type] %>" id="word">
                 <h3><%=t "text.today_word" %>&nbsp;<i class="fa fa-check-square fa-2" aria-hidden="true" <% if @today_post %>style="color:#7ac29a;"<% end %>></i></h3>
                 <div>
                     <div class="row" style="padding:5px 0 5px 0;">
@@ -136,7 +136,7 @@
                     </div>
                 <% end %>
             </div>
-            <div role="tabpanel" class="tab-pane" id="shareQT">
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'shareQT' %>" id="shareQT">
                 <h3><%=t "text.shared_qt_of_today" %></h3>
                 <% if @today_posts.exists? %>
                     <p class="qt-font-sm" style="margin-bottom:20px;"><%=t("text.sharing_x_qt_total", count: @today_posts.count) %></p>
@@ -146,9 +146,13 @@
                             <div class="row" style="padding-bottom:20px;">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-11 col-sm-10 col-xs-9 text-right" style="padding-bottom: 10px;">
-                                            <span class="qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
-                                            <span class="qt-level-sm qt-num"><%= current_user.level %></span>
+                                        <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="talk-user-me">
+                                                <%= link_to user_url(current_user.id) do %>
+                                                <span class="qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
+                                                <% end %>
+                                                <span class="qt-level-sm qt-num"><%= current_user.level %></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -160,20 +164,28 @@
                                                     </div>
                                                     <article class="talk me text-left">
                                                         <p class="no-margin qt-font-sm">
-                                                          <% if (t('text.whois') + tag("br") + p.whois + tag("br") + t('text.lesson') + tag("br") + p.lesson).length > 500 %>
-                                                            <%= truncate(t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
+                                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 500 %>
+                                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
                                                             <br />
                                                             <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
                                                             <script>
                                                               $('.read-more-<%= p.id %>').on('click', function(e) {
-                                                                e.preventDefault()
-                                                                $(this).parent().html('<%= raw escape_javascript (t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson) %>')
+                                                                e.preventDefault();
+                                                                $(this).parent().html('<%= raw escape_javascript (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson) %>')
                                                               })
                                                             </script>
                                                           <% else %>
-                                                            <%= raw t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson %>
+                                                            <%= raw content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson %>
                                                           <% end %>
                                                         </p>
+                                                        <div class="qt-actions">
+                                                            <ul>
+                                                                <li>
+                                                                    <%= link_to p.likes.include?(current_user.id) ? ('<i class="fa fa-heart active" aria-hidden="true"></i>').html_safe : ('<i class="fa fa-heart-o" aria-hidden="true"></i>').html_safe, p.likes.include?(current_user.id) ? dislike_post_url(id: p.id) : like_post_url(id: p.id), {class: 'vote', method: :post, remote: true, data: {id: p.id}} %>
+                                                                    <span class="likes-count" data-id="<%= p.id %>"><%= p.likes.length %></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </article>
                                                 </div>
                                                 <div style="position: absolute; right: 0; top: 0;">
@@ -188,10 +200,13 @@
                             <div class="row" style="padding-bottom:20px;">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-1 col-sm-2 col-xs-4"></div>
-                                        <div class="col-md-11" style="padding-bottom: 10px;">
-                                            <span class="qt-eng"><%= User.find_by(id: p.user_id).nickname ? User.find_by(id: p.user_id).nickname : User.find_by(id: p.user_id).email.split("@").first %></span>
-                                            <span class="qt-level-sm qt-num"><%= User.find_by(id: p.user_id).level %></span>
+                                        <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="talk-user-other">
+                                                <%= link_to user_url(p.user_id) do %>
+                                                <span class="qt-eng"><%= User.find_by(id: p.user_id).nickname ? User.find_by(id: p.user_id).nickname : User.find_by(id: p.user_id).email.split("@").first %></span>
+                                                <% end %>
+                                                <span class="qt-level-sm qt-num"><%= User.find_by(id: p.user_id).level %></span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -203,20 +218,32 @@
                                                 <div class="col-md-11 col-table" style="padding-right: 10px;">
                                                     <article class="talk other">
                                                         <p class="no-margin qt-font-sm">
-                                                          <% if (t('text.whois') + tag("br") + p.whois + tag("br") + t('text.lesson') + tag("br") + p.lesson).length > 500 %>
-                                                            <%= truncate(t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
+                                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 500 %>
+                                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
                                                             <br />
                                                             <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
                                                             <script>
                                                               $('.read-more-<%= p.id %>').on('click', function(e) {
                                                                 e.preventDefault()
-                                                                $(this).parent().html('<%= raw escape_javascript (t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson) %>')
+                                                                $(this).parent().html('<%= raw escape_javascript (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson) %>')
                                                               })
                                                             </script>
                                                           <% else %>
-                                                            <%= raw t('text.whois') + tag("br") + p.whois + tag("br", class: "line-height-25") + t('text.lesson') + tag("br") + p.lesson %>
+                                                            <%= raw content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson %>
                                                           <% end %>
                                                         </p>
+                                                        <div class="qt-actions">
+                                                            <ul>
+                                                                <li>
+                                                                    <% if user_signed_in? %>
+                                                                        <%= link_to p.likes.include?(current_user.id) ? ('<i class="fa fa-heart active" aria-hidden="true"></i>').html_safe : ('<i class="fa fa-heart-o" aria-hidden="true"></i>').html_safe, p.likes.include?(current_user.id) ? dislike_post_url(id: p.id) : like_post_url(id: p.id), {class: 'vote', method: :post, remote: true, data: {id: p.id}} %>
+                                                                    <% else %>
+                                                                        <a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                                                    <% end %>
+                                                                    <span class="likes-count" data-id="<%= p.id %>"><%= p.likes.length %></span>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
                                                     </article>
                                                     <div class="col-table" style="vertical-align:bottom; padding-left: 10px; padding-right: 10px;">
                                                         <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
@@ -277,6 +304,7 @@
 </div>
 
 <script>
+
     $(document).ready(function() {
         // sudo service postgresql restart
         // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
@@ -333,6 +361,39 @@
                 $('#unlock').css("color", "#66615b");
             }
         });
+        
+        $('#tab_1').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        
+        $('#tab_2').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+    });
+    
+    $(document).ajaxSuccess(function(status,data,xhr){
+        url = xhr.url;
+        url = url.split('/');
+        actionType = url[url.length-1];
+        type = url[url.length-3];
+        if(type == 'posts'){
+            post_id = data.responseJSON.id;
+            count = data.responseJSON.count;
+            url[url.length-1] = (actionType == 'like') ? 'dislike' : 'like';
+            $(".vote[data-id=" + post_id + "]").attr("href", url.join('/'));
+            $(".likes-count[data-id=" + post_id + "]").text(count);
+            if(actionType == 'like'){
+                $(".vote[data-id=" + post_id + "]").children().first().removeClass("fa-heart-o").addClass("fa-heart active");
+            }else if(actionType == 'dislike'){
+                $(".vote[data-id=" + post_id + "]").children().first().removeClass("fa-heart active").addClass("fa-heart-o");
+            }
+        }
     });
     
     function shareFacebook(url){
