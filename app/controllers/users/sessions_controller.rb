@@ -9,11 +9,6 @@ after_filter :after_login, :only => :create
 
   # POST /resource/sign_in
   def create
-    cookies[:whois] = { value: params[:whois], expires: 1.hour.from_now }
-    cookies[:lesson] = { value: params[:lesson], expires: 1.hour.from_now }
-    cookies[:apply] = { value: params[:apply], expires: 1.hour.from_now }
-    cookies[:pray] = { value: params[:pray], expires: 1.hour.from_now }
-    cookies[:public] = { value: params[:is_public], expires: 1.hour.from_now }
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:success, :signed_in) if is_navigational_format?
     sign_in(resource_name, resource)

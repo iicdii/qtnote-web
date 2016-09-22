@@ -348,6 +348,7 @@ ko:
     unavailable_link: 요청하신 링크는 만료되었거나, 접근할 수 없는 페이지입니다.
     go_back_to_previous_page: 이전 페이지로 돌아가기
     see_all: 모두 보기
+    post_is_restored: 작성중이던 내용을 불러왔습니다.
     notifications:
       my_notifications: 내 알림
       count: "알림 %{count} 개"

@@ -11,11 +11,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   
   def create
     build_resource(sign_up_params) 
-    cookies[:whois] = { value: params[:whois], expires: 1.hour.from_now }
-    cookies[:lesson] = { value: params[:lesson], expires: 1.hour.from_now }
-    cookies[:apply] = { value: params[:apply], expires: 1.hour.from_now }
-    cookies[:pray] = { value: params[:pray], expires: 1.hour.from_now }
-    cookies[:public] = { value: params[:is_public], expires: 1.hour.from_now }
     if resource.save
       yield resource if block_given?
       if resource.active_for_authentication?

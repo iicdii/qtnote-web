@@ -116,6 +116,7 @@ en:
     unavailable_link: The link you followed may have expired, or the page may only be visible to an audience you're not in.
     go_back_to_previous_page: Go back to the previous page
     see_all: See all
+    post_is_restored: Post data is restored.
     notifications:
       my_notifications: My Notifications
       count: "%{count} notifications"

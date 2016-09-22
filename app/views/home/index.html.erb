@@ -49,6 +49,7 @@
                 <hr style="border-color:#E9E3D8">
                 <%= form_tag({controller: "home", action: @today_post ? 'modify' : 'write'}, {id: "qt_form", method: "post"}) do |f| %>
                     <input type="hidden" name="id" value="<%= @today_post? @today_post.id : "" %>">
+                    <input type="hidden" name="day" value="<%= Time.current.day %>">
                     <div class="row">
                         <div class="col-md-4">
                             <h5 style="font-weight: bold;"><%=t "text.understanding" %>&nbsp;
@@ -306,14 +307,33 @@
 <script>
 
     $(document).ready(function() {
-        // sudo service postgresql restart
-        // 작성중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
-        <% if @temp_post %>
-            <% if @temp_post[:whois].length > 3 || @temp_post[:lesson].length > 3 %>
+        <% if @today_post && @temp_post %>
+        // 수정중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
         $('html, body').animate({
             scrollTop: $("#qt_form").offset().top
         }, 800);
-            <% end %>
+        <% end %>
+        
+        <% if !@today_post %>
+        // 새로 작성중인 글이 있으면 5초 단위로 임시 저장한다.
+        $("#qt_form").sisyphus({
+	        timeout: 5,
+	        onRestore: function() {
+	            if($('#whois').val().length > 0 || $('#lesson').val().length > 0) {
+                    $('html, body').animate({
+                        scrollTop: $("#qt_form").offset().top
+                    }, 800);
+                    
+                    $.notify({
+                        message: "<%=t 'text.post_is_restored' %>"
+                    },{
+                        offset: { x:20, y:98 },
+                        type: "info"
+                    });
+	            }
+
+	        },
+        });
         <% end %>
         $("#doIt").click(function() {
             $('html, body').animate({

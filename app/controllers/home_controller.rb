@@ -47,8 +47,7 @@ class HomeController < ApplicationController
   end
   
   def write
-    today_posts = Post.where("created_at >= ?", Time.zone.now.beginning_of_day)
-    today_post = today_posts.find_by user_id: current_user.id
+    today_post = current_user.posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first;
     if today_post
       add_to_flash_array :warning, "QT는 하루에 한 번만 가능합니다."
     else
@@ -61,6 +60,10 @@ class HomeController < ApplicationController
       new_post.is_public = params[:is_public]
       
       if new_post.save
+        # 저장된 시기가 어제이면 어제 생성된 QT로 업데이트 해준다. (어제 QT 작성 중 12시가 넘어갔을 때)
+        if Date.yesterday.day == params[:day]
+          new_post.update_attributes(created_at: Date.yesterday.end_of_day)
+        end
         now_exp = current_user.now_exp
         new_exp = 30 + Random.rand(30)
         new_exp += (new_exp * 0.2).ceil if params[:is_public]
@@ -77,11 +80,6 @@ class HomeController < ApplicationController
       else 
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
-          cookies[:whois] = params[:whois]
-          cookies[:lesson] = params[:lesson]
-          cookies[:apply] = params[:apply]
-          cookies[:pray] = params[:pray]
-          cookies[:public] = params[:is_public]
         end
       end
     end
@@ -113,6 +111,11 @@ class HomeController < ApplicationController
         @one_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
         end
+        cookies[:whois] = params[:whois]
+        cookies[:lesson] = params[:lesson]
+        cookies[:apply] = params[:apply]
+        cookies[:pray] = params[:pray]
+        cookies[:public] = params[:is_public]
       end
       
     else

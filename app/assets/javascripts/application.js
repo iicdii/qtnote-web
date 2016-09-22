@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require bootstrap-notify
 //= require jquery-ui.min
+//= require sisyphus.min
 //= require_tree .
