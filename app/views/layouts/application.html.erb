@@ -64,7 +64,7 @@
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
           <li class="qt-top-icon text-center visible-xs" style="padding-right:15px;">
-            <a href="#" id="pop_notifcation" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
+            <a href="#" id="pop_notifcation1" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
               <i class="fa fa-bell" aria-hidden="true"></i>
               <% if current_user.messages.where(is_read:false).count > 0 %>
               <span id="notification-count" class="badge"><%= current_user.messages.where(is_read:false).count %></span>
@@ -97,7 +97,7 @@
             </ul>
           </li>
           <li class="qt-top-icon text-center hidden-xs" style="padding-right:15px;">
-            <a href="#" id="pop_notifcation" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
+            <a href="#" id="pop_notifcation2" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
               <i class="fa fa-bell" aria-hidden="true"></i>
               <% if current_user.messages.where(is_read:false).count > 0 %>
               <span id="notification-count" class="badge"><%= current_user.messages.where(is_read:false).count %></span>
@@ -414,7 +414,17 @@
       }, 500);
       <% end %>
       
-        $("#pop_notifcation").click(function(){
+        $("#pop_notifcation1").click(function(){
+          $(".qt-notifications").fadeToggle(300);
+          $.post("<%= read_message_url %>", function(data, status){
+            if(status == 'success'){
+              $("#notification-count").hide();
+            }
+          });
+          return false;
+        });
+        
+        $("#pop_notifcation2").click(function(){
           $(".qt-notifications").fadeToggle(300);
           $.post("<%= read_message_url %>", function(data, status){
             if(status == 'success'){
@@ -427,11 +437,6 @@
         //Document Click hiding the popup 
         $(document).click(function(){
           $(".qt-notifications").hide();
-        });
-        
-        //Popup on click
-        $("#notificationContainer").click(function(){
-          return false;
         });
     });
   </script>
