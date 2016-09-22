@@ -1270,7 +1270,6 @@ span[data-notify="icon"] {
         margin-top:5px;
         font-size:11px;
     }
-    
     .social [class*="fa fa-"] {
         background-color: #333;
         border-radius: 16.5px;
@@ -1283,7 +1282,6 @@ span[data-notify="icon"] {
         font-size: 20px;
         text-align: center;
     }
-    
     .kakao-talk {
         width: 32px;
         height: 33px;
@@ -1318,6 +1316,18 @@ span[data-notify="icon"] {
     font-size: 12px;
     font-weight: bold;
 }
+@media{
+    .qt-notifications { left: 2%; right: 2%; }
+}
+@media(min-width:480px){
+    .qt-notifications { left: auto; right: 5%; }
+}
+@media(min-width:768px){
+    .qt-notifications { left: 35%; right: auto; }
+}
+@media(min-width:992px){
+    .qt-notifications { left: 50%; right: auto; }
+}
 .qt-notification {
     position: relative;
     padding: 0 10px 0 0 !important;
@@ -1339,7 +1349,6 @@ span[data-notify="icon"] {
 .qt-notifications {
     position: fixed;
     top: 100px;
-    left: 780px;
     z-index: 100;
     display: none;
     text-align: left;

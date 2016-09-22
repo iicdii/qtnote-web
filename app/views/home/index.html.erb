@@ -165,8 +165,8 @@
                                                     </div>
                                                     <article class="talk me text-left">
                                                         <p class="no-margin qt-font-sm">
-                                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 500 %>
-                                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
+                                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 490 %>
+                                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
                                                             <br />
                                                             <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
                                                             <script>
@@ -219,8 +219,8 @@
                                                 <div class="col-md-11 col-table" style="padding-right: 10px;">
                                                     <article class="talk other">
                                                         <p class="no-margin qt-font-sm">
-                                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 500 %>
-                                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 500, escape: false) %>
+                                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 490 %>
+                                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
                                                             <br />
                                                             <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
                                                             <script>

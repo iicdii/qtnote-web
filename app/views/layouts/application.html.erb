@@ -64,6 +64,12 @@
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
           <li class="qt-top-icon text-center visible-xs" style="padding-right:15px;">
+            <a href="#" id="pop_notifcation" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
+              <i class="fa fa-bell" aria-hidden="true"></i>
+              <% if current_user.messages.where(is_read:false).count > 0 %>
+              <span id="notification-count" class="badge"><%= current_user.messages.where(is_read:false).count %></span>
+              <% end %>
+            </a>
             <span class="qt-icon qt-flame" style="margin-right: 15px;" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="<%=t 'text.streak_days', day: @streak_days %>">
               <span class="qt-num"><%= @streak_days %></span>
             </span>
@@ -133,7 +139,7 @@
             <%= link_to t('text.see_all'), messages_url, class: "btn btn-info btn-sm" %>
           </li>
         <% else %>
-          <li style="width:370px;padding-left:10px;"><%=t 'text.notifications.no_notifcations' %> <i class="em em-smile" style="margin-bottom:5px;"></i> <%= link_to t('text.see_all'), messages_url, {class: "btn btn-info btn-xs", style: "margin-left:5px;"} %></li>
+          <li style="min-width:370px;padding-left:10px;"><%=t 'text.notifications.no_notifcations' %> <i class="em em-smile" style="margin-bottom:5px;"></i> <%= link_to t('text.see_all'), messages_url, {class: "btn btn-info btn-xs", style: "margin-left:5px;"} %></li>
         <% end %>
         <div class="close"></div>
       </ul>
