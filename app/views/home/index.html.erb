@@ -67,49 +67,53 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <h5 style="font-weight: bold;"><%=t "text.whois" %>&nbsp;
-                                <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                  <%=t "text.more" %>
-                                </button>
-                            </h5>
-                            <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 5 %>"><%= if @today_post then @today_post.whois elsif @temp_post then @temp_post[:whois] end %></textarea>
-                            <div class="collapse" id="collapse2">
-                                <div class="panel panel-success" style="margin-top:10px;">
-                                    <div class="panel-body">
-                                        <p class="qt-p"><%= @info2 %></p>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t "text.whois" %>&nbsp;
+                                        <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                          <%=t "text.more" %>
+                                        </button>
+                                    </h5>
+                                    <textarea id="whois" name="whois" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 5 %>"><%= if @today_post then @today_post.whois elsif @temp_post then @temp_post[:whois] end %></textarea>
+                                    <div class="collapse" id="collapse2">
+                                        <div class="panel panel-success" style="margin-top:10px;">
+                                            <div class="panel-body">
+                                                <p class="qt-p"><%= @info2 %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 style="<% if I18n.locale == :en then %>font-size:1.1em;margin-top:11px;margin-bottom:17px;<% end %>font-weight:bold;"><%=t "text.lesson" %>&nbsp;
+                                        <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                          <%=t "text.more" %>
+                                        </button>
+                                    </h5>
+                                    <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 10 %>"><%= if @today_post then @today_post.lesson elsif @temp_post then @temp_post[:lesson] end %></textarea>
+                                    <div class="collapse" id="collapse3">
+                                        <div class="panel panel-success" style="margin-top:10px;">
+                                            <div class="panel-body">
+                                                <p class="qt-p"><%= @info3 %></p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <h5 style="<% if I18n.locale == :en then %>font-size:1.1em;margin-top:11px;margin-bottom:17px;<% end %>font-weight:bold;"><%=t "text.lesson" %>&nbsp;
-                                <button class="btn btn-xs btn-success btn-fill" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                                  <%=t "text.more" %>
-                                </button>
-                            </h5>
-                            <textarea id="lesson" name="lesson" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 10 %>"><%= if @today_post then @today_post.lesson elsif @temp_post then @temp_post[:lesson] end %></textarea>
-                            <div class="collapse" id="collapse3">
-                                <div class="panel panel-success" style="margin-top:10px;">
-                                    <div class="panel-body">
-                                        <p class="qt-p"><%= @info3 %></p>
-                                    </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t "text.apply" %>&nbsp;
+                                        <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="<%=t "text.apply" %>" data-content="<%=t "text.apply_description" %>">
+                                            <i class="fa fa-1 fa-question" style="margin:0 1.3px 0 0;" aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <textarea id="apply" name="apply" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 5 %>"><%= if @today_post && @today_post.apply then @today_post.apply elsif @temp_post then @temp_post[:apply] end %></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t "text.prayer" %></h5>
+                                    <textarea id="pray" name="pray" class="form-control" rows="5"><%= if @today_post && @today_post.pray then @today_post.pray elsif @temp_post then @temp_post[:pray] end %></textarea>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top:10px;">
-                        <div class="col-md-offset-4 col-md-4">
-                            <h5 style="font-weight: bold;"><%=t "text.apply" %>&nbsp;
-                                <button class="btn btn-xs btn-info btn-fill" style="padding:0;" type="button" data-toggle="popover" title="<%=t "text.apply" %>" data-content="<%=t "text.apply_description" %>">
-                                    <i class="fa fa-1 fa-question" style="margin:0 1.3px 0 0;" aria-hidden="true"></i>
-                                </button>
-                            </h5>
-                            <textarea id="apply" name="apply" class="form-control" rows="5" placeholder="<%=t 'text.at_least_character', count: 5 %>"><%= if @today_post && @today_post.apply then @today_post.apply elsif @temp_post then @temp_post[:apply] end %></textarea>
-                        </div>
-                        <div class="col-md-4">
-                            <h5 style="font-weight: bold;"><%=t "text.prayer" %></h5>
-                            <textarea id="pray" name="pray" class="form-control" rows="5"><%= if @today_post && @today_post.pray then @today_post.pray elsif @temp_post then @temp_post[:pray] end %></textarea>
                         </div>
                     </div>
                     <div class="row" style="margin-top:20px;">
