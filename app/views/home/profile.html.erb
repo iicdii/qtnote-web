@@ -56,7 +56,7 @@
                         <span class="label label-success"><%= @date ? @date.month : Time.current.month %></span>
                     </div>
                     <ul class="pagination pagination-success qt-pagination qt-num" style="margin-top:10px;">
-                      <li><%= link_to "«", { controller: 'home', action: 'profile', year: @last_year, month: @last_month, day: 1 } %></li>
+                      <li><%= link_to "«", { controller: 'home', action: 'profile', year: @last_year, month: @last_month, day: 1, type: 'myQT' } %></li>
                       <% 1.upto(@last_day){ |d| %>
                         <li
                             <% if @date %>
@@ -78,10 +78,10 @@
                                 <% end %>
                             <% end %>
                         >
-                            <%= link_to d, { controller: 'home', action: 'profile', year: @date ? @date.year : Time.current.year, month: @date ? @date.month : Time.current.month, day: d } %>
+                            <%= link_to d, { controller: 'home', action: 'profile', year: @date ? @date.year : Time.current.year, month: @date ? @date.month : Time.current.month, day: d, type: 'myQT' } %>
                         </li>
                       <% } %>
-                      <li <%= 'class=disabled' if !@date || (@date && @date.year == Time.current.year && @date.month == Time.current.month)  %>><a href="/profile?year=<%= @next_year %>&month=<%= @next_month %>&day=1">»</a></li>
+                      <li <%= 'class=disabled' if !@date || (@date && @date.year == Time.current.year && @date.month == Time.current.month)  %>><%= link_to "»", { controller: 'home', action: 'profile', year: @next_year, month: @next_month, day: 1, type: 'myQT' } %></li>
                     </ul>
                 </div>
                 <div>

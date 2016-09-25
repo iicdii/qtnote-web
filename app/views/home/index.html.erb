@@ -317,6 +317,7 @@
         <% if !@today_post %>
         // 새로 작성중인 글이 있으면 5초 단위로 임시 저장한다.
         $("#qt_form").sisyphus({
+            autoRelease: true,
 	        timeout: 5,
 	        onRestore: function() {
 	            if($('#whois').val().length > 0 || $('#lesson').val().length > 0) {
@@ -331,7 +332,6 @@
                         type: "info"
                     });
 	            }
-
 	        },
         });
         <% end %>

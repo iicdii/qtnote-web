@@ -61,6 +61,11 @@
     
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="qt-navigation">
+        <ul class="nav navbar-nav navbar-left">
+          <% if user_signed_in? %>
+          <li><%= link_to t('text.myqt'), { controller: '/home', action: 'profile', type: 'myQT' }, { class: "btn btn-simple" } %></li>
+          <% end %>
+        </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
           <li class="qt-top-icon text-center visible-xs" style="padding-right:15px;">
@@ -80,9 +85,9 @@
           <% end %>
           <li>
             <% if I18n.locale == :en %>
-              <%= link_to "한국어", { locale: "ko" }, { class: "btn btn-simple", style: "padding-top:10px; padding-bottom:10px; font-size: 15px;" }  %>
+              <%= link_to "한국어", { locale: "ko" }, { class: "btn btn-simple" }  %>
             <% else %>
-              <%= link_to "English", { locale: "en" }, { class: "btn btn-simple qt-eng", style: "padding-top:10px; padding-bottom:10px;" }  %>
+              <%= link_to "English", { locale: "en" }, { class: "btn btn-simple qt-eng" }  %>
             <% end %>
           </li>
           <% if user_signed_in? %>
@@ -90,7 +95,6 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= current_user.email %></span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to t('text.profile'), { controller: '/home', action: 'profile' } %></li>
-              <li><%= link_to t('text.myqt'), { controller: '/home', action: 'profile', type: 'myqt' } %></li>
               <li><%= link_to t('text.setting'), { controller: '/home', action: 'profile', type: 'setting' } %></li>
               <li class="divider"></li>
               <li><%= link_to t('text.sign_out'), destroy_user_session_path %></li>
