@@ -42,8 +42,28 @@ class HomeController < ApplicationController
       @done_data = ActiveSupport::JSON.decode(cookies[:done])
     end
     
-    # 오늘 QT 묵상 불러오기
-    @today_posts = Post.where("created_at >= ? and is_public = ?", Time.zone.now.beginning_of_day, true).order(created_at: :desc).limit(7)
+
+    
+    # 오늘 QT 묵상, 이번 주 days 불러오기
+    @days = Array.new
+    if params[:type] == 'shareQT' && params[:year] && params[:month] && params[:day]
+      start_day = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).beginning_of_week
+      end_day = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).end_of_week
+      start_day.upto(end_day) do |d|
+        @days << d.strftime("%m/%d")
+      end
+      
+      the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
+      @selected = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true).order(created_at: :desc).limit(7)
+    else
+      start_day = Date.today.beginning_of_week
+      end_day = Date.today.end_of_week
+      start_day.upto(end_day) do |d|
+        @days << d.strftime("%m/%d")
+      end
+      
+      @selected = Post.where("created_at >= ? and is_public = ?", Time.current.beginning_of_day, true).order(created_at: :desc).limit(7)
+    end
   end
   
   def write
@@ -81,6 +101,11 @@ class HomeController < ApplicationController
         new_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
         end
+        cookies[:whois] = params[:whois]
+        cookies[:lesson] = params[:lesson]
+        cookies[:apply] = params[:apply]
+        cookies[:pray] = params[:pray]
+        cookies[:public] = params[:is_public]
       end
     end
     

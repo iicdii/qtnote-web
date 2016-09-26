@@ -9,6 +9,29 @@ class PostsController < ApplicationController
     end
   end
   
+  def fetch
+    if request.xhr?
+      if params[:type] == 'posts'
+        the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
+        @selected = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true).order(created_at: :desc).limit(7)
+        render :partial => 'posts/posts_list', locals: {posts: @selected}
+      elsif params[:type] == 'days'
+        year = params[:year].to_i
+        month = params[:month].to_i
+        day = params[:day].to_i
+        start_day = Date.new(year, month, day).beginning_of_week
+        end_day = Date.new(year, month, day).end_of_week
+        @days = Array.new
+        start_day.upto(end_day) do |d|
+          @days << d.strftime("%y/%m/%d")
+        end
+        render :partial => 'posts/days_list', locals: {days: @days, year: year, month: month, day: day}
+      end
+    else
+      head 404
+    end
+  end
+  
   def like
     @post = Post.find_by id: params[:id]
     if request.xhr?
@@ -36,9 +59,9 @@ class PostsController < ApplicationController
                 object_id: params[:id]
               )
             end
-          render json: { count: @post.likes.length, id: params[:id] }
+          render json: { actionType: 'like', count: @post.likes.length, id: params[:id] }
         else
-          head :ok
+          head 404
         end
       else
         head 404
@@ -57,9 +80,9 @@ class PostsController < ApplicationController
             @post.likes.delete(current_user.id)
           end
           @post.save!
-          render json: { count: @post.likes.length, id: params[:id] }
+          render json: { actionType: 'dislike', count: @post.likes.length, id: params[:id] }
         else
-          head :ok
+          head 404
         end
       else
         head 404

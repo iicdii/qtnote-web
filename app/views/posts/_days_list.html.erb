@@ -1,0 +1,63 @@
+<ul class="pagination">
+  <li><%= link_to "«", "javascript:;", { class: "last_week qt-num" } %></li>
+<% days.each do |d| %>
+  <li class="qt-num <%= 'active' if day && Date.parse(d).day == day %><%= 'disabled' if Date.parse(d) > Date.today %>">
+    <%= link_to Date.parse(d).strftime("%m/%d"), "javascript:;", { class: "day", data: { year: Date.parse(d).year, month: Date.parse(d).month, day: Date.parse(d).day }} %>
+  </li>
+<% end %>
+  <li><%= link_to "»", "javascript:;", { class: "next_week qt-num" } %></li>
+</ul>
+<script>
+  $("a.day").on('click', function(e){
+    e.preventDefault();
+    $(".pagination li.active").removeClass('active');
+    $(this).addClass('active');
+    fetch_posts($(this).data("year"), $(this).data("month"), $(this).data("day"));
+    if (history.pushState) {
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + $(this).data("year") + '&month=' + $(this).data("month") + '&day='+ $(this).data("day");
+        window.history.pushState({path:newurl},'',newurl);
+    }
+  });
+  
+  $("a.last_week").on('click', function(e){
+    e.preventDefault();
+    fetch_days(<%= Date.parse(days.first).last_week.year %>, <%= Date.parse(days.first).last_week.month %>, <%= Date.parse(days.first).last_week.day %>);
+    fetch_posts(<%= Date.parse(days.first).last_week.year %>, <%= Date.parse(days.first).last_week.month %>, <%= Date.parse(days.first).last_week.day %>);
+    if (history.pushState) {
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + <%= Date.parse(days.first).last_week.year %> + '&month=' + <%= Date.parse(days.first).last_week.month %> + '&day='+ <%= Date.parse(days.first).last_week.day %>;
+        window.history.pushState({path:newurl},'',newurl);
+    }
+  });
+  
+  $("a.next_week").on('click', function(e){
+    e.preventDefault();
+    fetch_days(<%= Date.parse(days.first).next_week.year %>, <%= Date.parse(days.first).next_week.month %>, <%= Date.parse(days.first).next_week.day %>);
+    fetch_posts(<%= Date.parse(days.first).next_week.year %>, <%= Date.parse(days.first).next_week.month %>, <%= Date.parse(days.first).next_week.day %>);
+    if (history.pushState) {
+        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + <%= Date.parse(days.first).next_week.year %> + '&month=' + <%= Date.parse(days.first).next_week.month %> + '&day='+ <%= Date.parse(days.first).next_week.day %>;
+        window.history.pushState({path:newurl},'',newurl);
+    }
+  });
+  
+  function fetch_days(year, month, day){
+    $.ajax({
+      method: "POST",
+      url: "<%= fetch_posts_path %>",
+      data: {type: 'days', year: year, month: month, day: day},
+      success: function(data){
+        $("#daybox").html(data);
+      }
+    });
+  }
+  
+  function fetch_posts(year, month, day){
+    $.ajax({
+      method: "POST",
+      url: "<%= fetch_posts_path %>",
+      data: { type: 'posts', year: year, month: month, day: day },
+      success: function(data){
+        $("#msgbox").html(data);
+      }
+    });
+  }
+</script>

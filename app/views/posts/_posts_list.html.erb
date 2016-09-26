@@ -1,0 +1,122 @@
+<% if posts %>
+    <p class="qt-font-sm" style="margin-bottom:20px;"><%=t("text.sharing_x_qt_total", count: posts.count) %></p>
+    <div class="msgbox">
+    <% posts.each do |p| %>
+        <% if user_signed_in? && p.user_id == current_user.id %>
+            <div class="row" style="padding-bottom:20px;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
+                            <div class="talk-user-me">
+                                <%= link_to user_url(current_user.id) do %>
+                                <span class="qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
+                                <% end %>
+                                <span class="qt-level-sm qt-num"><%= current_user.level %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row text-right">
+                                <div style="display:inline-block; float:none; margin-right:100px;">
+                                    <div class="col-table text-center" style="vertical-align:bottom; padding-left: 15px; padding-right: 10px;">
+                                        <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
+                                    </div>
+                                    <article class="talk me text-left">
+                                        <p class="no-margin qt-font-sm">
+                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 490 %>
+                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
+                                            <br />
+                                            <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
+                                            <script>
+                                              $('.read-more-<%= p.id %>').on('click', function(e) {
+                                                e.preventDefault();
+                                                $(this).parent().html('<%= raw escape_javascript (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson) %>')
+                                              })
+                                            </script>
+                                          <% else %>
+                                            <%= raw content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson %>
+                                          <% end %>
+                                        </p>
+                                        <div class="qt-actions">
+                                            <ul>
+                                                <li>
+                                                    <%= link_to p.likes.include?(current_user.id) ? ('<i class="fa fa-heart active" aria-hidden="true"></i>').html_safe : ('<i class="fa fa-heart-o" aria-hidden="true"></i>').html_safe, p.likes.include?(current_user.id) ? dislike_post_url(id: p.id) : like_post_url(id: p.id), {class: 'vote', method: :post, remote: true, data: {id: p.id}} %>
+                                                    <span class="likes-count" data-id="<%= p.id %>"><%= p.likes.length %></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div style="position: absolute; right: 0; top: 0;">
+                                    <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% else %>
+            <div class="row" style="padding-bottom:20px;">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
+                            <div class="talk-user-other">
+                                <%= link_to user_url(p.user_id) do %>
+                                <span class="qt-eng"><%= User.find_by(id: p.user_id).nickname ? User.find_by(id: p.user_id).nickname : User.find_by(id: p.user_id).email.split("@").first %></span>
+                                <% end %>
+                                <span class="qt-level-sm qt-num"><%= User.find_by(id: p.user_id).level %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row" style="display:table;">
+                                <div class="col-md-1 col-table" style="padding-right: 25px;">
+                                    <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+                                </div>
+                                <div class="col-md-11 col-table" style="padding-right: 10px;">
+                                    <article class="talk other">
+                                        <p class="no-margin qt-font-sm">
+                                          <% if (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson).length > 490 %>
+                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
+                                            <br />
+                                            <%= link_to t('text.read_more'), '', class: "read-more-#{p.id}" %>
+                                            <script>
+                                              $('.read-more-<%= p.id %>').on('click', function(e) {
+                                                e.preventDefault()
+                                                $(this).parent().html('<%= raw escape_javascript (content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson) %>')
+                                              })
+                                            </script>
+                                          <% else %>
+                                            <%= raw content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson %>
+                                          <% end %>
+                                        </p>
+                                        <div class="qt-actions">
+                                            <ul>
+                                                <li>
+                                                    <% if user_signed_in? %>
+                                                        <%= link_to p.likes.include?(current_user.id) ? ('<i class="fa fa-heart active" aria-hidden="true"></i>').html_safe : ('<i class="fa fa-heart-o" aria-hidden="true"></i>').html_safe, p.likes.include?(current_user.id) ? dislike_post_url(id: p.id) : like_post_url(id: p.id), {class: 'vote', method: :post, remote: true, data: {id: p.id}} %>
+                                                    <% else %>
+                                                        <a href="#" data-toggle="modal" data-target="#loginModal"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                                    <% end %>
+                                                    <span class="likes-count" data-id="<%= p.id %>"><%= p.likes.length %></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                    <div class="col-table" style="vertical-align:bottom; padding-left: 10px; padding-right: 10px;">
+                                        <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+    </div>
+<% else %>
+    <p><%=t "text.no_shared_qt_today" %></p>
+<% end %>

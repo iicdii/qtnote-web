@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post '/modify' => 'home#modify'
     get '/users/:id' => 'users/profile#index', as: 'user'
     get '/posts/:id' => 'posts#index', as: 'post'
+    post '/posts/fetch' => 'posts#fetch', as: 'fetch_posts'
     post '/posts/:id/like' => 'posts#like', as: 'like_post'
     post '/posts/:id/dislike' => 'posts#dislike', as: 'dislike_post'
     get '/messages' => 'messages#index', as: 'messages'
