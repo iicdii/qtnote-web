@@ -1,7 +1,7 @@
 <ul class="pagination">
   <li><%= link_to "«", "javascript:;", { class: "last_week qt-num" } %></li>
 <% days.each do |d| %>
-  <li class="qt-num <%= 'active' if day && Date.parse(d).day == day %><%= 'disabled' if Date.parse(d) > Date.today %>">
+  <li class="qt-num <%= 'active' if day && Date.parse(d).day == day %><%= 'disabled' if Date.parse(d) > Date.current %>">
     <%= link_to Date.parse(d).strftime("%m/%d"), "javascript:;", { class: "day", data: { year: Date.parse(d).year, month: Date.parse(d).month, day: Date.parse(d).day }} %>
   </li>
 <% end %>

@@ -149,9 +149,9 @@
                 <%= render partial: 'posts/days_list',
                     locals: {
                         days: @days ? @days : [],
-                        year: request.query_parameters[:year] ? request.query_parameters[:year].to_i : Date.today.year,
-                        month: request.query_parameters[:month] ? request.query_parameters[:month].to_i : Date.today.month,
-                        day: request.query_parameters[:day] ? request.query_parameters[:day].to_i : Date.today.day }
+                        year: request.query_parameters[:year] ? request.query_parameters[:year].to_i : Date.current.year,
+                        month: request.query_parameters[:month] ? request.query_parameters[:month].to_i : Date.current.month,
+                        day: request.query_parameters[:day] ? request.query_parameters[:day].to_i : Date.current.day }
                 %>
                 </div>
                 <div id="msgbox">
