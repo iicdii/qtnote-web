@@ -354,6 +354,9 @@ ko:
       count: "알림 %{count} 개"
       no_notifcations: 모두 확인했습니다!
       like_your_post: 님이 회원님의 게시물을 좋아합니다.
+      like_your_comment: 님이 회원님의 댓글을 좋아합니다.
+      commented_on_your_post: 님이 회원님의 게시물에 댓글을 남겼습니다.
+      commented_on_your_comment: 님이 회원님의 댓글에 댓글을 남겼습니다.
     achievements:
       sign_in_x_times: "%{number}번 접속"
       sign_in_x_times_description: "%{number}번 로그인"
@@ -378,3 +381,11 @@ ko:
           sub_3: 비밀번호 변경하기
           sub_4: 만약 비밀번호를 바꾸려고 한 적이 없다면, 이 메일은 무시해주세요.
           sub_5: 새로 비밀번호를 바꾸거나 위의 링크에 접근하지 않으면 비밀번호는 변경되지 않습니다.
+    like: 좋아요
+    unlike: 좋아요 취소
+    comment: 댓글달기
+    post_comment: 등록
+    comments: "댓글 %{count}개"
+    write_a_comment: 댓글을 입력해 주세요...
+    press_esc_to_cancel: 취소하시려면 ESC키를 누르세요.
+    cancel: 취소

@@ -154,8 +154,19 @@
                         day: request.query_parameters[:day] ? request.query_parameters[:day].to_i : Date.current.day }
                 %>
                 </div>
-                <div id="msgbox">
+                <div class="spinner-box" style="max-width:600px;">
+                    <div class="uil-reload-css">
+                        <div></div>
+                    </div>
+                </div>
+                <div id="msgbox" class="msgbox">
                 <%= render partial: 'posts/posts_list', locals: {posts: @selected} %>
+                </div>
+                <div id="postbox">
+                    <div class="actions">
+                        <%= link_to t("text.back"), "javascript:;", { class: "btn btn-primary", id: "previous_button" } %>
+                    </div>
+                    <div id="posts"></div>
                 </div>
             </div>
         </div>
@@ -180,7 +191,7 @@
                 <p class="qt-sns-title"><%=t "text.kakaostory" %></p>
             </div>
             <div class="col-md-3 col-xs-3">
-                <div class="social">
+                <div class="social-icon">
                     <a href="javascript:shareFacebook('http://qtnote.co.kr')">
                         <i class="fa fa-facebook" style="background-color:#3b5998;" aria-hidden="true"></i>
                     </a>
@@ -188,7 +199,7 @@
                 <p class="qt-sns-title"><%=t "text.facebook" %></p>
             </div>
             <div class="col-md-3 col-xs-3">
-                <div class="social">
+                <div class="social-icon">
                     <a href="javascript:shareTwitter('http://qtnote.co.kr', '<%=t 'text.slogan' %>');">
                         <i class="fa fa-twitter" style="background-color:#00aced;" aria-hidden="true"></i>
                     </a>
@@ -201,7 +212,6 @@
 </div>
 
 <script>
-
     $(document).ready(function() {
         <% if @temp_post %>
         // 수정중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
@@ -278,47 +288,27 @@
             }
         });
         
-        $('#tab_1').click(function(){
+        $('#tab_1').click(function(e){
+            e.preventDefault();
             if (history.pushState) {
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
                 window.history.pushState({path:newurl},'',newurl);
             }
         });
         
-        $('#tab_2').click(function(){
+        $('#tab_2').click(function(e){
+            e.preventDefault();
             if (history.pushState) {
-                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT';
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT&year=<%= Time.current.year %>&month=<%= Time.current.month %>&day=<%= Time.current.day %>';
                 window.history.pushState({path:newurl},'',newurl);
             }
-            $.ajax({
-              method: "POST",
-              url: "<%= fetch_posts_path %>",
-              data: { type: 'posts' },
-              success: function(data){
-                $("#msgbox").html(data);
-              }
-            });
         });
-    });
-    
-    $(document).ajaxSuccess(function(status,data,xhr){
-        url = xhr.url;
-        url = url.split('/');
-        type = url[url.length-3];
-        if(type == 'posts'){
-            actionType = data.responseJSON.actionType;
-            type = data.responseJSON.type;
-            post_id = data.responseJSON.id;
-            count = data.responseJSON.count;
-            url[url.length-1] = (actionType == 'like') ? 'dislike' : 'like';
-            $(".vote[data-id=" + post_id + "]").attr("href", url.join('/'));
-            $(".likes-count[data-id=" + post_id + "]").text(count);
-            if(actionType == 'like'){
-                $(".vote[data-id=" + post_id + "]").children().first().removeClass("fa-heart-o").addClass("fa-heart active");
-            }else if(actionType == 'dislike'){
-                $(".vote[data-id=" + post_id + "]").children().first().removeClass("fa-heart active").addClass("fa-heart-o");
-            }
-        }
+        
+        $("#previous_button").on("click", function(e){
+            e.preventDefault();
+            $("#postbox").hide();
+            $("#msgbox").show();
+        });
     });
     
     function shareFacebook(url){

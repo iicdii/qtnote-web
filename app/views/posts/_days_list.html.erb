@@ -51,11 +51,16 @@
   }
   
   function fetch_posts(year, month, day){
+    $("#msgbox").hide();
+    $("#postbox").hide();
+    $(".spinner-box").show();
     $.ajax({
       method: "POST",
       url: "<%= fetch_posts_path %>",
       data: { type: 'posts', year: year, month: month, day: day },
       success: function(data){
+        $(".spinner-box").hide();
+        $("#msgbox").show();
         $("#msgbox").html(data);
       }
     });

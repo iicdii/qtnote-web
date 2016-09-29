@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
     before_action :require_login
     
     def index
-        @my_messages = current_user.messages
+        @my_messages = current_user.messages.order('created_at DESC')
     end
     
     def read
@@ -10,5 +10,6 @@ class MessagesController < ApplicationController
             m.is_read = true
             m.save
         end
+        head :ok
     end
 end

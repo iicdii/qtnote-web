@@ -1,0 +1,125 @@
+<% if comments.present? %>
+    <% comments.where(parent_id: nil).each do |comment| %>
+    <div class="comment" data-id="<%= comment.id %>">
+        <%= render partial: 'comments/comment', locals: { comment: comment } %>
+    </div>
+    <% end %>
+<% end %>
+<% if user_signed_in? %>
+<script>
+    $(document).ready(function(){
+        $(".body-area").hover(function(e){
+            id = $(this).find(".edit-actions").data('id');
+            user_id = $(this).find(".edit-actions").data('user-id');
+            if (user_id == <%= current_user.id %> && !$(".editing[data-id=" + id + "]").is(":visible") ){
+                $(this).find(".edit-actions").show();
+            }
+        }, function(e){
+            if (user_id == <%= current_user.id %>){
+                $(this).find(".edit-actions").hide();
+            }
+        });
+        
+        $(".edit").on("click", function(e){
+            e.preventDefault();
+            var id = $(this).data("id");
+            var textarea = '<textarea data-id=' + id +' class="form-control border-input editing" rows="3">' + $('p.text-body[data-id=' + id + ']').text() +'</textarea>'
+            if (!$(".editing").is(":visible")) {
+                $('p.text-body[data-id=' + id + ']').replaceWith(textarea);
+                $('.edit-block[data-id=' + id + ']').show();
+                $('.edit-actions[data-id=' + id + ']').hide();
+            } else if($(".editing").is(":visible") && $(".editing").data("id") != id) {
+                var this_id = $(".editing").data("id");
+                var text_body = '<p class="text-body" data-id=' + this_id + '>' + $(".editing[data-id=" + this_id+ "]").val() +'</p>';
+                $('.edit-block[data-id=' + $(".editing").data("id") + ']').hide();
+                $(".editing[data-id=" + $(".editing").data("id") + "]").replaceWith(text_body);
+                
+                $('p.text-body[data-id=' + id + ']').replaceWith(textarea);
+                $('.edit-block[data-id=' + id + ']').show();
+                $('.edit-actions[data-id=' + id + ']').hide();
+            }
+        });
+        $(".edit-cancel").on("click", function(e){
+            e.preventDefault();
+            var id = $(this).data("id");
+            var text_body = '<p class="text-body" data-id=' + id + '>' + $(".editing[data-id=" + id+ "]").val() +'</p>';
+            $('.edit-block[data-id=' + $(".editing").data("id") + ']').hide();
+            $(".editing[data-id=" + $(".editing").data("id") + "]").replaceWith(text_body);
+        });
+        $(".edit-button").on("click", function(e){
+            e.preventDefault();
+            var $this = $(this);
+            var id = $this.data("id");
+            $this.button('loading');
+            $.ajax({
+              method: "POST",
+              url: "<%= modify_comment_url %>",
+              data: {id: id, body: $(".editing[data-id=" + id + "]").val()},
+              success: function(data){
+                $this.button('reset');
+                var comment_id = data.id
+                var text_body = '<p class="text-body" data-id=' + comment_id + '>' + $(".editing[data-id=" + comment_id + "]").val() +'</p>';
+                $('.edit-block[data-id=' + comment_id + ']').hide();
+                $(".editing[data-id=" + comment_id + "]").replaceWith(text_body);
+              }
+            });
+        });
+        $(".delete").on("click", function(e){
+            e.preventDefault();
+            var $this = $(this);
+            var id = $this.data("id");
+            var type = $this.data("type");
+            console.log("id: " + id);
+            console.log("type: " + type);
+            $.ajax({
+              method: "POST",
+              url: "<%= delete_comment_url %>",
+              data: {id: id},
+              success: function(data){
+                $(".row[data-id="+id+"][data-type="+type+"]").remove();
+              }
+            });
+        });
+        
+        $(".vote-comment").on("click", function(e){
+            e.preventDefault();
+            var $this = $(this);
+            id = $this.data('id');
+            $.ajax({
+              method: "POST",
+              url: "<%= like_comment_url %>",
+              data: {id: id},
+              success: function(data){
+                var actionType = data.actionType;
+                var count = data.count;
+                actionType == 'like' ? $this.text("<%=t 'text.unlike' %>") : $this.text("<%=t 'text.like' %>");
+                $(".likes-count[data-id=" + id + "]").text(count);
+              }
+            });
+        });
+        
+        $(".reply-comment").on("click", function(e){
+            e.preventDefault();
+            id = $(this).data('id');
+            $(".reply-post[data-id=" + id + "]").toggle();
+        });
+        
+        <% if params[:noti_t] && params[:noti_id] %>
+            $('html, body').animate({
+                scrollTop: $('.row[data-id=<%= params[:noti_id] %>][data-type="<%= params[:noti_t] %>"]').offset().top
+            }, 800);
+            $('.row[data-id=<%= params[:noti_id] %>][data-type="<%= params[:noti_t] %>"]').effect("highlight", {}, 2000);
+        <% end %>
+    });
+    
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27 && $(".editing").is(":visible")) {
+            var id = $(".editing").data("id");
+            var text_body = '<p class="text-body" data-id=' + id + '>' + $(".editing").val() +'</p>';
+            $('.edit-block[data-id=' + id + ']').hide();
+            $(".editing[data-id=" + id + "]").replaceWith(text_body);
+        }
+    });
+    
+</script>
+<% end %>

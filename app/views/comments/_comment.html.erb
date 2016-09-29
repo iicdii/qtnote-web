@@ -1,0 +1,68 @@
+<% if comment %>
+<div class="row" data-id="<%= comment.id %>" data-type="comment">
+    <div class="col-xs-2 user-area">
+        <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+    </div>
+    <div class="col-xs-10 body-area" data-id="<%= comment.id %>">
+        <div class="edit-actions" data-id="<%= comment.id %>" data-user-id="<%= comment.user_id %>">
+            <ul>
+                <li>
+                    <%= link_to "javascript:;", class: "edit", data: { id: comment.id } do %>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to "javascript:;", class: "delete", data: { id: comment.id, type: "comment" } do %>
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <% end %>
+                </li>
+            </ul>
+        </div>
+        <%= link_to user_url(User.find_by(id: comment.user_id).id) do %>
+        <span><%= User.find_by(id: comment.user_id).nickname ? User.find_by(id: comment.user_id).nickname : User.find_by(id: comment.user_id).email.split("@").first %></span>
+        <% end %>
+        <span class="qt-level-sm qt-num"><%= User.find_by(id: comment.user_id).level %></span>
+        <p class="text-body" data-id="<%= comment.id %>"><%= comment.body %></p>
+        <div class="edit-block" data-id="<%= comment.id %>">
+            <span class="cancel-block"><%=t 'text.press_esc_to_cancel' %>&nbsp;<%= link_to t('text.cancel'), 'javascript:;', {class: 'edit-cancel', data: { id: comment.id } } %></span>
+            <button class="btn btn-primary btn-fill btn-sm edit-button" data-id="<%= comment.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.modify' %></button>
+        </div>
+        <div class="qt-actions">
+            <ul>
+                <li>
+                    <%= link_to 'javascript:;', {class: 'vote-comment', data: { id: comment.id }} do %>
+                        <span><%= user_signed_in? && comment.likes.include?(current_user.id) ? t('text.unlike') : t('text.like') %></span>
+                    <% end %>
+                    <span> · </span>
+                </li>
+                <li>
+                    <%= link_to 'javascript:;', {class: 'reply-comment', data: { id: comment.id }} do %>
+                        <span><%=t 'text.comment' %></span>
+                    <% end %>
+                    <span> · </span>
+                </li>
+                <li>
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                    <span class="likes-count" data-id="<%= comment.id %>"><%= comment.likes.length %></span>
+                    <span> · </span>
+                </li>
+                <li><%= time_ago_in_words(comment.created_at) %></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="reply-box">
+    <%= render partial: 'comments/replies', locals: { replies: comment.replies } %>
+    <div class="row post reply-post" data-id="<%= comment.id %>">
+        <div class="col-xs-2 col-xs-offset-2 user-area">
+            <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+        </div>
+        <div class="col-xs-8 input-area">
+            <textarea class="form-control border-input reply_body" data-id="<%= comment.id %>" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
+            <div class="submit-area">
+                <a type="button" class="btn btn-primary btn-fill submit post_reply" data-id="<%= comment.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>

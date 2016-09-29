@@ -1,0 +1,50 @@
+<% if replies %>
+    <% replies.each do |reply| %>
+    <div class="row" data-id="<%= reply.id %>" data-type="reply">
+        <div class="col-xs-2 col-xs-offset-2 user-area">
+            <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+        </div>
+        <div class="col-xs-8 body-area" data-id="<%= reply.id %>">
+            <div class="edit-actions" data-id="<%= reply.id %>" data-user-id="<%= reply.user_id %>">
+                <ul>
+                    <li>
+                        <%= link_to "javascript:;", class: "edit", data: { id: reply.id } do %>
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        <% end %>
+                    </li>
+                    <li>
+                        <%= link_to "javascript:;", class: "delete", data: { id: reply.id, type: "reply" } do %>
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        <% end %>
+                    </li>
+                </ul>
+            </div>
+            <%= link_to user_url(User.find_by(id: reply.user_id).id) do %>
+            <span><%= User.find_by(id: reply.user_id).nickname ? User.find_by(id: reply.user_id).nickname : User.find_by(id: reply.user_id).email.split("@").first %></span>
+            <% end %>
+            <span class="qt-level-sm qt-num"><%= User.find_by(id: reply.user_id).level %></span>
+            <p class="text-body" data-id="<%= reply.id %>"><%= reply.body %></p>
+            <div class="edit-block" data-id="<%= reply.id %>">
+                <span class="cancel-block"><%=t 'text.press_esc_to_cancel' %>&nbsp;<%= link_to t('text.cancel'), 'javascript:;', {class: 'edit-cancel', data: { id: reply.id } } %></span>
+                <button class="btn btn-primary btn-fill btn-sm edit-button" data-id="<%= reply.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.modify' %></button>
+            </div>
+            <div class="qt-actions">
+                <ul>
+                    <li>
+                        <%= link_to 'javascript:;', {class: 'vote-comment', data: { id: reply.id }} do %>
+                            <span><%= user_signed_in? && reply.likes.include?(current_user.id) ? t('text.unlike') : t('text.like') %></span>
+                        <% end %>
+                        <span> · </span>
+                    </li>
+                    <li>
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        <span class="likes-count" data-id="<%= reply.id %>"><%= reply.likes.length %></span>
+                        <span> · </span>
+                    </li>
+                    <li><%= time_ago_in_words(reply.created_at) %></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <% end %>
+<% end %>

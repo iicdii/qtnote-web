@@ -1,0 +1,145 @@
+<% if post %>
+<div class="post-container">
+    <div class="row">
+        <div class="user-area col-xs-3">
+            <%= link_to user_url(User.find_by(id: post.user_id).id), class: "user-info" do %>
+                <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+            <% end %>
+            <div class="user-info-detail">
+                <%= link_to user_url(User.find_by(id: post.user_id).id) do %>
+                <span><%= User.find_by(id: post.user_id).nickname ? User.find_by(id: post.user_id).nickname : User.find_by(id: post.user_id).email.split("@").first %></span>
+                <% end %>
+                <span class="qt-level-sm qt-num"><%= User.find_by(id: post.user_id).level %></span>
+            </div>
+        </div>
+        <div class="post-area col-xs-9">
+            <div class="post-content">
+                <p class="no-margin qt-font-sm">
+                    <span class="qt-bold"><%=t 'text.whois' %></span><br />
+                    <span><%= post.whois %></span><br class="line-height-25" />
+                    <span class="qt-bold"><%=t 'text.lesson' %></span><br />
+                    <span><%= post.lesson %></span>
+                </p>
+            </div>
+            <div class="post-detail">
+                <ul>
+                    <li>
+                        <i class="fa fa-heart" aria-hidden="true"></i>
+                        <span class="likes-count" data-id="<%= post.id %>"><%= post.likes.length %></span>
+                    </li>
+                    <li>
+                        <i class="fa fa-comment" aria-hidden="true"></i>
+                        <span class="comments-count" data-id="<%= post.id %>"><%= post.comments.length %></span>
+                    </li>
+                </ul>
+                <div class="info-right">
+                    <span class="datetime"><%= time_ago_in_words(post.created_at) %></span>
+                </div>
+            </div>
+            <div class="qt-actions">
+                <ul>
+                    <li>
+                        <%= link_to 'javascript:;', {class: 'vote', data: { id: post.id }} do %>
+                            <i class="fa <%= user_signed_in? && post.likes.include?(current_user.id) ? 'fa-heart active' : 'fa-heart-o' %>" aria-hidden="true"></i> <span><%=t 'text.like'%></span>
+                        <% end %>
+                    </li>
+                    <li>
+                        <%= link_to 'javascript:;', {class: 'focus-comment', data: { id: post.id }} do %>
+                            <i class="fa fa-comment" aria-hidden="true"></i>
+                            <span><%=t 'text.comment' %></span>
+                        <% end %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="comment-container">
+    <div class="comment-box">
+        <%= render partial: 'comments/comments_list', locals: { comments: post.comments.order(created_at: :desc) } %>
+    </div>
+    <% if user_signed_in? %>
+    <div class="row post">
+        <div class="col-xs-2 user-area">
+            <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
+        </div>
+        <div class="col-xs-10 input-area">
+            <textarea id="comment_body" class="form-control border-input" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
+            <div class="submit-area">
+                <a type="button" id="post_comment" class="btn btn-primary btn-fill submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>
+            </div>
+        </div>
+    </div>
+    <% end %>
+</div>
+<% else %>
+<p><%=t 'text.unavailable_link' %> <%= link_to t('text.go_back_to_previous_page'), session[:previous_url] %></p>
+<% end %>
+
+<script>
+    <% if user_signed_in? %>
+    $(document).ready(function(){
+        $("a.vote").on("click", function(e){
+            e.preventDefault();
+            like_post();
+        });
+        
+        $("#post_comment").on("click", function(e){
+            e.preventDefault();
+            write_comment();
+        });
+        
+        $(".post_reply").on("click", function(e){
+            e.preventDefault();
+            reply_comment($(this).data("id"));
+        });
+        
+        $(".focus-comment").on("click", function(e){
+            e.preventDefault();
+            $("#comment_body").focus();
+        });
+    });
+    <% end %>
+
+    function write_comment(){
+        $.ajax({
+          method: "POST",
+          url: "<%= write_comment_url %>",
+          data: {type: 'post', id: <%= @post.id %>, body: $("#comment_body").val()},
+          success: function(data){
+            $(".comment-box").html(data);
+            $(".comments-count[data-id=" + <%= @post.id %> + "]").text($(".comment-box .comment").length);
+          }
+        });
+    }
+    
+    function reply_comment(parent_id){
+        $.ajax({
+          method: "POST",
+          url: "<%= write_comment_url %>",
+          data: {type: 'comment', parent_id: parent_id, body: $(".reply_body[data-id=" + parent_id + "]").val()},
+          success: function(data){
+            $(".comment[data-id=" + parent_id + "]").html(data);
+          }
+        });
+    }
+
+    function like_post(){
+        $.ajax({
+          method: "POST",
+          url: "<%= like_post_url(id: post.id) %>",
+          data: {type: 'post'},
+          success: function(data){
+            actionType = data.actionType;
+            post_id = data.id;
+            count = data.count;
+            $(".likes-count[data-id=" + post_id + "]").text(count);
+            if(actionType == 'like'){
+                $("a.vote[data-id=" + post_id + "]").children().first().removeClass("fa-heart-o").addClass("fa-heart active");
+            }else if(actionType == 'dislike'){
+                $("a.vote[data-id=" + post_id + "]").children().first().removeClass("fa-heart active").addClass("fa-heart-o");
+            }
+        }
+        });
+    }
+</script>

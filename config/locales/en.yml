@@ -122,6 +122,9 @@ en:
       count: "%{count} notifications"
       no_notifcations: All caught up!
       like_your_post: likes your post.
+      like_your_comment: likes your comment.
+      commented_on_your_post: commented on your post.
+      commented_on_your_comment: commented on your comment.
     achievements:
       sign_in_x_times: "Sign in %{number} times"
       sign_in_x_times_description: "Sign in %{number} times."
@@ -146,3 +149,11 @@ en:
           sub_3: Change my Password
           sub_4: If you didn't request this, please ignore this email.
           sub_5: our password won't change until you access the link above and create a new one.
+    like: Like
+    unlike: Unlike
+    comment: Comment
+    post_comment: Post
+    comments: "%{count} Comments"
+    write_a_comment: Write a comment...
+    press_esc_to_cancel: Press ESC to cancel.
+    cancel: Cancel

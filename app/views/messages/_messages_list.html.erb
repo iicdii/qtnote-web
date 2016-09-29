@@ -1,0 +1,48 @@
+<% if messages %>
+  <% messages.each do |m| %>
+    <% if (m.object_type == 'post' && m.activity_type == 1 && Post.find_by(id: m.object_id)) ||
+      ((m.object_type == 'post' || m.object_type == 'comment') && (m.activity_type == 1 || m.activity_type == 2) && Comment.find_by(id: m.object_id))
+    %>
+      <li>
+        <%= link_to user_url(m.sender_id), class: "avatar avatar-micro" do %>
+          <img src="http://image.flaticon.com/icons/svg/149/149071.svg">
+        <% end %>
+        <%= link_to user_url(m.sender_id) do %>
+          <%= User.find_by(id: m.sender_id).nickname ? User.find_by(id:m.sender_id).nickname : User.find_by(id: m.sender_id).email.split("@").first %>
+        <% end %>
+        <% if m.object_type == 'post' %>
+          <% case m.activity_type %>
+          <% when 1 %>
+            <%=t 'text.notifications.like_your_post' %>&nbsp;
+            <%= 
+              link_to "\"" + Post.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+              post_url(id: m.object_id)
+            %>
+          <% when 2 %>
+            <%=t 'text.notifications.commented_on_your_post' %>
+            <%= 
+              link_to "\"" + Comment.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+              post_url(id: Comment.find_by(id: m.object_id).post_id, noti_t: 'comment', noti_id: m.object_id)
+            %>
+          <% end %>
+        <% elsif m.object_type == 'comment' %>
+          <% case m.activity_type %>
+          <% when 1 %>
+          <%=t 'text.notifications.like_your_comment' %>&nbsp;
+          <%= 
+            link_to "\"" + Comment.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+            post_url(id: Comment.find_by(id: m.object_id).post_id, noti_t: Comment.find_by(id: m.object_id).parent_id ? 'reply' : 'comment', noti_id: m.object_id)
+          %>
+          <% when 2 %>
+          <%=t 'text.notifications.commented_on_your_comment' %>&nbsp;
+          <%= 
+            link_to "\"" + Comment.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+            post_url(id: Comment.find_by(id: m.object_id).post_id, noti_t: 'comment', noti_id: m.object_id)
+          %>
+          <% end %>
+        <% end %>
+        <span class="datetime"><%= time_ago_in_words(m.created_at) %></span>
+      </li>
+    <% end %>
+  <% end %>
+<% end %>

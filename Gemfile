@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.0'
 
 gem 'activerecord-session_store'
+gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'awesome_print', require: 'ap'
 gem 'bootstrap-growl-rails'

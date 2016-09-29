@@ -1,7 +1,16 @@
-<div class="section" style="height:83vh;overflow:hidden;padding-bottom:120px;">
+<div class="section session_new" style="height:83vh;overflow:hidden;padding-bottom:120px;">
   <div class="container" style="max-width:480px;">
     <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
+    <h3 class="title text-center"><%=t 'text.sign_in' %></h3>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="social">
+                      <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+                      <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-facebook' aria-hidden='true'></i><% end %>    </div>
+    <div class="division">
+      <div class="line l"></div>
+      <span class="qt-eng">OR</span>
+      <div class="line r"></div>
+    </div>
     <div class="form-group">
       <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label><br />
       <%= f.email_field :email, autofocus: true, :class => 'form-control' %>
@@ -23,14 +32,6 @@
   
     <div class="actions">
       <%= f.submit t("text.sign_in"), :class => 'btn btn-danger btn-fill btn-block' %>
-    </div>
-    <div class="text-center">
-      <h6 style="margin-top:20px;"><%=t 'text.sns_login' %></h6>
-      <div class="row" style="margin: 20px 0;">
-        <div class="col-md-12">
-          <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
-        </div>
-      </div>
     </div>
     <% end %>
     <div class="qt-link-danger text-center" style="margin-top:10px; font-size:14px;">

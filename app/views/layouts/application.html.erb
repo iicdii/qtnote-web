@@ -50,13 +50,13 @@
           <% unless user_signed_in? %>
           <a href="#" class="btn btn-simple navbar-toggle" data-toggle="modal" data-target="#loginModal", style="font-size: 15px;width:auto !important;height:auto !important; margin-top: 14px;"><%=t 'text.sign_in' %>
           <% end %>
-          <a href="/<%= 'en' if I18n.locale == :en %>">
+          <%= link_to root_path do %>
             <div class="logo-container">
                 <div class="brand qt-eng">
                     QTNote
                 </div>
             </div>
-          </a>
+          <% end %>
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -85,11 +85,11 @@
           <% end %>
           <li class="dropdown qt-dropdown text-center">
             <% if I18n.locale == :en %>
-              <%= link_to("#", { class: "dropdown-toggle", data: {toggle: "dropdown"} }) do %>
+              <%= link_to("javascript:;", { class: "dropdown-toggle", data: {toggle: "dropdown"} }) do %>
               <span>Language</span> <b class='caret'></b>
               <% end %>
             <% else %>
-              <%= link_to("#", { class: "dropdown-toggle", data: {toggle: "dropdown"} }) do %>
+              <%= link_to("javascript:;", { class: "dropdown-toggle", data: {toggle: "dropdown"} }) do %>
               <span>언어</span> <b class='caret'></b>
               <% end %>
             <% end %>
@@ -109,7 +109,7 @@
             </ul>
           </li>
           <li class="qt-top-icon text-center hidden-xs" style="padding-right:15px;">
-            <a href="#" id="pop_notifcation2" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
+            <a href="javascript:;" id="pop_notifcation2" class="qt-icon qt-notification" style="display: inline-block; margin: 0 0 2px 0; position: relative;">
               <i class="fa fa-bell" aria-hidden="true"></i>
               <% if current_user.messages.where(is_read:false).count > 0 %>
               <span id="notification-count" class="badge"><%= current_user.messages.where(is_read:false).count %></span>
@@ -124,7 +124,7 @@
           </li>
           <% else %>
           <li>
-            <a href="#" class="btn btn-simple" data-toggle="modal" data-target="#loginModal" ><%=t 'text.sign_in' %></a>
+            <a href="javascript:;" class="btn btn-simple" data-toggle="modal" data-target="#loginModal" ><%=t 'text.sign_in' %></a>
           </li>
           <% end %>
          </ul>
@@ -136,17 +136,7 @@
     <div id="qt-notifications" class="qt-notifications">
       <ul class="qt-list-notifications">
         <% if @messages.present? %>
-          <% @messages.limit(3).each do |m| %>
-          <li>
-            <%= link_to user_url(m.sender_id), class: "avatar avatar-micro" do %>
-              <img src="http://image.flaticon.com/icons/svg/149/149071.svg">
-            <% end %>
-            <%= link_to user_url(m.sender_id) do %>
-              <%= User.find_by(id: m.sender_id).nickname ? User.find_by(id:m.sender_id).nickname : User.find_by(id: m.sender_id).email.split("@").first %>
-            <% end %>
-            <%=t 'text.notifications.like_your_post' %> <%= link_to "\"" + Post.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"" , post_url(m.object_id) %> <span class="datetime"><%= time_ago_in_words(m.created_at) %></span>
-          </li>
-          <% end %>
+          <%= render partial: 'messages/messages_list', locals: {messages: @messages.limit(3)} %>
           <li class="qt-notifications-list-footer text-center">
             <%= link_to t('text.see_all'), messages_url, class: "btn btn-info btn-sm" %>
           </li>
@@ -187,6 +177,15 @@
                   <input type="hidden" id="apply1" name="apply" value="">
                   <input type="hidden" id="pray1" name="pray" value="">
                   <input type="hidden" id="public1" name="public" value="">
+                  <div class="social">
+                      <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+                      <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-facebook' aria-hidden='true'></i><% end %>
+                  </div>
+                  <div class="division">
+                    <div class="line l"></div>
+                    <span class="qt-eng">OR</span>
+                    <div class="line r"></div>
+                  </div>
                   <div class="form-group">
                     <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label>
                     <%= f.text_field :email, autofocus: true, :class => 'form-control' %>
@@ -210,12 +209,6 @@
                     <%= f.submit t('text.sign_in'), :class => 'btn btn-danger' %>
                   </div>
                 </div>
-                <h6 style="margin-top:20px;text-transform: none;"><%=t 'text.sns_login' %></h6>
-                <div class="row" style="margin: 20px 0;">
-                  <div class="col-md-12">
-                    <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
-                  </div>
-                </div>
                 <hr>
                 <div class="qt-link-danger text-center" style="font-size:14px;">
                   <%- if devise_mapping.recoverable? %>
@@ -237,6 +230,15 @@
                   <input type="hidden" id="apply" name="apply" value="">
                   <input type="hidden" id="pray2" name="pray" value="">
                   <input type="hidden" id="public2" name="public" value="">
+                  <div class="social">
+                      <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+                      <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-facebook' aria-hidden='true'></i><% end %>
+                  </div>
+                  <div class="division">
+                    <div class="line l"></div>
+                    <span class="qt-eng">OR</span>
+                    <div class="line r"></div>
+                  </div>
                   <div class="form-group">
                     <label for="user_email"><%=t 'activerecord.attributes.user.email' %></label>
                     <%= f.email_field :email, :class => 'form-control' %>
@@ -252,12 +254,6 @@
               </div>
               <div class="modal-footer" style="border-top:transparent;padding:0 0 20px 0;text-align:center;">
                 <%= f.submit t('text.sign_up'), :class => 'btn btn-danger' %>
-                <h6 style="margin-top:20px;text-transform: none;"><%=t 'text.sns_signup' %></h6>
-                <div class="row" style="margin: 20px 0;">
-                  <div class="col-md-12">
-                    <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-danger btn-fill", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
-                  </div>
-                </div>
                 <hr>
                 <div class="qt-link-danger text-center" style="font-size:14px;">
                   <%- if devise_mapping.recoverable? %>
@@ -426,30 +422,31 @@
       }, 500);
       <% end %>
       
-        $("#pop_notifcation1").click(function(){
-          $(".qt-notifications").fadeToggle(300);
-          $.post("<%= read_message_url %>", function(data, status){
-            if(status == 'success'){
-              $("#notification-count").hide();
-            }
-          });
-          return false;
+      $("#pop_notifcation1").click(function(e){
+        e.preventDefault();
+        $(".qt-notifications").fadeToggle(300);
+        $.post("<%= read_message_url %>", function(data, status){
+          if(status == 'success'){
+            $("#notification-count").hide();
+          }
         });
-        
-        $("#pop_notifcation2").click(function(){
-          $(".qt-notifications").fadeToggle(300);
-          $.post("<%= read_message_url %>", function(data, status){
-            if(status == 'success'){
-              $("#notification-count").hide();
-            }
-          });
-          return false;
+      });
+      
+      $("#pop_notifcation2").click(function(e){
+        e.preventDefault();
+        $(".qt-notifications").fadeToggle(300);
+        $.post("<%= read_message_url %>", function(data, status){
+          if(status == 'success'){
+            $("#notification-count").hide();
+          }
         });
-        
-        //Document Click hiding the popup 
-        $(document).click(function(){
-          $(".qt-notifications").hide();
-        });
+        return false;
+      });
+      
+      //Document Click hiding the popup 
+      $(document).click(function(){
+        $(".qt-notifications").hide();
+      });
     });
   </script>
 </body>

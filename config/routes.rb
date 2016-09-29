@@ -14,9 +14,13 @@ Rails.application.routes.draw do
     get '/posts/:id' => 'posts#index', as: 'post'
     post '/posts/fetch' => 'posts#fetch', as: 'fetch_posts'
     post '/posts/:id/like' => 'posts#like', as: 'like_post'
-    post '/posts/:id/dislike' => 'posts#dislike', as: 'dislike_post'
     get '/messages' => 'messages#index', as: 'messages'
     post '/messages/read' => 'messages#read', as: 'read_message'
+    post '/comments/fetch' => 'comments#fetch', as: 'fetch_comments'
+    post '/comments/like' => 'comments#like', as: 'like_comment'
+    post '/comments/modify' => 'comments#modify', as: 'modify_comment'
+    post '/comments/write' => 'comments#write', as: 'write_comment'
+    post '/comments/delete' => 'comments#delete', as: 'delete_comment'
   end
   
   get '/:locale' => 'home#index'

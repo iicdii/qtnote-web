@@ -5,7 +5,7 @@ class HomeController < ApplicationController
   include ApplicationHelper
   include FlashHelper
   include QtHelper
-
+  
   def index
     @today_post = current_user.posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first if user_signed_in?
     

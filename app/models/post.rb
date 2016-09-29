@@ -1,5 +1,6 @@
 class Post < ActiveRecord::Base
     belongs_to :user
+    has_many :comments
     after_create :update_streak
     
     validates :whois,
