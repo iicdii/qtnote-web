@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   
   def get_messages
     if user_signed_in?
-      @messages = current_user.messages.where(is_read:false).order(created_at: :desc)
+      @messages = current_user.messages.where(is_read:false)
     end
   end
   

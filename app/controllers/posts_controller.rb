@@ -13,12 +13,21 @@ class PostsController < ApplicationController
     if request.xhr?
       if params[:type] == 'posts'
         the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
-        @selected = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true).order(created_at: :desc).limit(7)
-        render :partial => 'posts/posts_list', locals: {posts: @selected}
+        posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true)
+        @selected = posts.limit(5)
+        render :partial => 'posts/posts_list', locals: {posts: @selected, year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i, count: posts.count}
       elsif params[:type] == 'post'
         if params[:id]
           @post = Post.find_by id: params[:id]
           render :partial => 'posts/post', locals: {post: @post}
+        end
+      elsif params[:type] == 'posts_list'
+        the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
+        @posts = Post.where('created_at >= ? and created_at <= ? and id < ? and is_public = ?',
+            the_day_at.beginning_of_day, the_day_at.end_of_day, params[:id], true).limit(5)
+        respond_to do |format|
+          format.html
+          format.js
         end
       elsif params[:type] == 'days'
         year = params[:year].to_i
@@ -32,8 +41,6 @@ class PostsController < ApplicationController
         end
         render :partial => 'posts/days_list', locals: {days: @days, year: year, month: month, day: day}
       end
-    else
-      head 404
     end
   end
   

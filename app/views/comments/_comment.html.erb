@@ -19,9 +19,9 @@
             </ul>
         </div>
         <%= link_to user_url(User.find_by(id: comment.user_id).id) do %>
-        <span><%= User.find_by(id: comment.user_id).nickname ? User.find_by(id: comment.user_id).nickname : User.find_by(id: comment.user_id).email.split("@").first %></span>
+        <span><%= display_name(comment.user_id) %></span>
         <% end %>
-        <span class="qt-level-sm qt-num"><%= User.find_by(id: comment.user_id).level %></span>
+        <span class="qt-level-sm qt-num"><%= display_level(comment.user_id) %></span>
         <p class="text-body" data-id="<%= comment.id %>"><%= comment.body %></p>
         <div class="edit-block" data-id="<%= comment.id %>">
             <span class="cancel-block"><%=t 'text.press_esc_to_cancel' %>&nbsp;<%= link_to t('text.cancel'), 'javascript:;', {class: 'edit-cancel', data: { id: comment.id } } %></span>

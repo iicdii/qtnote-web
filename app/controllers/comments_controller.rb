@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   def fetch type, id
     if type == 'post'
       @post = Post.find_by id: id
-      render partial: 'comments/comments_list', locals: { comments: @post.comments.where(parent_id: nil).order('created_at DESC') }
+      render partial: 'comments/comments_list', locals: { comments: @post.comments.where(parent_id: nil) }
     elsif type == 'comment'
       @comment = Comment.find_by id: id
       render partial: 'comments/comment', locals: { comment: @comment }

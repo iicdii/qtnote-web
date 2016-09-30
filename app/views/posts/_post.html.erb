@@ -7,9 +7,9 @@
             <% end %>
             <div class="user-info-detail">
                 <%= link_to user_url(User.find_by(id: post.user_id).id) do %>
-                <span><%= User.find_by(id: post.user_id).nickname ? User.find_by(id: post.user_id).nickname : User.find_by(id: post.user_id).email.split("@").first %></span>
+                <span><%= display_name(post.user_id) %></span>
                 <% end %>
-                <span class="qt-level-sm qt-num"><%= User.find_by(id: post.user_id).level %></span>
+                <span class="qt-level-sm qt-num"><%= display_level(post.user_id) %></span>
             </div>
         </div>
         <div class="post-area col-xs-9">
@@ -56,7 +56,7 @@
 </div>
 <div class="comment-container">
     <div class="comment-box">
-        <%= render partial: 'comments/comments_list', locals: { comments: post.comments.order(created_at: :desc) } %>
+        <%= render partial: 'comments/comments_list', locals: { comments: post.comments } %>
     </div>
     <% if user_signed_in? %>
     <div class="row post">
@@ -72,10 +72,6 @@
     </div>
     <% end %>
 </div>
-<% else %>
-<p><%=t 'text.unavailable_link' %> <%= link_to t('text.go_back_to_previous_page'), session[:previous_url] %></p>
-<% end %>
-
 <script>
     <% if user_signed_in? %>
     $(document).ready(function(){
@@ -105,10 +101,10 @@
         $.ajax({
           method: "POST",
           url: "<%= write_comment_url %>",
-          data: {type: 'post', id: <%= @post.id %>, body: $("#comment_body").val()},
+          data: {type: 'post', id: <%= post.id %>, body: $("#comment_body").val()},
           success: function(data){
             $(".comment-box").html(data);
-            $(".comments-count[data-id=" + <%= @post.id %> + "]").text($(".comment-box .comment").length);
+            $(".comments-count[data-id=" + <%= post.id %> + "]").text($(".comment-box .comment").length);
           }
         });
     }
@@ -143,3 +139,6 @@
         });
     }
 </script>
+<% else %>
+<p><%=t 'text.unavailable_link' %> <%= link_to t('text.go_back_to_previous_page'), session[:previous_url] %></p>
+<% end %>

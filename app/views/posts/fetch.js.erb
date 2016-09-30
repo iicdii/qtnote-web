@@ -1,0 +1,3 @@
+<% @posts.each do |p| %>
+    $('#msgbox').append('<%= escape_javascript(render partial: 'posts/one_post', locals: {p: p}) %>');
+<% end %>

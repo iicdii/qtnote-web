@@ -1,119 +1,74 @@
 <% if posts %>
-    <p class="qt-font-sm" style="margin-bottom:20px;"><%=t("text.sharing_x_qt_total", count: posts.count) %></p>
+    <p class="qt-font-sm" style="margin-bottom:20px;"><%=t("text.sharing_x_qt_total", count: count) %></p>
     <% posts.each do |p| %>
-        <% if user_signed_in? && p.user_id == current_user.id %>
-            <div class="row" style="padding-bottom:20px;">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
-                            <div class="talk-user-me">
-                                <%= link_to user_url(current_user.id) do %>
-                                <span class="qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
-                                <% end %>
-                                <span class="qt-level-sm qt-num"><%= current_user.level %></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row text-right">
-                                <div style="display:inline-block; float:none; margin-right:100px;">
-                                    <div class="col-table text-center" style="vertical-align:bottom; padding-left: 15px; padding-right: 10px;">
-                                        <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
-                                    </div>
-                                    <%= link_to "javascript:;", { class: "talk me text-left", data: {id: p.id}} do %>
-                                        <p class="no-margin qt-font-sm">
-                                            <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
-                                        </p>
-                                        <div class="qt-actions">
-                                            <ul>
-                                                <li>
-                                                    <%= p.likes.include?(current_user.id) ? ('<i class="fa fa-heart active" aria-hidden="true"></i>').html_safe : ('<i class="fa fa-heart-o" aria-hidden="true"></i>').html_safe %>
-                                                    <span class="likes-count" data-id="<%= p.id %>"><%= p.likes.length %></span>
-                                                </li>
-                                                <li>
-                                                    <i class="fa fa-comment" aria-hidden="true"></i>
-                                                    <span class="comments-count" data-id="<%= p.id %>"><%= p.comments.length %></span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    <% end %>
-                                </div>
-                                <div style="position: absolute; right: 0; top: 0;">
-                                    <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <% else %>
-            <div class="row" style="padding-bottom:20px;">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
-                            <div class="talk-user-other">
-                                <%= link_to user_url(p.user_id) do %>
-                                <span class="qt-eng"><%= User.find_by(id: p.user_id).nickname ? User.find_by(id: p.user_id).nickname : User.find_by(id: p.user_id).email.split("@").first %></span>
-                                <% end %>
-                                <span class="qt-level-sm qt-num"><%= User.find_by(id: p.user_id).level %></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row" style="display:table;">
-                                <div class="col-md-1 col-table" style="padding-right: 25px;">
-                                    <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
-                                </div>
-                                <div class="col-md-11 col-table" style="padding-right: 10px;">
-                                    <%= link_to "javascript:;", { class: "talk other", data: {id: p.id}} do %>
-                                    <p class="no-margin qt-font-sm">
-                                      <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
-                                    </p>
-                                    <div class="qt-actions">
-                                        <ul>
-                                            <li>
-                                                <%= user_signed_in? && p.likes.include?(current_user.id) ? ('<i class="fa fa-heart active" aria-hidden="true"></i>').html_safe : ('<i class="fa fa-heart-o" aria-hidden="true"></i>').html_safe %>
-                                                <span class="likes-count" data-id="<%= p.id %>"><%= p.likes.length %></span>
-                                            </li>
-                                            <li>
-                                                <i class="fa fa-comment" aria-hidden="true"></i>
-                                                <span class="comments-count" data-id="<%= p.id %>"><%= p.comments.length %></span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <% end %>
-                                    <div class="col-table" style="vertical-align:bottom; padding-left: 10px; padding-right: 10px;">
-                                        <span class="qt-talk-time"><%= time_ago_in_words(p.created_at) %></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <% end %>
+        <%= render partial: 'posts/one_post', locals: {p: p} %>
     <% end %>
-<% else %>
-    <p><%=t "text.no_shared_qt_today" %></p>
-<% end %>
-<script>
-    $(".talk").on("click", function(e){
-        e.preventDefault();
-        $this = $(this);
-        id = $this.data("id");
-        $("#msgbox").hide();
-        $(".spinner-box").show();
-        $.ajax({
-          method: "POST",
-          url: "<%= fetch_posts_path %>",
-          data: { type: 'post', id: id },
-          success: function(data){
-            $(".spinner-box").hide();
-            $("#postbox").show();
-            $("#posts").html(data);
-          }
+    <script>
+        $(document).ready(function(){
+            $("#previous_button").on("click", function(e){
+                e.preventDefault();
+                year = <%= year %>;
+                month = <%= month %>;
+                day = <%= day %>;
+                $("#postbox").hide();
+                $("#msgbox").show();
+                if (history.pushState) {
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT&year='+year+'&month='+month+'&day='+day;
+                    window.history.pushState({path:newurl},'',newurl);
+                }
+            });
+            
+            <% if request.query_parameters && request.query_parameters[:year] && request.query_parameters[:month] &&
+                request.query_parameters[:day] && request.query_parameters[:type] &&
+                request.query_parameters[:type] == 'shareQT' && request.query_parameters[:p_id]
+            %>
+                $("#msgbox").hide();
+                $(".spinner-box").show();
+                $.ajax({
+                  method: "POST",
+                  url: "<%= fetch_posts_path %>",
+                  data: { type: 'post', id: <%= request.query_parameters[:p_id] %> },
+                  success: function(data){
+                    $(".spinner-box").hide();
+                    $("#postbox").show();
+                    $("#posts").html(data);
+                  }
+                });
+            <% end %>
+            
+            <% if count && count > 5 %>
+            	// Each time the user scrolls
+            	$(window).scroll(function() {
+                	// Fetch variables
+                    var scrollTop = $(document).scrollTop();
+                    var windowHeight = $(window).height();
+                    var bodyHeight = $(document).height() - windowHeight;
+                    var scrollPercentage = (scrollTop / bodyHeight);
+                    if($('#msgbox').is(':visible')){
+                		if (scrollPercentage == 1) {
+                			$(".spinner-box-bottom").show();
+                
+                            $.ajax({
+                                // make a get request to the server
+                                method: "POST",
+                                url: "<%= fetch_posts_path %>",
+                                data: {
+                                    type: 'posts_list',
+                                    id: $("#msgbox .row[data-type='post']").last().data("id"),
+                                    year: <%= year %>,
+                                    month: <%= month %>,
+                                    day: <%= day %>
+                                },
+                                dataType: "script",
+                                success: function () {
+                                    $(".spinner-box-bottom").hide();
+                                }
+                            });
+                		}
+                    }
+                });
+            <% end %>
+        
         });
-    });
-</script>
+    </script>
+<% end %>

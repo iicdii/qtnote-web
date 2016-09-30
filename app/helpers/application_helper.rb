@@ -17,6 +17,24 @@ module ApplicationHelper
     ]
   end
   
+  def display_name(user_id)
+    user = User.find_by id: user_id
+    if user
+      user.nickname ? user.nickname : user.email.split("@")[0]
+    else
+      t 'text.ghost'
+    end
+  end
+  
+  def display_level user_id
+    user = User.find_by id: user_id
+    if user
+      user.level
+    else
+      0
+    end
+  end
+  
   # Below methods are Devise helper
   
   def resource_name

@@ -8,7 +8,7 @@
           <img src="http://image.flaticon.com/icons/svg/149/149071.svg">
         <% end %>
         <%= link_to user_url(m.sender_id) do %>
-          <%= User.find_by(id: m.sender_id).nickname ? User.find_by(id:m.sender_id).nickname : User.find_by(id: m.sender_id).email.split("@").first %>
+          <%= display_name(m.sender_id) %>
         <% end %>
         <% if m.object_type == 'post' %>
           <% case m.activity_type %>

@@ -54,15 +54,18 @@ class HomeController < ApplicationController
       end
       
       the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
-      @selected = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true).order(created_at: :desc).limit(7)
+      posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true)
+      @posts_count = posts.count
+      @selected = posts.limit(5)
     else
       start_day = Date.today.beginning_of_week
       end_day = Date.today.end_of_week
       start_day.upto(end_day) do |d|
         @days << d.strftime("%m/%d")
       end
-      
-      @selected = Post.where("created_at >= ? and is_public = ?", Time.current.beginning_of_day, true).order(created_at: :desc).limit(7)
+      posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", Time.current.beginning_of_day, Time.current.end_of_day, true)
+      @posts_count = posts.count
+      @selected = Post.where("created_at >= ? and is_public = ?", Time.current.beginning_of_day, true).limit(5)
     end
   end
   
@@ -163,7 +166,7 @@ class HomeController < ApplicationController
       @date = Date.new(year, month, day)
       @last_month = @date.last_month.month
       @next_month = @date.next_month.month
-      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', @date.month).order("created_at DESC")   
+      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', @date.month) 
       @today_qt = NewQt.new(year, month, day).to_h
       @today_post = @posts.where(:created_at => @date.beginning_of_day...@date.end_of_day).first
       @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
@@ -173,7 +176,7 @@ class HomeController < ApplicationController
     else
       @last_month = Time.current.last_month.month
       @next_month = Time.current.next_month.month
-      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', Time.current.month).order("created_at DESC")
+      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', Time.current.month)
       @today_qt = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
       @today_post = @posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first
       @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?

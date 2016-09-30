@@ -5,3 +5,4 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+50.times { |i| Post.create(whois: "Post #{i}", lesson: BetterLorem.p(10, true, true), apply: BetterLorem.c(20), is_public: true, user_id: 2) }

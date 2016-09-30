@@ -160,7 +160,16 @@
                     </div>
                 </div>
                 <div id="msgbox" class="msgbox">
-                <%= render partial: 'posts/posts_list', locals: {posts: @selected} %>
+                <%= render partial: 'posts/posts_list', locals: { posts: @selected, count: @posts_count,
+                        year: request.query_parameters[:year] ? request.query_parameters[:year].to_i : Date.current.year,
+                        month: request.query_parameters[:month] ? request.query_parameters[:month].to_i : Date.current.month,
+                        day: request.query_parameters[:day] ? request.query_parameters[:day].to_i : Date.current.day }
+                %>
+                </div>
+                <div class="spinner-box-bottom">
+                    <div class="uil-reload-css">
+                        <div></div>
+                    </div>
                 </div>
                 <div id="postbox">
                     <div class="actions">
@@ -302,12 +311,6 @@
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT&year=<%= Time.current.year %>&month=<%= Time.current.month %>&day=<%= Time.current.day %>';
                 window.history.pushState({path:newurl},'',newurl);
             }
-        });
-        
-        $("#previous_button").on("click", function(e){
-            e.preventDefault();
-            $("#postbox").hide();
-            $("#msgbox").show();
         });
     });
     

@@ -3,6 +3,8 @@ class Post < ActiveRecord::Base
     has_many :comments
     after_create :update_streak
     
+    default_scope { order('created_at DESC') }
+    
     validates :whois,
         presence: true,
         length: {

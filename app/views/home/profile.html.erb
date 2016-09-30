@@ -15,8 +15,8 @@
             <div role="tabpanel" class="tab-pane <%= 'active' if !request.query_parameters[:type] %>" id="summary">
                 <div class="row" style="padding-right: 15px;padding-bottom: 20px;">
                     <div class="col-md-2 col-xs-3">
-                        <span class="qt-user-id qt-eng"><%= current_user.nickname ? current_user.nickname : current_user.email.split("@").first %></span>
-                        <span class="qt-level qt-num"><%= current_user.level %></span>
+                        <span class="qt-user-id qt-eng"><%= display_name(current_user.id) %></span>
+                        <span class="qt-level qt-num"><%= display_level(current_user.id) %></span>
                     </div>
                 </div>
                 <div class="row">
