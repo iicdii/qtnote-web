@@ -1,6 +1,7 @@
-<div class="section" style="height:83vh;overflow:hidden;padding-bottom:120px;">
+<div class="section confirmation_new" style="height:83vh;overflow:hidden;padding-bottom:120px;">
   <div class ="container" style="max-width:480px;">
     <h2 class="text-center qt-link-danger"><a href="/" class="qt-eng">QTNote</a></h2>
+    <h3 class="title text-center"><%=t 'text.reconfirmation' %></h3>
     <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
     
       <div class="form-group">

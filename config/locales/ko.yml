@@ -335,6 +335,7 @@ ko:
     back: 돌아가기
     close: 닫기
     cancel_my_account: 회원탈퇴
+    are_you_sure: 확실합니까?
     are_you_sure: 회원님의 모든 정보가 삭제됩니다. 정말 탈퇴하시겠습니까?
     shared_qt_of_today: 오늘의 큐티나눔
     no_shared_qt_today: 오늘 작성된 큐티나눔이 없습니다.
@@ -389,3 +390,7 @@ ko:
     write_a_comment: 댓글을 입력해 주세요...
     press_esc_to_cancel: 취소하시려면 ESC키를 누르세요.
     cancel: 취소
+    change_user_profile: 회원정보 변경
+    change_password: 비밀번호 변경
+    restore: 불러오기
+    delete_my_account: 회원탈퇴

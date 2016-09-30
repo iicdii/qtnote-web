@@ -119,7 +119,7 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-2 col-xs-2 text-left">
                             <% if !@today_post && !@temp_post %>
-                            <button type="button" id="restore_qt" class="btn btn-success">불러오기</button>
+                            <button type="button" id="restore_qt" class="btn btn-success"><%= t 'text.restore' %></button>
                             <% end %>
                         </div>
                         <div class="col-md-8 col-xs-8 col-xs-offset-2 col-md-offset-2 text-right">
@@ -154,7 +154,7 @@
                         day: request.query_parameters[:day] ? request.query_parameters[:day].to_i : Date.current.day }
                 %>
                 </div>
-                <div class="spinner-box" style="max-width:600px;">
+                <div class="spinner-box" style="max-width:640px;">
                     <div class="uil-reload-css">
                         <div></div>
                     </div>

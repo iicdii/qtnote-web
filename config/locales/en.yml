@@ -104,6 +104,7 @@ en:
     close: Close
     cancel_my_account: Cancel my account
     are_you_sure: Are you sure?
+    are_you_sure_to_delete: Are you sure to delete your account?
     shared_qt_of_today: Shared QT of today
     no_shared_qt_today: No shared QT today.
     qt_is_registered: QT is registered!
@@ -157,3 +158,7 @@ en:
     write_a_comment: Write a comment...
     press_esc_to_cancel: Press ESC to cancel.
     cancel: Cancel
+    change_user_profile: Edit User
+    change_password: Edit Password
+    restore: Restore
+    delete_my_account: Delete my account

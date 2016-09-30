@@ -1855,7 +1855,8 @@ span[data-notify="icon"] {
     width: 40%;}
 #loginModal .tab-content .division .line.l, .session_new .division .line.l, .register_new .division .line.l { left: 0; }
 #loginModal .tab-content .division .line.r, .session_new .division .line.r, .register_new .division .line.r { right: 0; }
-.session_new .title, .register_new .title { margin-top: 0; margin-bottom: 40px;}
+.session_new .title, .register_new .title, .register_edit .title, .forgot_password_new .title, .forgot_password_edit .title,
+.confirmation_new .title { margin-top: 0; margin-bottom: 40px;}
 
 .social-icon [class*="fa fa-"] {
     background-color: #333;
@@ -1869,3 +1870,8 @@ span[data-notify="icon"] {
     font-size: 40px;
     text-align: center;
 }
+.pagination > li:last-child.disabled > a {
+    color: #777;
+    cursor: not-allowed;
+    background-color: #fff;
+    border-color: #ddd; }

@@ -1,21 +1,23 @@
 <ul class="pagination">
   <li><%= link_to "«", "javascript:;", { class: "last_week qt-num" } %></li>
 <% days.each do |d| %>
-  <li class="qt-num <%= 'active' if day && Date.parse(d).day == day %><%= 'disabled' if Date.parse(d) > Date.current %>">
-    <%= link_to Date.parse(d).strftime("%m/%d"), "javascript:;", { class: "day", data: { year: Date.parse(d).year, month: Date.parse(d).month, day: Date.parse(d).day }} %>
+  <li class="<%= 'active' if day && Date.parse(d).day == day && Date.parse(d) <= Date.current %><%= 'disabled' if Date.parse(d) > Date.current %>">
+    <%= link_to Date.parse(d).strftime("%m/%d"), "javascript:;", { class: "day qt-num", data: { year: Date.parse(d).year, month: Date.parse(d).month, day: Date.parse(d).day }} %>
   </li>
 <% end %>
-  <li><%= link_to "»", "javascript:;", { class: "next_week qt-num" } %></li>
+  <li class="<%= 'disabled' if Date.parse(days.last) > Date.current %>"><%= link_to "»", "javascript:;", { class: "next_week qt-num" } %></li>
 </ul>
 <script>
   $("a.day").on('click', function(e){
     e.preventDefault();
-    $(".pagination li.active").removeClass('active');
-    $(this).addClass('active');
-    fetch_posts($(this).data("year"), $(this).data("month"), $(this).data("day"));
-    if (history.pushState) {
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + $(this).data("year") + '&month=' + $(this).data("month") + '&day='+ $(this).data("day");
-        window.history.pushState({path:newurl},'',newurl);
+    if(!$(this).parent().hasClass('disabled')){
+      $(".pagination li.active").removeClass('active');
+      $(this).addClass('active');
+      fetch_posts($(this).data("year"), $(this).data("month"), $(this).data("day"));
+      if (history.pushState) {
+          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + $(this).data("year") + '&month=' + $(this).data("month") + '&day='+ $(this).data("day");
+          window.history.pushState({path:newurl},'',newurl);
+      }
     }
   });
   
@@ -31,11 +33,13 @@
   
   $("a.next_week").on('click', function(e){
     e.preventDefault();
-    fetch_days(<%= Date.parse(days.first).next_week.year %>, <%= Date.parse(days.first).next_week.month %>, <%= Date.parse(days.first).next_week.day %>);
-    fetch_posts(<%= Date.parse(days.first).next_week.year %>, <%= Date.parse(days.first).next_week.month %>, <%= Date.parse(days.first).next_week.day %>);
-    if (history.pushState) {
-        var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + <%= Date.parse(days.first).next_week.year %> + '&month=' + <%= Date.parse(days.first).next_week.month %> + '&day='+ <%= Date.parse(days.first).next_week.day %>;
-        window.history.pushState({path:newurl},'',newurl);
+    if(!$(this).parent().hasClass('disabled')){
+      fetch_days(<%= Date.parse(days.first).next_week.year %>, <%= Date.parse(days.first).next_week.month %>, <%= Date.parse(days.first).next_week.day %>);
+      fetch_posts(<%= Date.parse(days.first).next_week.year %>, <%= Date.parse(days.first).next_week.month %>, <%= Date.parse(days.first).next_week.day %>);
+      if (history.pushState) {
+          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT' + '&year=' + <%= Date.parse(days.first).next_week.year %> + '&month=' + <%= Date.parse(days.first).next_week.month %> + '&day='+ <%= Date.parse(days.first).next_week.day %>;
+          window.history.pushState({path:newurl},'',newurl);
+      }
     }
   });
   
