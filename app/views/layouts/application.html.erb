@@ -47,7 +47,9 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
           </button>
-          <% unless user_signed_in? %>
+          <% if user_signed_in? %>
+          <%= link_to t('text.sign_out'), destroy_user_session_path, { class: "btn btn-simple navbar-toggle", style: "font-size: 15px;width:auto !important;height:auto !important; margin-top: 14px;" } %>
+          <% else %>
           <a href="#" class="btn btn-simple navbar-toggle" data-toggle="modal" data-target="#loginModal", style="font-size: 15px;width:auto !important;height:auto !important; margin-top: 14px;"><%=t 'text.sign_in' %>
           <% end %>
           <%= link_to root_path do %>
