@@ -29,13 +29,16 @@ module QtHelper
       info = @doc.css(".detail_info").children.map do |t|
         t.text.strip
       end
-      s_info = @s_doc.css(".detail_info").children.map do |t|
-        t.text.strip
-      end
+
       info.delete("")
-      s_info.delete("")
+
       
       if I18n.locale == :ko
+        s_info = @s_doc.css(".detail_info").children.map do |t|
+          t.text.strip
+        end
+        s_info.delete("")
+        
         last_index =  info.index("적용하기")
         info1 = info[1..(last_index - 1)] if last_index
         
