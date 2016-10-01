@@ -225,40 +225,36 @@
     </div>
 </div>
 
-<div class="section section-nude text-center">
+<div class="section section-nude">
     <div class="container">
-        <h3 class="text-center"><%=t "text.share" %></h3>
-        <p style="font-size:15px;"><%=t "text.share_sub" %></p>
-        <div class="row" style="margin-top:20px;">
-            <div class="col-md-3 col-xs-3">
-                <a id="kakao-link-btn" href="javascript:;">
-                    <img src="//dev.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_medium.png" class="kakao-talk" />
-                </a>
-                <p class="qt-sns-title"><%=t "text.kakaotalk" %></p>
+        <div class="row social-line">
+            <div class="col-md-4 col-sm-12">
+                <h3 style="margin-top:0;"><%=t "text.share" %></h3>
             </div>
-            <div class="col-md-3 col-xs-3">
-                <a id="kakaostory-share-button" href="javascript:shareKakaoStory('http://qtnote.co.kr', '<%=t 'text.slogan' %>');">
-                    <img src="https://developers.kakao.com/assets/img/about/buttons/kakaostory/icon/flat/kakaostory_icon_flat_96x96.png" class="kakao-story" />
+            <div class="col-md-2 col-sm-3">
+                <a id="kakao-link-btn" class="btn btn-simple btn-social btn-kakaotalk btn-lg qt-eng" href="javascript:;">
+                    <img src="<%= asset_path("kakaotalk-icon.png") %>" class="kakao-talk" />KakaoTalk
                 </a>
-                <p class="qt-sns-title"><%=t "text.kakaostory" %></p>
             </div>
-            <div class="col-md-3 col-xs-3">
+            <div class="col-md-2 col-sm-3">
+                <a id="kakaostory-share-button" class="btn btn-simple btn-social btn-kakaostory btn-lg  qt-eng" href="javascript:shareKakaoStory('http://qtnote.co.kr', '<%=t 'text.slogan' %>');">
+                    <img src="<%= asset_path("kakaostory-icon.png") %>" class="kakao-story" />KakaoStory
+                </a>
+            </div>
+            <div class="col-md-2 col-sm-3">
                 <div class="social-icon">
-                    <a href="javascript:shareFacebook('http://qtnote.co.kr')">
-                        <i class="fa fa-facebook" style="background-color:#3b5998;" aria-hidden="true"></i>
+                    <a href="javascript:shareFacebook('http://qtnote.co.kr')" class="btn btn-simple btn-social btn-facebook btn-lg qt-eng">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>Facebook
                     </a>
                 </div>
-                <p class="qt-sns-title"><%=t "text.facebook" %></p>
             </div>
-            <div class="col-md-3 col-xs-3">
+            <div class="col-md-2 col-sm-3">
                 <div class="social-icon">
-                    <a href="javascript:shareTwitter('http://qtnote.co.kr', '<%=t 'text.slogan' %>');">
-                        <i class="fa fa-twitter" style="background-color:#00aced;" aria-hidden="true"></i>
+                    <a href="javascript:shareTwitter('http://qtnote.co.kr', '<%=t 'text.slogan' %>');" class="btn btn-simple btn-social btn-twitter btn-lg qt-eng">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>Twitter
                     </a>
                 </div>
-                <p class="qt-sns-title"><%=t "text.twitter" %></p>
             </div>
-            
         </div>
     </div>
 </div>
