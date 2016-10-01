@@ -3,6 +3,7 @@ module QtHelper
     def initialize(year, month, day)
       if I18n.locale == :ko
         @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT2&year=#{year}&month=#{month}&day=#{day}"))
+        @s_doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT6&year=#{year}&month=#{month}&day=#{day}"))
       else
         @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT5&year=#{year}&month=#{month}&day=#{day}"))
       end
@@ -28,7 +29,12 @@ module QtHelper
       info = @doc.css(".detail_info").children.map do |t|
         t.text.strip
       end
+      s_info = @s_doc.css(".detail_info").children.map do |t|
+        t.text.strip
+      end
       info.delete("")
+      s_info.delete("")
+      
       if I18n.locale == :ko
         last_index =  info.index("적용하기")
         info1 = info[1..(last_index - 1)] if last_index
@@ -41,10 +47,24 @@ module QtHelper
           first_index = false
         end
         
-        info2 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
+        if first_index
+          info2 = info[first_index]
+        else
+          s_info.index("하나님은 어떤 분입니까?")
+          first_index = s_info.index("하나님은 어떤 분입니까?")+1
+          info2 = first_index ? s_info[first_index] : "오늘은 해설이 없습니다."
+        end
         
         first_index = info.index("내게 주시는 교훈은 무엇입니까?") ? info.index("내게 주시는 교훈은 무엇입니까?")+1 : false
-        info3 = first_index ? info[first_index] : "오늘은 해설이 없습니다."
+        
+        if first_index
+          info3 = info[first_index]
+        else
+          s_info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = s_info.index("내게 주시는 교훈은 무엇입니까?")+1
+          info3 = first_index ? s_info[first_index] : "오늘은 해설이 없습니다."
+        end
+        
       else
         last_index = info.index("Who is God?") ? info.index("Who is God?") : info.index("What lesson is God teaching me?")
         info1 = info[1..(last_index - 1)] if last_index
