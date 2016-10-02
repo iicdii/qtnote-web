@@ -5,9 +5,9 @@
     </div>
     <% end %>
 <% end %>
-<% if user_signed_in? %>
 <script>
     $(document).ready(function(){
+        <% if user_signed_in? %>
         $(".body-area").hover(function(e){
             id = $(this).find(".edit-actions").data('id');
             user_id = $(this).find(".edit-actions").data('user-id');
@@ -80,9 +80,11 @@
               }
             });
         });
+        <% end %>
         
         $(".vote-comment").on("click", function(e){
             e.preventDefault();
+            <% if user_signed_in? %>
             var $this = $(this);
             id = $this.data('id');
             $.ajax({
@@ -96,12 +98,19 @@
                 $(".likes-count[data-id=" + id + "]").text(count);
               }
             });
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
         });
         
         $(".reply-comment").on("click", function(e){
             e.preventDefault();
-            id = $(this).data('id');
-            $(".reply-post[data-id=" + id + "]").toggle();
+            <% if user_signed_in? %>
+                id = $(this).data('id');
+                $(".reply-post[data-id=" + id + "]").toggle();
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
         });
         
         <% if params[:noti_t] && params[:noti_id] %>
@@ -122,4 +131,3 @@
     });
     
 </script>
-<% end %>

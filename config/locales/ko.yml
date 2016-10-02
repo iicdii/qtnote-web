@@ -281,6 +281,7 @@ ko:
       default: "%Y/%m/%d %H:%M:%S"
       long: "%Y년 %m월 %d일, %H시 %M분 %S초 %Z"
       short: "%y/%m/%d %H:%M"
+      period_and_hour: "%p %l시"
     pm: 오후
   validation:
     too_short: "%{count}자 이상 입력해 주세요."
@@ -288,7 +289,6 @@ ko:
   text:
     slogan: 매일매일 큐티 내용을 기록하세요.
     start: 시작하기
-    profile: 프로필
     myqt: 내 큐티
     setting: 설정
     today_word: 오늘의 말씀
@@ -322,8 +322,13 @@ ko:
     send_password_instructions: 비밀번호 변경 메일 전송
     send_confirmation_instructions: 이메일 인증 메일 전송
     level_up: 레벨이 올랐습니다!
-    total_qt_count: QT 횟수
-    most_streak_days: QT 연속 최고 기록
+    profile:
+      profile: 프로필
+      total_qt_count: QT 횟수
+      most_streak_days: QT 연속 최고 기록
+      number_of_qt_this_week: 이번 주 큐티횟수
+      number_of_qt_this_month: 이번 달 큐티횟수
+      usual_time_for_qt: 평소 QT시간
     leave_password_blank: 비밀번호 변경을 원하지 않으시면 빈 칸으로 남겨주세요.
     enter_current_password: 안전한 수정을 위해 현재 비밀번호를 입력해 주세요.
     need_talent_to_update: "공개된 QT를 비공개로 전환하려면 <strong>20 달란트</strong>가 필요합니다."
@@ -408,3 +413,4 @@ ko:
       four:
         title: 커뮤니티
         body: 내 QT를 공개하고 다른 사람들과 함께 의견을 나눌 수 있습니다.
+    need_to_be_logged_in: 댓글을 작성하시려면 로그인이 필요합니다.

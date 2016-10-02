@@ -2,7 +2,7 @@
 
 <div class="container">
     <div class="main" style="padding:40px 0 40px 0;">
-        <h3><%=t 'text.profile'%></h3>
+        <h3><%=t 'text.profile.profile'%></h3>
         <div class="nav-tabs-navigation" role="tablist">
             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                 <li class="<%= 'active' if !request.query_parameters[:type] %>" role="presentation"><a href="#summary" id="tab_1" aria-controls="summary" data-toggle="tab" aria-expanded="true"><%=t 'text.summary' %></a></li>
@@ -20,19 +20,43 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="qt-profile-box col-md-6 col-xs-12">
+                    <div class="qt-profile-box col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p><%=t 'text.total_qt_count' %></p>
+                                <p><%=t 'text.profile.total_qt_count' %></p>
                                 <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @post_count %></p>
                             </div>
                         </div>
                     </div>
-                    <div class="qt-profile-box col-md-6 col-xs-12">
+                    <div class="qt-profile-box col-sm-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p><%=t 'text.most_streak_days' %></p>
+                                <p><%=t 'text.profile.most_streak_days' %></p>
                                 <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= current_user.max_streak_days %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qt-profile-box col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p><%=t 'text.profile.number_of_qt_this_month' %></p>
+                                <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @number_of_qt_this_month %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qt-profile-box col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p><%=t 'text.profile.number_of_qt_this_week' %></p>
+                                <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%= @number_of_qt_this_week %></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qt-profile-box col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p><%=t 'text.profile.usual_time_for_qt' %></p>
+                                <p class="qt-num" style="font-size:25px; margin-bottom:0;"><%=l @usual_time_for_qt, format: :period_and_hour %></p>
                             </div>
                         </div>
                     </div>

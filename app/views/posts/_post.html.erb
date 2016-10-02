@@ -58,44 +58,56 @@
     <div class="comment-box">
         <%= render partial: 'comments/comments_list', locals: { comments: post.comments } %>
     </div>
-    <% if user_signed_in? %>
     <div class="row post">
         <div class="col-xs-3 col-sm-2 user-area">
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
         <div class="col-xs-9 col-sm-10 input-area">
-            <textarea id="comment_body" class="form-control border-input" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
+            <textarea id="comment_body" class="form-control border-input" placeholder="<%=t user_signed_in? ? 'text.write_a_comment' : 'text.need_to_be_logged_in' %>" rows="3"></textarea>
             <div class="submit-area">
                 <a type="button" id="post_comment" class="btn btn-primary btn-fill submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>
             </div>
         </div>
     </div>
-    <% end %>
 </div>
 <script>
-    <% if user_signed_in? %>
     $(document).ready(function(){
         $("a.vote").on("click", function(e){
             e.preventDefault();
-            like_post();
+            <% if user_signed_in? %>
+                like_post();
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
         });
         
         $("#post_comment").on("click", function(e){
             e.preventDefault();
-            write_comment();
+            <% if user_signed_in? %>
+                write_comment();
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
         });
         
         $(".post_reply").on("click", function(e){
             e.preventDefault();
+            <% if user_signed_in? %>
             reply_comment($(this).data("id"));
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
         });
         
         $(".focus-comment").on("click", function(e){
             e.preventDefault();
+            <% if user_signed_in? %>
             $("#comment_body").focus();
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
         });
     });
-    <% end %>
 
     function write_comment(){
         $.ajax({
@@ -105,6 +117,7 @@
           success: function(data){
             $(".comment-box").html(data);
             $(".comments-count[data-id=" + <%= post.id %> + "]").text($(".comment-box .comment").length);
+            $("#comment_body").val('');
           }
         });
     }
@@ -116,6 +129,7 @@
           data: {type: 'comment', parent_id: parent_id, body: $(".reply_body[data-id=" + parent_id + "]").val()},
           success: function(data){
             $(".comment[data-id=" + parent_id + "]").html(data);
+            $(".reply_body[data-id=" + parent_id + "]").val('');
           }
         });
     }

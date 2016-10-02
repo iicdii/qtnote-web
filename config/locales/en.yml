@@ -53,10 +53,12 @@ en:
         unlock_token: Unlock token
     models:
       user: User
+  time:
+    formats:
+      hour_and_min: "%p %l"
   text:
     slogan: Write QT everyday.
     start: Getting started
-    profile: Profile
     myqt: My QT
     setting: Settings
     today_word: Word of the day
@@ -90,8 +92,13 @@ en:
     send_password_instructions: Send me reset password instructions
     send_confirmation_instructions: Resend confirmation instructions
     level_up: Level Up!
-    total_qt_count: QTs
-    most_streak_days: MOST CONSECUTIVE DAYS
+    profile:
+      profile: Profile
+      total_qt_count: QTs
+      most_streak_days: Most consecutive days
+      number_of_qt_this_week: Number of QT this week
+      number_of_qt_this_month: Number of QT this month
+      usual_time_for_qt: Usual time for QT
     leave_password_blank: Leave blank unless you want to change your password.
     enter_current_password: Enter your current password to safe update.
     need_talent_to_update: "You need to pay <strong>20 talent</strong> to change private to public."
@@ -176,3 +183,4 @@ en:
       four:
         title: 커뮤니티
         body: 내 QT를 공개하고 다른 사람들과 함께 의견을 나눌 수 있습니다.
+    need_to_be_logged_in: You must be logged in to comment
