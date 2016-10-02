@@ -6,11 +6,13 @@ class Users::ProfileController < ApplicationController
         if @user
             @number_of_qt_this_month = @user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_month, Time.current.end_of_month).count
             @number_of_qt_this_week = @user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_week, Time.current.end_of_week).count
-            sum = 0
-            @user.posts.each do |p|
-              sum += (p.created_at).to_i
-            end
-            @usual_time_for_qt = Time.at(sum / @user.posts.count)
+            
+            #sum = 0
+            #@user.posts.last(5).each do |p|
+            #  sum += (p.created_at).to_i
+            #end
+            #@usual_time_for_qt = Time.at(sum / @user.posts.count)
+            #
             @achievements = Array.new
             achievements = get_achievements
             achievements.each do |a|

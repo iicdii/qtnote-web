@@ -159,11 +159,11 @@ class HomeController < ApplicationController
     @post_count = @posts.length
     @number_of_qt_this_month = current_user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_month, Time.current.end_of_month).count
     @number_of_qt_this_week = current_user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_week, Time.current.end_of_week).count
-    sum = 0
-    current_user.posts.each do |p|
-      sum += (p.created_at).to_i
-    end
-    @usual_time_for_qt = Time.at(sum / current_user.posts.count)
+    #sum = 0
+    #current_user.posts.last(5).each do |p|
+    #  sum += (p.created_at).to_i
+    #end
+    #@usual_time_for_qt = Time.at(sum / current_user.posts.count)
     
     #쿼리가 있으면 쿼리에 해당하는 날짜의 post를 불러오고, 없으면 오늘 post를 불러온다.
     if params[:year] && params[:month] && params[:day]
