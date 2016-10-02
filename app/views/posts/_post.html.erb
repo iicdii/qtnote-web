@@ -2,11 +2,11 @@
 <div class="post-container">
     <div class="row">
         <div class="user-area col-xs-3">
-            <%= link_to user_url(User.find_by(id: post.user_id).id), class: "user-info" do %>
+            <%= link_to user_url(User.find_by(id: post.user_id) ? User.find_by(id: post.user_id).id : 0), class: "user-info" do %>
                 <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
             <% end %>
             <div class="user-info-detail">
-                <%= link_to user_url(User.find_by(id: post.user_id).id) do %>
+                <%= link_to user_url(User.find_by(id: post.user_id) ? User.find_by(id: post.user_id).id : 0) do %>
                 <span><%= display_name(post.user_id) %></span>
                 <% end %>
                 <span class="qt-level-sm qt-num"><%= display_level(post.user_id) %></span>
@@ -60,10 +60,10 @@
     </div>
     <% if user_signed_in? %>
     <div class="row post">
-        <div class="col-xs-2 user-area">
+        <div class="col-xs-3 col-sm-2 user-area">
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
-        <div class="col-xs-10 input-area">
+        <div class="col-xs-9 col-sm-10 input-area">
             <textarea id="comment_body" class="form-control border-input" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
             <div class="submit-area">
                 <a type="button" id="post_comment" class="btn btn-primary btn-fill submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>

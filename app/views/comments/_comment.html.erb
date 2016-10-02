@@ -1,9 +1,9 @@
 <% if comment %>
 <div class="row" data-id="<%= comment.id %>" data-type="comment">
-    <div class="col-xs-2 user-area">
+    <div class="col-xs-3 col-sm-2 user-area">
         <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
     </div>
-    <div class="col-xs-10 body-area" data-id="<%= comment.id %>">
+    <div class="col-xs-9 col-sm-10 body-area" data-id="<%= comment.id %>">
         <div class="edit-actions" data-id="<%= comment.id %>" data-user-id="<%= comment.user_id %>">
             <ul>
                 <li>
@@ -18,7 +18,7 @@
                 </li>
             </ul>
         </div>
-        <%= link_to user_url(User.find_by(id: comment.user_id).id) do %>
+        <%= link_to user_url(User.find_by(id: comment.user_id) ? User.find_by(id: comment.user_id).id : 0) do %>
         <span><%= display_name(comment.user_id) %></span>
         <% end %>
         <span class="qt-level-sm qt-num"><%= display_level(comment.user_id) %></span>

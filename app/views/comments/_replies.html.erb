@@ -1,10 +1,10 @@
 <% if replies %>
     <% replies.each do |reply| %>
     <div class="row" data-id="<%= reply.id %>" data-type="reply">
-        <div class="col-xs-2 col-xs-offset-2 user-area">
+        <div class="col-xs-3 col-xs-offset-2 col-sm-2 col-sm-offset-2 user-area">
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
-        <div class="col-xs-8 body-area" data-id="<%= reply.id %>">
+        <div class="col-xs-7 col-sm-8 col body-area" data-id="<%= reply.id %>">
             <div class="edit-actions" data-id="<%= reply.id %>" data-user-id="<%= reply.user_id %>">
                 <ul>
                     <li>
@@ -19,7 +19,7 @@
                     </li>
                 </ul>
             </div>
-            <%= link_to user_url(User.find_by(id: reply.user_id).id) do %>
+            <%= link_to user_url(User.find_by(id: reply.user_id) ? User.find_by(id: reply.user_id).id : 0) do %>
             <span><%= display_name(reply.user_id) %></span>
             <% end %>
             <span class="qt-level-sm qt-num"><%= display_level(reply.user_id) %></span>
