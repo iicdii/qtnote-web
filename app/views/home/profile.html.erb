@@ -111,22 +111,22 @@
                 <div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
-                            <p class="qt-no-margin">
+                            <p class="no-margin">
                                 <span class="label label-danger"><%=t 'text.title' %></span>
-                                <span style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:title] : "" %></span>
+                                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:title] : "" %></span>
                             </p>
                         </div>
                     </div>
                     <div class="row" style="padding:5px 0 5px 0;">
                         <div class="col-md-12">
-                            <p class="qt-no-margin">
+                            <p class="no-margin">
                                 <span class="label label-danger"><%=t 'text.content' %></span>
-                                <span style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:book_line] : "" %></span>
+                                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:book_line] : "" %></span>
                             </p>
                         </div>
                     </div>
                 </div>
-                <table class="table" style="font-size:13px;border-top:2px solid #ccbb9f;">
+                <table class="table" style="font-size:13px;">
                     <tbody>
                         <% if @today_qt %>
                             <% @today_qt[:words].each do |t| %>
@@ -140,9 +140,10 @@
                         <% end %>
                     </tbody>
                 </table>
+                <hr style="border-color:#E9E3D8">
                 <div class="row">
                     <div class="col-md-4">
-                        <h5><%=t 'text.understanding' %></h5>
+                        <h5 style="font-weight: bold;"><%=t 'text.understanding' %></h5>
                         <div class="panel panel-success">
                             <div class="panel-body">
                                 <% if @today_qt %>
@@ -155,33 +156,39 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <h5><%=t 'text.whois' %></h5>
-                        <textarea id="whois" name="whois" class="form-control" rows="5" readonly><%= @today_post ? @today_post.whois : "" %></textarea>
-                        <div class="panel panel-success" style="margin-top:10px;">
-                            <div class="panel-body">
-                                <p class="qt-p"><%= @today_qt ? @today_qt[:whois] : "" %></p>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t 'text.whois' %></h5>
+                                    <textarea id="whois" name="whois" class="form-control" rows="5" readonly><%= @today_post ? @today_post.whois : "" %></textarea>
+                                    <div class="panel panel-success" style="margin-top:10px;">
+                                        <div class="panel-body">
+                                            <p class="qt-p"><%= @today_qt ? @today_qt[:whois] : "" %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t 'text.lesson' %></h5>
+                                    <textarea id="lesson" name="lesson" class="form-control" rows="5" readonly><%= @today_post ? @today_post.lesson : "" %></textarea>
+                                    <div class="panel panel-success" style="margin-top:10px;">
+                                        <div class="panel-body">
+                                            <p class="qt-p"><%= @today_qt ? @today_qt[:lesson] : "" %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t 'text.apply' %></h5>
+                                    <textarea id="apply" name="apply" class="form-control" rows="5" readonly><%= @today_post ? @today_post.apply : "" %></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 style="font-weight: bold;"><%=t 'text.prayer' %></h5>
+                                    <textarea id="pray" name="pray" class="form-control" rows="5" readonly><%= @today_post ? @today_post.pray : "" %></textarea>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <h5><%=t 'text.lesson' %></h5>
-                        <textarea id="lesson" name="lesson" class="form-control" rows="5" readonly><%= @today_post ? @today_post.lesson : "" %></textarea>
-                        <div class="panel panel-success" style="margin-top:10px;">
-                            <div class="panel-body">
-                                <p class="qt-p"><%= @today_qt ? @today_qt[:lesson] : "" %></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row" style="margin-top:10px;">
-                    <div class="col-md-offset-4 col-md-4">
-                        <h5><%=t 'text.apply' %></h5>
-                        <textarea id="apply" name="apply" class="form-control" rows="5" readonly><%= @today_post ? @today_post.apply : "" %></textarea>
-                    </div>
-                    <div class="col-md-4">
-                        <h5><%=t 'text.prayer' %></h5>
-                        <textarea id="pray" name="pray" class="form-control" rows="5" readonly><%= @today_post ? @today_post.pray : "" %></textarea>
                     </div>
                 </div>
             </div>
