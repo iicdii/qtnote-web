@@ -84,7 +84,7 @@ class HomeController < ApplicationController
       
       if new_post.save
         # 저장된 시기가 어제이면 어제 생성된 QT로 업데이트 해준다. (어제 QT 작성 중 12시가 넘어갔을 때)
-        if Date.yesterday.day == params[:day]
+        if Date.yesterday.day == params[:day].to_i
           new_post.update_attributes(created_at: Date.yesterday.end_of_day)
         end
         now_exp = current_user.now_exp
