@@ -52,7 +52,7 @@
 
 <div class="main section">
     <div class="container">
-        <div class="nav-tabs-navigation" style="border-bottom: 1px solid #D8C1AB;" role="tablist">
+        <div class="nav-tabs-navigation" style="border-bottom: 1px solid #e8e1d7;" role="tablist">
             <ul id="tabs" class="nav nav-tabs qt-nav-tabs" data-tabs="tabs">
                 <li class="<%= 'active' if !request.query_parameters[:type] %>" role="presentation"><a href="#word" id="tab_1" aria-controls="word" data-toggle="tab" aria-expanded="true"><%=t "text.today_word" %></a></li>
                 <li class="<%= 'active' if request.query_parameters[:type] == "shareQT" %>" role="presentation"><a href="#shareQT" id="tab_2" aria-controls="shareQT" data-toggle="tab" aria-expanded="false"><%=t "text.qt_share" %></a></li>
