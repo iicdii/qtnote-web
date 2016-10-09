@@ -21,7 +21,7 @@
                                 </div>
                                 <%= link_to "javascript:;", { class: "talk me text-left", data: {id: p.id}} do %>
                                     <p class="no-margin qt-font-sm">
-                                        <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
+                                        <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson, length: 490, escape: false) %>
                                     </p>
                                     <div class="qt-actions">
                                         <ul>
@@ -67,7 +67,7 @@
                             <div class="col-md-11 col-table" style="padding-right: 10px;">
                                 <%= link_to "javascript:;", { class: "talk other", data: {id: p.id}} do %>
                                 <p class="no-margin qt-font-sm">
-                                  <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br", class: "line-height-25") + p.lesson, length: 490, escape: false) %>
+                                  <%= truncate(content_tag("span", t('text.whois'), class: 'qt-bold') + tag("br") + p.whois + tag("br", class: "line-height-25") + content_tag("span", t('text.lesson'), class: 'qt-bold') + tag("br") + p.lesson, length: 490, escape: false) %>
                                 </p>
                                 <div class="qt-actions">
                                     <ul>

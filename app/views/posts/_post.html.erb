@@ -14,12 +14,12 @@
         </div>
         <div class="post-area col-xs-9">
             <div class="post-content">
-                <p class="no-margin qt-font-sm">
+                <div class="qt-font-sm">
                     <span class="qt-bold"><%=t 'text.whois' %></span><br />
-                    <span><%= post.whois %></span><br class="line-height-25" />
+                    <%= simple_format(post.whois) %>
                     <span class="qt-bold"><%=t 'text.lesson' %></span><br />
-                    <span><%= post.lesson %></span>
-                </p>
+                    <%= simple_format(post.lesson) %>
+                </div>
             </div>
             <div class="post-detail">
                 <ul>
