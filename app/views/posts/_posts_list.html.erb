@@ -45,26 +45,48 @@
                     var bodyHeight = $(document).height() - windowHeight;
                     var scrollPercentage = (scrollTop / bodyHeight);
                     if($('#msgbox').is(':visible')){
-                		if (scrollPercentage == 1) {
-                			$(".spinner-box-bottom").show();
-                
-                            $.ajax({
-                                // make a get request to the server
-                                method: "POST",
-                                url: "<%= fetch_posts_path %>",
-                                data: {
-                                    type: 'posts_list',
-                                    id: $("#msgbox .row[data-type='post']").last().data("id"),
-                                    year: <%= year %>,
-                                    month: <%= month %>,
-                                    day: <%= day %>
-                                },
-                                dataType: "script",
-                                success: function () {
-                                    $(".spinner-box-bottom").hide();
-                                }
-                            });
-                		}
+                        if ($(window).width() >= 385){
+                    		if (scrollPercentage >= 1) {
+                    			$(".spinner-box-bottom").show();
+                    
+                                $.ajax({
+                                    // make a get request to the server
+                                    method: "POST",
+                                    url: "<%= fetch_posts_path %>",
+                                    data: {
+                                        type: 'posts_list',
+                                        id: $("#msgbox .row[data-type='post']").last().data("id"),
+                                        year: <%= year %>,
+                                        month: <%= month %>,
+                                        day: <%= day %>
+                                    },
+                                    dataType: "script",
+                                    success: function () {
+                                        $(".spinner-box-bottom").hide();
+                                    }
+                                });
+                    		}
+                        } else {
+                    		if (scrollPercentage >= 0.7) {
+                    			$(".spinner-box-bottom").show();
+                                $.ajax({
+                                    // make a get request to the server
+                                    method: "POST",
+                                    url: "<%= fetch_posts_path %>",
+                                    data: {
+                                        type: 'posts_list',
+                                        id: $("#msgbox .row[data-type='post']").last().data("id"),
+                                        year: <%= year %>,
+                                        month: <%= month %>,
+                                        day: <%= day %>
+                                    },
+                                    dataType: "script",
+                                    success: function () {
+                                        $(".spinner-box-bottom").hide();
+                                    }
+                                });
+                    		}
+                        }
                     }
                 });
             <% end %>
