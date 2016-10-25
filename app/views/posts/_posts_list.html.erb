@@ -1,5 +1,5 @@
 <% if posts %>
-    <p class="qt-font-sm" style="margin-bottom:20px;"><%=t("text.sharing_x_qt_total", count: count) %></p>
+    <p class="qt-font-sm post-count" style="margin-bottom:20px;" data-count="<%= count %>"><%=t("text.sharing_x_qt_total", count: count) %></p>
     <% posts.each do |p| %>
         <%= render partial: 'posts/one_post', locals: {p: p} %>
     <% end %>
@@ -44,7 +44,7 @@
                     var windowHeight = $(window).height();
                     var bodyHeight = $(document).height() - windowHeight;
                     var scrollPercentage = (scrollTop / bodyHeight);
-                    if($('#msgbox').is(':visible')){
+                    if($('#msgbox').is(':visible') && $('.post-count').data("count") > 5){
                         if ($(window).width() > 385){
                     		if (scrollPercentage >= 1) {
                     			$(".spinner-box-bottom").show();
