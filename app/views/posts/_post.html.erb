@@ -57,10 +57,10 @@
         <%= render partial: 'comments/comments_list', locals: { comments: post.comments } %>
     </div>
     <div class="row post">
-        <div class="col-xs-3 col-sm-2 user-area">
+        <div class="hidden-xs col-sm-2 user-area">
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
-        <div class="col-xs-9 col-sm-10 input-area">
+        <div class="col-xs-12 col-sm-10 input-area">
             <textarea id="comment_body" class="form-control border-input" placeholder="<%=t user_signed_in? ? 'text.write_a_comment' : 'text.need_to_be_logged_in' %>" rows="3"></textarea>
             <div class="submit-area">
                 <a type="button" id="post_comment" class="btn btn-primary btn-fill submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>

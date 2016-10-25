@@ -54,10 +54,10 @@
 <div class="reply-box">
     <%= render partial: 'comments/replies', locals: { replies: comment.replies, comment_id: comment.id } %>
     <div class="row post reply-post" data-id="<%= comment.id %>">
-        <div class="col-xs-2 col-xs-offset-2 user-area">
+        <div class="hidden-xs col-sm-2 col-sm-offset-2 user-area">
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
-        <div class="col-xs-8 input-area">
+        <div class="col-xs-offset-2 col-sm-offset-0 col-xs-10 col-sm-8 body-area">
             <textarea class="form-control border-input reply-body" data-id="<%= comment.id %>" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
             <div class="submit-area">
                 <a type="button" class="btn btn-primary btn-fill submit post_reply" data-id="<%= comment.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>
