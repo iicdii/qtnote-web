@@ -1,4 +1,4 @@
-<ul class="pagination">
+<ul class="pagination" data-year="<%= year %>" data-month="<%= month %>" data-day="<%= day %>">
   <li><%= link_to "«", "javascript:;", { class: "last_week qt-num" } %></li>
 <% days.each do |d| %>
   <li class="<%= 'active' if day && Date.parse(d).day == day && Date.parse(d) <= Date.current %><%= 'disabled' if Date.parse(d) > Date.current %>">
@@ -12,6 +12,9 @@
     e.preventDefault();
     if(!$(this).parent().hasClass('disabled')){
       $(".pagination li.active").removeClass('active');
+      $(".pagination").data("year", $(this).data("year"));
+      $(".pagination").data("month", $(this).data("month"));
+      $(".pagination").data("day", $(this).data("day"));
       $(this).addClass('active');
       fetch_posts($(this).data("year"), $(this).data("month"), $(this).data("day"));
       if (history.pushState) {

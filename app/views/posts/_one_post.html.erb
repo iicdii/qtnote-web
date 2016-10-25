@@ -108,6 +108,9 @@
                     $(".spinner-box").hide();
                     $("#postbox").show();
                     $("#posts").html(data);
+                  },
+                  error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $(".spinner-box").hide();
                   }
                 });
                 if (history.pushState) {

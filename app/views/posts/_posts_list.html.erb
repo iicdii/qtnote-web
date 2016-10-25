@@ -35,66 +35,6 @@
                   }
                 });
             <% end %>
-            
-            <% if count && count > 5 %>
-            	// Each time the user scrolls
-            	$(window).scroll(function() {
-                	// Fetch variables
-                    var scrollTop = $(document).scrollTop();
-                    var windowHeight = $(window).height();
-                    var bodyHeight = $(document).height() - windowHeight;
-                    var scrollPercentage = (scrollTop / bodyHeight);
-                    var isFetching = false;
-                    if($('#msgbox').is(':visible') && $('.post-count').data("count") > 5 && !isFetching){
-                        isFetching = true;
-                        if ($(window).width() > 385){
-                    		if (scrollPercentage == 1) {
-                    			$(".spinner-box-bottom").show();
-                    
-                                $.ajax({
-                                    // make a get request to the server
-                                    method: "POST",
-                                    url: "<%= fetch_posts_path %>",
-                                    data: {
-                                        type: 'posts_list',
-                                        id: $("#msgbox .row[data-type='post']").last().data("id"),
-                                        year: <%= year %>,
-                                        month: <%= month %>,
-                                        day: <%= day %>
-                                    },
-                                    dataType: "script",
-                                    success: function () {
-                                        $(".spinner-box-bottom").hide();
-                                        isFetching = false;
-                                    }
-                                });
-                    		}
-                        } else {
-                    		if (scrollPercentage >= 0.75) {
-                    			$(".spinner-box-bottom").show();
-                                $.ajax({
-                                    // make a get request to the server
-                                    method: "POST",
-                                    url: "<%= fetch_posts_path %>",
-                                    data: {
-                                        type: 'posts_list',
-                                        id: $("#msgbox .row[data-type='post']").last().data("id"),
-                                        year: <%= year %>,
-                                        month: <%= month %>,
-                                        day: <%= day %>
-                                    },
-                                    dataType: "script",
-                                    success: function () {
-                                        $(".spinner-box-bottom").hide();
-                                        isFetching = false;
-                                    }
-                                });
-                    		}
-                        }
-                    }
-                });
-            <% end %>
-        
         });
     </script>
 <% end %>

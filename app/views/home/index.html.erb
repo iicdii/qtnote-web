@@ -353,6 +353,69 @@
         });
     });
     
+    var is_fetchable = true;
+    setInterval(function(){ is_fetchable = true; }, 3000);
+    
+	// Each time the user scrolls
+    $(window).on("scroll", function() {
+    	// Fetch variables
+    	var isFetching = false;
+        var scrollTop = $(document).scrollTop();
+        var windowHeight = $(window).height();
+        var bodyHeight = $(document).height() - windowHeight;
+        var scrollPercentage = (scrollTop / bodyHeight);
+        var isFetching = false;
+        if($('#msgbox').is(':visible') && $('.post-count').data("count") > 5 && !isFetching && is_fetchable){
+            if ($(window).width() > 385 && scrollPercentage == 1){
+    			$(".spinner-box-bottom").show();
+    			is_fetchable = false;
+                $.ajax({
+                    // make a get request to the server
+                    method: "POST",
+                    url: "<%= fetch_posts_path %>",
+                    data: {
+                        type: 'posts_list',
+                        id: $("#msgbox .row[data-type='post']").last().data("id"),
+                        year: $(".pagination").data("year"),
+                        month: $(".pagination").data("month"),
+                        day: $(".pagination").data("day")
+                    },
+                    dataType: "script",
+                    success: function () {
+                        $(".spinner-box-bottom").hide();
+                        isFetching = false;
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        $(".spinner-box").hide();
+                    }
+                });
+            } else if($(window).width() <= 385 && scrollPercentage > 0.75 && scrollPercentage < 0.77) {
+    			$(".spinner-box-bottom").show();
+    			is_fetchable = false;
+                $.ajax({
+                    // make a get request to the server
+                    method: "POST",
+                    url: "<%= fetch_posts_path %>",
+                    data: {
+                        type: 'posts_list',
+                        id: $("#msgbox .row[data-type='post']").last().data("id"),
+                        year: $(".pagination").data("year"),
+                        month: $(".pagination").data("month"),
+                        day: $(".pagination").data("day")
+                    },
+                    dataType: "script",
+                    success: function () {
+                        $(".spinner-box-bottom").hide();
+                        isFetching = false;
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        $(".spinner-box").hide();
+                    }
+                });
+            }
+        }
+    });
+    
     function shareFacebook(url){
     	window.open("http://www.facebook.com/sharer/sharer.php?u=" + url, "_blank", "width=600, height=400;");
     };

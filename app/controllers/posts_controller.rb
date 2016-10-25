@@ -24,7 +24,7 @@ class PostsController < ApplicationController
       elsif params[:type] == 'posts_list'
         the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
         @posts = Post.where('created_at >= ? and created_at <= ? and id < ? and is_public = ?',
-            the_day_at.beginning_of_day, the_day_at.end_of_day, params[:id], true).limit(5)
+          the_day_at.beginning_of_day, the_day_at.end_of_day, params[:id], true).limit(5)
         respond_to do |format|
           format.html
           format.js
