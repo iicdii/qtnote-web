@@ -45,7 +45,7 @@
                     var bodyHeight = $(document).height() - windowHeight;
                     var scrollPercentage = (scrollTop / bodyHeight);
                     if($('#msgbox').is(':visible')){
-                        if ($(window).width() >= 385){
+                        if ($(window).width() > 385){
                     		if (scrollPercentage >= 1) {
                     			$(".spinner-box-bottom").show();
                     
@@ -67,7 +67,7 @@
                                 });
                     		}
                         } else {
-                    		if (scrollPercentage >= 0.7) {
+                    		if (scrollPercentage >= 0.75) {
                     			$(".spinner-box-bottom").show();
                                 $.ajax({
                                     // make a get request to the server
