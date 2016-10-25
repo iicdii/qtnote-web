@@ -35,6 +35,18 @@ module ApplicationHelper
     end
   end
   
+  def auto_link_usernames(text)
+    text.gsub /@([가-힣]+|\w+)/ do |username|
+      name = username.gsub('@', '')
+      if User.where("email like ?", "%#{name}%").present?
+        id = User.where("email like ?", "%#{name}%").first.id
+      elsif User.where("nickname like ?", "%#{name}%").present?
+        id = User.where("nickname like ?", "%#{name}%").first.id
+      end
+      id ? link_to(username, user_path(id)) : username
+    end.html_safe
+  end
+  
   # Below methods are Devise helper
   
   def resource_name

@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
       post = Post.find_by id: params[:id]
       body = params[:body]
       comment = Comment.create(post_id: post.id, user_id: current_user.id, body: body)
-      unless post.user_id == current_user.id
+      if post.user_id != current_user.id && User.find_by(id: post.user_id).present?
         Message.create(
           user_id: User.find_by(id: post.user_id).id,
           sender_id: current_user.id,
@@ -31,7 +31,7 @@ class CommentsController < ApplicationController
       comment = Comment.find_by id: params[:parent_id]
       body = params[:body]
       Comment.create(parent_id: params[:parent_id], post_id: comment.post_id, user_id: current_user.id, body: body)
-      unless comment.user_id == current_user.id
+      if comment.user_id != current_user.id && User.find_by(id: comment.user_id).present?
         Message.create(
           user_id: User.find_by(id: comment.user_id).id,
           sender_id: current_user.id,
@@ -77,7 +77,7 @@ class CommentsController < ApplicationController
             activity_type: 1,
             object_type: 'comment',
             object_id: params[:id]
-          ).present? && @comment.user_id != current_user.id
+          ).present? && @comment.user_id != current_user.id && User.find_by(id: @comment.user_id).present?
             Message.create(
               user_id: User.find_by(id: @comment.user_id).id,
               sender_id: current_user.id,

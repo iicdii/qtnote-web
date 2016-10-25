@@ -19,10 +19,10 @@
             </ul>
         </div>
         <%= link_to user_url(User.find_by(id: comment.user_id) ? User.find_by(id: comment.user_id).id : 0) do %>
-        <span><%= display_name(comment.user_id) %></span>
+        <span class="username"><%= display_name(comment.user_id) %></span>
         <% end %>
         <span class="qt-level-sm qt-num"><%= display_level(comment.user_id) %></span>
-        <p class="text-body" data-id="<%= comment.id %>"><%= comment.body %></p>
+        <p class="text-body" data-id="<%= comment.id %>"><%= auto_link_usernames(comment.body) %></p>
         <div class="edit-block" data-id="<%= comment.id %>">
             <span class="cancel-block"><%=t 'text.press_esc_to_cancel' %>&nbsp;<%= link_to t('text.cancel'), 'javascript:;', {class: 'edit-cancel', data: { id: comment.id } } %></span>
             <button class="btn btn-primary btn-fill btn-sm edit-button" data-id="<%= comment.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.modify' %></button>
@@ -52,13 +52,13 @@
     </div>
 </div>
 <div class="reply-box">
-    <%= render partial: 'comments/replies', locals: { replies: comment.replies } %>
+    <%= render partial: 'comments/replies', locals: { replies: comment.replies, comment_id: comment.id } %>
     <div class="row post reply-post" data-id="<%= comment.id %>">
         <div class="col-xs-2 col-xs-offset-2 user-area">
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
         <div class="col-xs-8 input-area">
-            <textarea class="form-control border-input reply_body" data-id="<%= comment.id %>" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
+            <textarea class="form-control border-input reply-body" data-id="<%= comment.id %>" placeholder="<%=t 'text.write_a_comment' %>" rows="3"></textarea>
             <div class="submit-area">
                 <a type="button" class="btn btn-primary btn-fill submit post_reply" data-id="<%= comment.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>
             </div>

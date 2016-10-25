@@ -105,9 +105,23 @@
         
         $(".reply-comment").on("click", function(e){
             e.preventDefault();
+            var username = $(e.target).parent().parent().parent().parent().parent().find(".username")[0].textContent;
             <% if user_signed_in? %>
                 id = $(this).data('id');
                 $(".reply-post[data-id=" + id + "]").toggle();
+                $(".reply-body[data-id=" + id + "]").val('@' + username + ' ');
+            <% else %>
+                $('#loginModal').modal('show');
+            <% end %>
+        });
+        
+        $(".reply-replied-comment").on("click", function(e){
+            e.preventDefault();
+            var username = $(e.target).parent().parent().parent().parent().parent().find(".username")[0].textContent;
+            <% if user_signed_in? %>
+                id = $(this).data('id');
+                $(".reply-post[data-id=" + id + "]").toggle();
+                $(".reply-body[data-id=" + id + "]").val('@' + username + ' ');
             <% else %>
                 $('#loginModal').modal('show');
             <% end %>

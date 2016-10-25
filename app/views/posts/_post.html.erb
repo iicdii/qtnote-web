@@ -124,10 +124,10 @@
         $.ajax({
           method: "POST",
           url: "<%= write_comment_url %>",
-          data: {type: 'comment', parent_id: parent_id, body: $(".reply_body[data-id=" + parent_id + "]").val()},
+          data: {type: 'comment', parent_id: parent_id, body: $(".reply-body[data-id=" + parent_id + "]").val()},
           success: function(data){
             $(".comment[data-id=" + parent_id + "]").html(data);
-            $(".reply_body[data-id=" + parent_id + "]").val('');
+            $(".reply-body[data-id=" + parent_id + "]").val('');
           }
         });
     }

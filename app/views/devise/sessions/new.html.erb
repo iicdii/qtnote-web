@@ -4,8 +4,9 @@
     <h3 class="title text-center"><%=t 'text.sign_in' %></h3>
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="social">
-                      <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
-                      <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-facebook' aria-hidden='true'></i><% end %>    </div>
+    <%= link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-google-plus' aria-hidden='true'></i><% end %>
+    <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-fill btn-danger", style: "padding-left:10px;padding-right:3px;" do %><i class='fa fa-facebook' aria-hidden='true'></i><% end %>
+    </div>
     <div class="division">
       <div class="line l"></div>
       <span class="qt-eng">OR</span>
@@ -22,12 +23,10 @@
     </div>
   
     <% if devise_mapping.rememberable? -%>
-      <label class="checkbox" for="user_remember_me">
-        <span class="icons">
-        <span class="first-icon fa fa-square fa-base"></span>
-        <span class="second-icon fa fa-check-square fa-base"></span></span>
-        <%= f.check_box :remember_me, :datatoggle => "checkbox" %><%=t 'activerecord.attributes.user.remember_me' %>
-      </label>
+      <%= f.label :remember_me, class: 'checkbox' do %>
+        <%= f.check_box :remember_me, 'data-toggle': "checkbox" %>
+        <%=t 'activerecord.attributes.user.remember_me' %>
+      <% end %>
     <% end -%>
   
     <div class="actions">

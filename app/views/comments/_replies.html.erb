@@ -20,10 +20,10 @@
                 </ul>
             </div>
             <%= link_to user_url(User.find_by(id: reply.user_id) ? User.find_by(id: reply.user_id).id : 0) do %>
-            <span><%= display_name(reply.user_id) %></span>
+            <span class="username"><%= display_name(reply.user_id) %></span>
             <% end %>
             <span class="qt-level-sm qt-num"><%= display_level(reply.user_id) %></span>
-            <p class="text-body" data-id="<%= reply.id %>"><%= reply.body %></p>
+            <p class="text-body" data-id="<%= reply.id %>"><%= auto_link_usernames(reply.body) %></p>
             <div class="edit-block" data-id="<%= reply.id %>">
                 <span class="cancel-block"><%=t 'text.press_esc_to_cancel' %>&nbsp;<%= link_to t('text.cancel'), 'javascript:;', {class: 'edit-cancel', data: { id: reply.id } } %></span>
                 <button class="btn btn-primary btn-fill btn-sm edit-button" data-id="<%= reply.id %>" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.modify' %></button>
@@ -33,6 +33,12 @@
                     <li>
                         <%= link_to 'javascript:;', {class: 'vote-comment', data: { id: reply.id }} do %>
                             <span><%= user_signed_in? && reply.likes.include?(current_user.id) ? t('text.unlike') : t('text.like') %></span>
+                        <% end %>
+                        <span> · </span>
+                    </li>
+                    <li>
+                        <%= link_to 'javascript:;', {class: 'reply-replied-comment', data: { id: comment_id }} do %>
+                            <span><%=t 'text.comment' %></span>
                         <% end %>
                         <span> · </span>
                     </li>

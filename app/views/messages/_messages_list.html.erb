@@ -21,7 +21,7 @@
           <% when 2 %>
             <%=t 'text.notifications.commented_on_your_post' %>
             <%= 
-              link_to "\"" + Comment.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+              link_to "\"" + Post.find_by(id: Comment.find_by(id: m.object_id).post_id).created_at.strftime("%m/%d QT") + "\"",
               post_url(id: Comment.find_by(id: m.object_id).post_id, noti_t: 'comment', noti_id: m.object_id)
             %>
           <% end %>
@@ -30,13 +30,13 @@
           <% when 1 %>
           <%=t 'text.notifications.like_your_comment' %>&nbsp;
           <%= 
-            link_to "\"" + Comment.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+            link_to "\"" + truncate(Comment.find_by(id: m.object_id).body, length: 20) + "\"",
             post_url(id: Comment.find_by(id: m.object_id).post_id, noti_t: Comment.find_by(id: m.object_id).parent_id ? 'reply' : 'comment', noti_id: m.object_id)
           %>
           <% when 2 %>
           <%=t 'text.notifications.commented_on_your_comment' %>&nbsp;
           <%= 
-            link_to "\"" + Comment.find_by(id: m.object_id).created_at.strftime("%m/%d QT") + "\"",
+            link_to "\"" + truncate(Comment.find_by(id: m.object_id).body, length: 20) + "\"",
             post_url(id: Comment.find_by(id: m.object_id).post_id, noti_t: 'comment', noti_id: m.object_id)
           %>
           <% end %>
