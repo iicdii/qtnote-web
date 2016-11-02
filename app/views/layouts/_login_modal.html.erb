@@ -40,12 +40,9 @@
                   <%= f.password_field :password, :class => 'form-control' %>
                 </div>
                 <% if devise_mapping.rememberable? -%>
-                  <label class="checkbox" for="user_remember_me">
-                    <span class="icons">
-                    <span class="first-icon fa fa-square fa-base"></span>
-                    <span class="second-icon fa fa-check-square fa-base"></span></span>
-                    <%= f.check_box :remember_me, :datatoggle => "checkbox" %><%=t 'activerecord.attributes.user.remember_me' %>
-                  </label>
+                  <%= f.label :remember_me, class: 'checkbox' do %>
+                    <%= f.check_box :remember_me, 'data-toggle': "checkbox" %><%=t 'activerecord.attributes.user.remember_me' %>
+                  <% end %>
                 <% end -%>
             </div>
             <div class="modal-footer" style="border-top:transparent;padding:10px 0 20px 0;text-align:center;">

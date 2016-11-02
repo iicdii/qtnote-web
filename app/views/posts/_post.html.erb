@@ -61,7 +61,7 @@
             <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
         </div>
         <div class="col-xs-12 col-sm-10 input-area">
-            <textarea id="comment_body" class="form-control border-input" placeholder="<%=t user_signed_in? ? 'text.write_a_comment' : 'text.need_to_be_logged_in' %>" rows="3"></textarea>
+            <textarea id="comment-body" class="form-control border-input" placeholder="<%=t user_signed_in? ? 'text.write_a_comment' : 'text.need_to_be_logged_in' %>" rows="3"></textarea>
             <div class="submit-area">
                 <a type="button" id="post_comment" class="btn btn-primary btn-fill submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.post_comment' %></a>
             </div>
@@ -100,7 +100,7 @@
         $(".focus-comment").on("click", function(e){
             e.preventDefault();
             <% if user_signed_in? %>
-            $("#comment_body").focus();
+            $("#comment-body").focus();
             <% else %>
                 $('#loginModal').modal('show');
             <% end %>
@@ -111,11 +111,11 @@
         $.ajax({
           method: "POST",
           url: "<%= write_comment_url %>",
-          data: {type: 'post', id: <%= post.id %>, body: $("#comment_body").val()},
+          data: {type: 'post', id: <%= post.id %>, body: $("#comment-body").val()},
           success: function(data){
             $(".comment-box").html(data);
             $(".comments-count[data-id=" + <%= post.id %> + "]").text($(".comment-box .comment").length);
-            $("#comment_body").val('');
+            $("#comment-body").val('');
           }
         });
     }
