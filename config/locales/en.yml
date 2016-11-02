@@ -128,7 +128,7 @@ en:
     notifications:
       my_notifications: My Notifications
       count: "%{count} notifications"
-      no_notifcations: All caught up!
+      no_notifications: All caught up!
       like_your_post: likes your post.
       like_your_comment: likes your comment.
       commented_on_your_post: commented on your post.
