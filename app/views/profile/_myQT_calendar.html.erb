@@ -1,0 +1,125 @@
+<div>
+    <div class="qt-num" style="font-size:24px;">
+        <span class="label label-info"><%= @date ? @date.year : Time.current.year %></span>
+        <span class="label label-success"><%= @date ? @date.month : Time.current.month %></span>
+    </div>
+    <ul class="pagination pagination-success qt-pagination qt-num" style="margin-top:10px;">
+      <li><%= link_to "«", { controller: 'profile', action: 'index', year: @last_year, month: @last_month, day: 1, type: 'myQT' } %></li>
+      <% 1.upto(@last_day){ |d| %>
+        <li
+            <% if @date %>
+                <%= if @date.day == d then 'class=active' end %>
+            <% elsif Time.current.day == d %>
+                <%= 'class=active' %>
+            <% end %>
+            <% if @complete_days.include? d %>
+                <% if @date %>
+                    <%= unless @date.day == d then 'class=complete' end %>
+                <% else %>
+                    <%= 'class=complete' %>
+                <% end %>
+            <% end %>
+            <%= 'class=disabled' if !@date && d > Time.current.day %>
+            <% if @date %>
+                <% if @date.year == Time.current.year && @date.month == Time.current.month && d > Time.current.day %>
+                    <%= 'class=disabled' %>
+                <% end %>
+            <% end %>
+        >
+            <%= link_to d, { controller: 'profile', action: 'index', year: @date ? @date.year : Time.current.year, month: @date ? @date.month : Time.current.month, day: d, type: 'myQT' } %>
+        </li>
+      <% } %>
+      <li <%= 'class=disabled' if !@date || (@date && @date.year == Time.current.year && @date.month == Time.current.month)  %>><%= link_to "»", { controller: 'profile', action: 'index', year: @next_year, month: @next_month, day: 1, type: 'myQT' } %></li>
+    </ul>
+</div>
+<div>
+    <div class="row" style="padding:5px 0 5px 0;">
+        <div class="col-md-12">
+            <p class="no-margin">
+                <span class="label label-danger"><%=t 'text.title' %></span>
+                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:title] : "" %></span>
+            </p>
+        </div>
+    </div>
+    <div class="row" style="padding:5px 0 5px 0;">
+        <div class="col-md-12">
+            <p class="no-margin">
+                <span class="label label-danger"><%=t 'text.content' %></span>
+                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:book_line] : "" %></span>
+            </p>
+        </div>
+    </div>
+</div>
+<table class="table" style="font-size:13px;">
+    <tbody>
+        <% if @today_qt %>
+            <% @today_qt[:words].each do |t| %>
+            <tr>
+                <th><%= t.first %></th>
+                <td><%= t.second %></td>
+            </tr>
+            <% end %>
+        <% else %>
+            <%= "" %>
+        <% end %>
+    </tbody>
+</table>
+<hr style="border-color:#E9E3D8">
+<div class="row">
+    <div class="col-md-4">
+        <h5 style="font-weight: bold;"><%=t 'text.understanding' %></h5>
+        <div class="panel panel-success">
+            <div class="panel-body">
+                <% if @today_qt %>
+                    <% @today_qt[:explanation].each do |t| %>
+                    <p class="qt-p"><%= t %></p>
+                    <% end %>
+                <% else %>
+                    <%= "" %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 style="font-weight: bold;"><%=t 'text.whois' %></h5>
+                <textarea id="whois" name="whois" class="form-control" rows="5" readonly><%= @today_post ? @today_post.whois : "" %></textarea>
+                <div class="panel panel-success" style="margin-top:10px;">
+                    <div class="panel-body">
+                        <p class="qt-p"><%= @today_qt ? @today_qt[:whois] : "" %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5 style="font-weight: bold;"><%=t 'text.lesson' %></h5>
+                <textarea id="lesson" name="lesson" class="form-control" rows="5" readonly><%= @today_post ? @today_post.lesson : "" %></textarea>
+                <div class="panel panel-success" style="margin-top:10px;">
+                    <div class="panel-body">
+                        <p class="qt-p"><%= @today_qt ? @today_qt[:lesson] : "" %></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 style="font-weight: bold;"><%=t 'text.apply' %></h5>
+                <textarea id="apply" name="apply" class="form-control" rows="5" readonly><%= @today_post ? @today_post.apply : "" %></textarea>
+            </div>
+            <div class="col-md-6">
+                <h5 style="font-weight: bold;"><%=t 'text.prayer' %></h5>
+                <textarea id="pray" name="pray" class="form-control" rows="5" readonly><%= @today_post ? @today_post.pray : "" %></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+<% if @tags %>
+<div class="row" style="margin-top:10px;">
+    <div class="col-sm-12 qt-recommended-tags">
+        <span class="qt-font-sm qt-bold"><%= t 'text.tags' %>&nbsp;</span>
+        <% @tags.each do |t| %>
+            <button type="button" class="btn btn-default btn-fill btn-xs"><%= t %></button>
+        <% end %>
+    </div>
+</div>
+<% end %>

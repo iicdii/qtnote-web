@@ -171,7 +171,23 @@
                                 <input type="checkbox" name="is_public" id="is_public" <%= (@today_post && @today_post.is_public) || (@temp_post && @temp_post[:is_public]) ? "checked" : "" %> />
                                 <i id="unlock" class="fa fa-unlock fa-2x" style="margin-left: 5px;" aria-hidden="true"></i>
                             </div>
-                            <div style="display:inline-block;">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-8">
+                            <input name="tags" id="tags" class="tag-primary" value="<%= @tags %>" />
+                            <!-- <input name="tagsinput" class="tagsinput tag-primary" value="<%= @tags %>" /> -->
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-xs-12 col-sm-8 col-sm-offset-4 qt-recommended-tags">
+                            <span class="qt-font-sm qt-bold"><%= t 'text.recommended_tags' %>&nbsp;</span>
+                            <button type="button" class="btn btn-default btn-fill btn-xs">#<%= @book_line_title_ko %></button>
+                            <button type="button" class="btn btn-default btn-fill btn-xs">#<%= @book_line_title_en %></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-right">
                             <% unless user_signed_in? %>
                                 <button type="button" id="save_qt" class="btn btn-success" data-toggle="modal" data-target="#loginModal"><%=t 'text.save' %></button>
                             <% else %>
@@ -181,7 +197,6 @@
                                     <button type="submit" class="btn btn-success submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> <%=t 'text.sending' %>.."><%=t 'text.save' %></button>
                                 <% end %>
                             <% end %>
-                            </div>
                         </div>
                     </div>
                 <% end %>
@@ -261,6 +276,11 @@
 
 <script>
     $(document).ready(function() {
+        // 태그 입력기 초기화
+        $('#tags').tagsInput({ 
+            title: '<%=t 'text.tags' %>'
+        });
+        
         <% if @temp_post %>
         // 수정중이던 글이 있으면 페이지 로드 후 스크롤을 이동한다.
         $('html, body').animate({
@@ -351,6 +371,23 @@
                 window.history.pushState({path:newurl},'',newurl);
             }
         });
+        
+        // 추천 태그 클릭 시 태그 추가
+        $('.qt-recommended-tags .btn').on("click", function(e){
+            e.preventDefault();
+            // 중복 방지
+            if(!$('#tags').tagExist($(e.target).text())){
+                $('#tags').addTag($(e.target).text());
+            }
+        });
+        
+        
+        <% unless user_signed_in? %>
+        // textarea 클릭 시 로그인 모달 띄우기
+            $('#qt_form textarea').on("click", function(){
+                $('#loginModal').modal('show');
+            });
+        <% end %>
     });
     
     var is_fetchable = true;

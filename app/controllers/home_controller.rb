@@ -8,6 +8,17 @@ class HomeController < ApplicationController
   
   def index
     @today_post = current_user.posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first if user_signed_in?
+    # 태그 불러오기
+    if @today_post
+      tags = @today_post.owner_tags_on(current_user, :tags)
+      if tags.present?
+        @tags = ''
+        tags.each do |t|
+          @tags += t.name + ','
+        end
+      end
+    end
+    
     
     # 작성중이던 글이 있으면 불러온다.
     if cookies[:whois] || cookies[:lesson] || cookies[:apply] || cookies[:pray] || cookies[:public]
@@ -30,6 +41,8 @@ class HomeController < ApplicationController
     
     # 본문 가져오기
     @book_line = data[:book_line]
+    @book_line_title_ko = @book_line.split('[')[1].split('(')[0]
+    @book_line_title_en = @book_line.split('[')[1].split('(')[1].split(')')[0]
     
     # 본문 해설 가져오기
     @info1 = data[:explanation]
@@ -41,8 +54,6 @@ class HomeController < ApplicationController
       @done_data = Hash.new
       @done_data = ActiveSupport::JSON.decode(cookies[:done])
     end
-    
-
     
     # 오늘 QT 묵상, 이번 주 days 불러오기
     @days = Array.new
@@ -85,8 +96,15 @@ class HomeController < ApplicationController
       if new_post.save
         # 저장된 시기가 어제이면 어제 생성된 QT로 업데이트 해준다. (어제 QT 작성 중 12시가 넘어갔을 때)
         if Date.yesterday.day == params[:day].to_i
-          new_post.update_attributes(created_at: Date.yesterday.end_of_day)
+          new_post.update_attributes!(created_at: Date.yesterday.end_of_day)
         end
+        
+        # 태그가 있으면 등록해준다.
+        if params[:tagsinput]
+          @tags = params[:tagsinput] 
+          current_user.tag(new_post, :with => @tags, :on => :tags) 
+        end
+        
         now_exp = current_user.now_exp
         new_exp = 30 + Random.rand(30)
         new_exp += (new_exp * 0.2).ceil if params[:is_public]
@@ -135,6 +153,11 @@ class HomeController < ApplicationController
       @one_post.is_public = params[:is_public]
       if @one_post.save
         add_to_flash_array :info, "수정되었습니다."
+        # 태그가 있으면 등록해준다.
+        if params[:tagsinput]
+          @tags = params[:tagsinput] 
+          current_user.tag(@one_post, :with => @tags, :on => :tags) 
+        end
       else
         @one_post.errors.each do |attr, error|
           add_to_flash_array :danger, error
@@ -150,61 +173,6 @@ class HomeController < ApplicationController
        add_to_flash_array :warning, "유효하지 않은 게시물입니다."
     end
     redirect_to root_path
-  end
-  
-  def profile
-    @complete_days = Array.new
-    @achievements = Array.new
-    @posts = current_user.posts
-    @post_count = @posts.length
-    @number_of_qt_this_month = current_user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_month, Time.current.end_of_month).count
-    @number_of_qt_this_week = current_user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_week, Time.current.end_of_week).count
-    #sum = 0
-    #current_user.posts.last(5).each do |p|
-    #  sum += (p.created_at).to_i
-    #end
-    #@usual_time_for_qt = Time.at(sum / current_user.posts.count)
-    
-    #쿼리가 있으면 쿼리에 해당하는 날짜의 post를 불러오고, 없으면 오늘 post를 불러온다.
-    if params[:year] && params[:month] && params[:day]
-      year = params[:year].to_i
-      month = params[:month].to_i
-      day = params[:day].to_i
-      @date = Date.new(year, month, day)
-      @last_month = @date.last_month.month
-      @next_month = @date.next_month.month
-      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', @date.month) 
-      @today_qt = NewQt.new(year, month, day).to_h
-      @today_post = @posts.where(:created_at => @date.beginning_of_day...@date.end_of_day).first
-      @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
-      @last_day = Date.civil(year, month, -1).day
-      @last_year = @last_month == 12 ? @date.last_year.year : year
-      @next_year = @next_month == 1 ? @date.next_year.year : year
-    else
-      @last_month = Time.current.last_month.month
-      @next_month = Time.current.next_month.month
-      @posts_of_this_month = @posts.where('extract(month from created_at) = ?', Time.current.month)
-      @today_qt = NewQt.new(Time.zone.now.year, Time.zone.now.month, Time.zone.now.day).to_h
-      @today_post = @posts.where("created_at >= ?", Time.zone.now.beginning_of_day).first
-      @posts_of_this_month.each { |p| @complete_days << p.created_at.day } if @posts_of_this_month.exists?
-      @last_day = Date.civil(Time.current.year, Time.current.month, -1).day
-      @last_year = @last_month == 12 ? Time.current.last_year.year : Time.current.year
-      @next_year = @next_month == 1 ? Time.current.next_year.year : Time.current.year
-    end
-    
-    #업적을 불러온다.
-    achievements = get_achievements
-    achievements.each do |a|
-      achievement = current_user.achievements.find {|h| h[:id] == a[:id] }
-      @achievements << {
-        :id => a[:id],
-        :title => a[:title],
-        :description => a[:description],
-        :is_active => achievement ? true : false,
-        :created_at => achievement ? achievement[:created_at] : ""
-      }
-    end
-    
   end
   
 end

@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.tagsinput
 //= require bootstrap-notify
 //= require jquery-ui.min
 //= require sisyphus.min

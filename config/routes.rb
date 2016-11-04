@@ -7,9 +7,9 @@ Rails.application.routes.draw do
     get 'omniauth/:provider' => 'omniauth#localized', as: :localized_omniauth
     
     get '/' => 'home#index'
-    get '/profile' => 'home#profile'
     post '/write' => 'home#write'
     post '/modify' => 'home#modify'
+    get '/profile' => 'profile#index'
     get '/users/:id' => 'users/profile#index', as: 'user'
     get '/posts/:id' => 'posts#index', as: 'post'
     post '/posts/fetch' => 'posts#fetch', as: 'fetch_posts'

@@ -1,4 +1,7 @@
 ko:
+  will_paginate:
+    previous_label: «
+    next_label: »
   devise:
     confirmations:
       confirmed: "이메일 주소가 성공적으로 인증되었습니다."
@@ -414,3 +417,8 @@ ko:
         title: 커뮤니티
         body: 내 QT를 공개하고 다른 사람들과 함께 의견을 나눌 수 있습니다.
     need_to_be_logged_in: 댓글을 작성하시려면 로그인이 필요합니다.
+    tags: 태그
+    recommended_tags: 추천 태그
+    enter_tags: 입력
+    qt_list: 목록형
+    qt_calendar: 날짜형

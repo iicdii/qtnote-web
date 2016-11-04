@@ -1,0 +1,14 @@
+<div class="achievements">
+    <% @achievements.each do |a| %>
+    <div class="row <%= 'active' if a[:is_active] == true %>" style="text-transform: uppercase;">
+        <div class="col-md-1 col-xs-2 qt-achievement-<%= a[:id] %>">
+        </div>
+        <div class="col-md-6 col-xs-10">
+            <div>
+                <p><%= a[:title] %> <span class="date"><%= a[:created_at].to_s(:custom_datetime) if a[:is_active] == true %></span></p>
+                <p class="qt-p"><%= a[:description] %></p>
+            </div>
+        </div>
+    </div>
+    <% end %>
+</div>

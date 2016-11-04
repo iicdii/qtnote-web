@@ -1,0 +1,73 @@
+<div class="profile-header"></div>
+
+<div class="container">
+    <div class="main" style="padding:40px 0 40px 0;">
+        <h3><%=t 'text.profile.profile'%></h3>
+        <div class="nav-tabs-navigation" role="tablist">
+            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                <li class="<%= 'active' if !request.query_parameters[:type] %>" role="presentation"><a href="#summary" id="tab_1" aria-controls="summary" data-toggle="tab" aria-expanded="true"><%=t 'text.summary' %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "myQT" %>" role="presentation"><a href="#myqt" id="tab_2" aria-controls="myqt" data-toggle="tab" aria-expanded="false"><%=t 'text.myqt' %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "achievement" %>" role="presentation"><a href="#achievement" id="tab_3" aria-controls="achievement" data-toggle="tab" aria-expanded="false"><%=t 'text.achievement' %></a></li>
+                <li class="<%= 'active' if request.query_parameters[:type] == "setting" %>" role="presentation"><a href="#setting" id="tab_4" aria-controls="setting" data-toggle="tab" aria-expanded="false"><%=t 'text.setting' %></a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane <%= 'active' if !request.query_parameters[:type] %>" id="summary">
+                <%= render :partial => 'profile/summary',
+                locals: {
+                    post_count: @post_count,
+                    number_of_qt_this_month: @number_of_qt_this_month,
+                    number_of_qt_this_week: @number_of_qt_this_week
+                } %>
+            </div>
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'myQT' %>" id="myqt">
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="col-xs-12 qt-font-sm">
+                        <%= link_to t('text.qt_calendar'), profile_path(type: 'myQT') %>
+                        <span>·</span>
+                        <%= link_to t('text.qt_list'), profile_path(type: 'myQT', qt_type: 'list', page: 1) %>
+                    </div>
+                </div>
+                <% if request.query_parameters[:qt_type] == 'list' %>
+                    <%= render :partial => 'profile/myQT_list' %>
+                <% else %>
+                    <%= render :partial => 'profile/myQT_calendar' %>
+                <% end %>
+            </div>
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'achievement' %>" id="achievement">
+                <%= render :partial => 'profile/achievement' %>
+            </div>
+            <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'setting' %>" id="setting">
+                <%= render :partial => 'profile/setting' %>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#tab_1').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_2').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=myQT';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_3').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=achievement';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+        $('#tab_4').click(function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=setting';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
+    });
+</script>

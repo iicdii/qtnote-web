@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
+gem 'will_paginate-bootstrap'
+gem 'will_paginate', '~> 3.1.0'
+gem 'acts-as-taggable-on', '~> 4.0'
 gem 'betterlorem'
 gem 'activerecord-session_store'
 gem 'omniauth-facebook'

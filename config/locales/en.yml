@@ -20,6 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  will_paginate:
+    previous_label: «
+    next_label: »
   activerecord:
     errors:
       models:
@@ -184,3 +187,8 @@ en:
         title: 커뮤니티
         body: 내 QT를 공개하고 다른 사람들과 함께 의견을 나눌 수 있습니다.
     need_to_be_logged_in: You must be logged in to comment
+    tags: Tags
+    recommended_tags: Recommended tags
+    enter_tags: Enter tags
+    qt_list: List
+    qt_calendar: Calendar

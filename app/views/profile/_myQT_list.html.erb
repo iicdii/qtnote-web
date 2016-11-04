@@ -1,0 +1,17 @@
+<ul class="posts-list">
+    <% @listed_post.each do |p| %>
+    <li>
+        <%= link_to p.created_at.to_s(:custom_datetime), post_url(p.id), { class: 'title' } %>
+        <span class="comments-count">[<%= p.comments.count %>]</span>
+        <i class="fa fa-heart <%= 'active' if p.likes.count > 0 %>" aria-hidden="true"></i>
+        <span class="likes-count"><%= p.likes.count %></span>
+        <span>
+            <% p.owner_tags_on(current_user, :tags).each do |t| %>
+            <button type="button" class="tag btn btn-default btn-fill btn-xs"><%= t %></button>
+            <% end %>
+        </span>
+    </li>
+    <% end %>
+</ul>
+
+<%= will_paginate @listed_post, renderer: BootstrapPagination::Rails %>
