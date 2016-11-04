@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   serialize :achievements, Array
   
   validates :nickname,
-      length: { maximum: 10 }
+      length: { maximum: 10 },
+      uniqueness: true
   
   def self.from_omniauth(access_token)
       data = access_token.info

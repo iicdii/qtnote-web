@@ -69,6 +69,6 @@ class ProfileController < ApplicationController
     
     # 목록형 QT 페이지네이트
     current_page = params[:page] ? params[:page] : 1
-    @listed_post = @posts.paginate(:page => current_page, :per_page => 20)
+    @listed_post = @posts.paginate(:page => current_page, :per_page => 10)
   end
 end

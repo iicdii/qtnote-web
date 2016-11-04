@@ -1,11 +1,14 @@
 <% if posts %>
+    <% if title %>
+        <h2 class="post-title-tag"><%= title.include?('#') ? title : '#' + title %></h2>
+    <% end %>
     <p class="qt-font-sm post-count" style="margin-bottom:20px;" data-count="<%= count %>"><%=t("text.sharing_x_qt_total", count: count) %></p>
     <% posts.each do |p| %>
         <%= render partial: 'posts/one_post', locals: {p: p} %>
     <% end %>
     <script>
         $(document).ready(function(){
-            $("#previous_button").on("click", function(e){
+            $(".previous_button").on("click", function(e){
                 e.preventDefault();
                 year = <%= year %>;
                 month = <%= month %>;
@@ -18,9 +21,11 @@
                 }
             });
             
-            <% if request.query_parameters && request.query_parameters[:year] && request.query_parameters[:month] &&
-                request.query_parameters[:day] && request.query_parameters[:type] &&
-                request.query_parameters[:type] == 'shareQT' && request.query_parameters[:p_id]
+            <% if request.query_parameters &&
+                request.query_parameters[:type] &&
+                request.query_parameters[:type] == 'shareQT' &&
+                ( request.query_parameters[:year] && request.query_parameters[:month] && request.query_parameters[:day] ) || request.query_parameters[:tag]
+                request.query_parameters[:p_id]
             %>
                 $("#msgbox").hide();
                 $(".spinner-box").show();

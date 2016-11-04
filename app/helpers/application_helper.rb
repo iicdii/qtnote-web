@@ -35,13 +35,31 @@ module ApplicationHelper
     end
   end
   
+  def get_user user_id
+    user = User.find_by id: user_id
+    user
+  end
+  
+  def get_user_name user_id
+    user = User.find_by id: user_id
+    if user
+      if user.nickname
+        '@' + user.nickname
+      else
+        user.id
+      end
+    else
+      0
+    end
+  end
+  
   def auto_link_usernames(text)
     text.gsub /@([가-힣]+|\w+)/ do |username|
       name = username.gsub('@', '')
       if User.where("email like ?", "%#{name}%").present?
         id = User.where("email like ?", "%#{name}%").first.id
       elsif User.where("nickname like ?", "%#{name}%").present?
-        id = User.where("nickname like ?", "%#{name}%").first.id
+        id = '@' + User.where("nickname like ?", "%#{name}%").first.nickname
       end
       id ? link_to(username, user_path(id)) : username
     end.html_safe

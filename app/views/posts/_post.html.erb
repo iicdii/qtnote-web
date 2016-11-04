@@ -2,11 +2,11 @@
 <div class="post-container">
     <div class="row">
         <div class="user-area col-xs-3">
-            <%= link_to user_url(User.find_by(id: post.user_id) ? User.find_by(id: post.user_id).id : 0), class: "user-info" do %>
+            <%= link_to user_url(get_user_name(post.user_id)), class: "user-info" do %>
                 <img src="http://image.flaticon.com/icons/svg/149/149071.svg" width="64" height="64">
             <% end %>
             <div class="user-info-detail">
-                <%= link_to user_url(User.find_by(id: post.user_id) ? User.find_by(id: post.user_id).id : 0) do %>
+                <%= link_to user_url(get_user_name(post.user_id)) do %>
                 <span><%= display_name(post.user_id) %></span>
                 <% end %>
                 <span class="qt-level-sm qt-num"><%= display_level(post.user_id) %></span>
@@ -14,10 +14,26 @@
         </div>
         <div class="post-area col-xs-9">
             <div class="post-content">
+                <div style="margin-bottom:10px;">
+                    <span class="label label-danger qt-book-line-label"><%=t 'text.content' %></span>
+                    <span class="qt-book-line"><%= post.title %></span>
+                </div>
                 <span class="qt-bold"><%=t 'text.whois' %></span><br />
                 <%= simple_format(post.whois) %>
                 <span class="qt-bold"><%=t 'text.lesson' %></span><br />
                 <%= simple_format(post.lesson) %>
+                <% if post.owner_tags_on(get_user(post.user_id), :tags).present? %>
+                <div class="qt-tags">
+                <% post.owner_tags_on(get_user(post.user_id), :tags).each do |t| %>
+                    <%= link_to t, root_path(type: 'shareQT', tag: t.name.gsub('#', '')),
+                        {
+                            class: 'post-tag',
+                            data: {tag: t.name.gsub('#', '')}
+                        }
+                    %>
+                <% end %>
+                </div>
+                <% end %>
             </div>
             <div class="post-detail">
                 <ul>
@@ -105,7 +121,40 @@
                 $('#loginModal').modal('show');
             <% end %>
         });
+        
+        $(".post-tag").on("click", function(e){
+           e.preventDefault();
+           fetch_posts_with_tag($(e.target).data("tag"));
+        });
     });
+    
+    function fetch_posts_with_tag(tag){
+        $("#msgbox").hide();
+        $("#postbox").hide();
+        $(".spinner-box").show();
+        $.ajax({
+            // make a get request to the server
+            method: "POST",
+            url: "<%= fetch_posts_path %>",
+            data: {
+                type: 'posts',
+                tag: tag
+            },
+            success: function(data){
+                $(".spinner-box").hide();
+                $("#msgbox").html(data);
+                $("#msgbox").show();
+                if (history.pushState) {
+                    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=shareQT&tag='+tag;
+                    window.history.pushState({path:newurl},'',newurl);
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $(".spinner-box").hide();
+                $("#postbox").show();
+            }
+        });
+    }
 
     function write_comment(){
         $.ajax({

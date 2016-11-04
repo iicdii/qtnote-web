@@ -37,7 +37,7 @@
         <div class="col-md-12">
             <p class="no-margin">
                 <span class="label label-danger"><%=t 'text.title' %></span>
-                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:title] : "" %></span>
+                <span class="qt-book-line"><%= @today_qt ? @today_qt[:title] : "" %></span>
             </p>
         </div>
     </div>
@@ -45,7 +45,7 @@
         <div class="col-md-12">
             <p class="no-margin">
                 <span class="label label-danger"><%=t 'text.content' %></span>
-                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @today_qt ? @today_qt[:book_line] : "" %></span>
+                <span class="qt-book-line"><%= @today_qt ? @today_qt[:book_line] : "" %></span>
             </p>
         </div>
     </div>
@@ -115,7 +115,7 @@
 </div>
 <% if @tags %>
 <div class="row" style="margin-top:10px;">
-    <div class="col-sm-12 qt-recommended-tags">
+    <div class="col-sm-12 qt-tags">
         <span class="qt-font-sm qt-bold"><%= t 'text.tags' %>&nbsp;</span>
         <% @tags.each do |t| %>
             <button type="button" class="btn btn-default btn-fill btn-xs"><%= t %></button>

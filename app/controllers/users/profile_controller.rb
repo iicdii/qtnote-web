@@ -2,7 +2,13 @@ class Users::ProfileController < ApplicationController
     include ApplicationHelper
     
     def index
-        @user = User.find_by id: params[:id]
+        if params[:id].include? '@'
+            nickname = params[:id].split('@')[1]
+            @user = User.find_by nickname: nickname
+        else
+            @user = User.find_by id: params[:id]
+        end
+        
         if @user
             @number_of_qt_this_month = @user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_month, Time.current.end_of_month).count
             @number_of_qt_this_week = @user.posts.where("created_at >= ? and created_at <= ?", Time.current.beginning_of_week, Time.current.end_of_week).count

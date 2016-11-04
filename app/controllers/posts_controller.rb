@@ -12,19 +12,39 @@ class PostsController < ApplicationController
   def fetch
     if request.xhr?
       if params[:type] == 'posts'
-        the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
-        posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true)
-        @selected = posts.limit(5)
-        render :partial => 'posts/posts_list', locals: {posts: @selected, year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i, count: posts.count}
+        # 년, 월, 일로 불러오거나 태그로 불러오기
+        if params[:year] && params[:month] && params[:day]
+          the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
+          posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true)
+          @selected = posts.limit(5)
+        elsif params[:tag]
+          tag = params[:tag].include?('#') ? params[:tag] : '#' + params[:tag]
+          posts = Post.tagged_with(tag, :on => :tags)
+          @selected = Post.tagged_with(tag, :on => :tags).limit(10)
+        end
+
+        render :partial => 'posts/posts_list', locals: {
+          posts: @selected,
+          year: params[:year].to_i,
+          month: params[:month].to_i,
+          day: params[:day].to_i,
+          count: posts.count,
+          title: tag
+        }
       elsif params[:type] == 'post'
         if params[:id]
           @post = Post.find_by id: params[:id]
           render :partial => 'posts/post', locals: {post: @post}
         end
       elsif params[:type] == 'posts_list'
-        the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
-        @posts = Post.where('created_at >= ? and created_at <= ? and id < ? and is_public = ?',
-          the_day_at.beginning_of_day, the_day_at.end_of_day, params[:id], true).limit(5)
+        
+        if params[:year] && params[:month] && params[:day]
+          the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
+          @posts = Post.where('created_at >= ? and created_at <= ? and id < ? and is_public = ?',
+          the_day_at.beginning_of_day, the_day_at.end_of_day, params[:id], true).limit(10)
+        end
+
+        
         respond_to do |format|
           format.html
           format.js

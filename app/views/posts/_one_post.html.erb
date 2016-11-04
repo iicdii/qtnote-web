@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
                         <div class="talk-user-me">
-                            <%= link_to user_url(current_user.id) do %>
+                            <%= link_to user_url(get_user_name(current_user.id)) do %>
                             <span class="qt-eng"><%= display_name(current_user.id) %></span>
                             <% end %>
                             <span class="qt-level-sm qt-num"><%= display_level(current_user.id) %></span>
@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-md-12" style="padding-bottom: 10px; margin-bottom: 15px;">
                         <div class="talk-user-other">
-                            <%= link_to user_url(p.user_id) do %>
+                            <%= link_to user_url(get_user_name(p.user_id)) do %>
                             <span class="qt-eng"><%= display_name(p.user_id) %></span>
                             <% end %>
                             <span class="qt-level-sm qt-num"><%= display_level(p.user_id) %></span>

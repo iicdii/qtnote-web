@@ -18,12 +18,6 @@ class Post < ActiveRecord::Base
             minimum: 10,
             maximum: 1000
         }
-    validates :apply,
-        presence: true,
-        length: {
-            minimum: 5,
-            maximum: 1000
-        }
     
     def update_streak
         if self.user.streak_end
@@ -32,6 +26,14 @@ class Post < ActiveRecord::Base
             self.user.touch(:streak_start)
         end
         self.user.touch(:streak_end)
+    end
+    
+    def self.search(search)
+      if search
+        find(:all, :conditions => ['title LIKE ?', "%#{search}%"])
+      else
+        find(:all)
+      end
     end
 end
 

@@ -79,7 +79,7 @@
                 <% end %>
               </a>
             </li>
-            <li><%= link_to t('text.myqt'), { controller: 'profile', action: 'index', type: 'myQT' }, { class: "btn btn-simple", style: "text-align:left" } %></li>
+            <li><%= link_to t('text.myqt'), { controller: '/profile', action: 'index', type: 'myQT' }, { class: "btn btn-simple", style: "text-align:left" } %></li>
             <li class="divider"></li>
             <% end %>
           </ul>
@@ -103,8 +103,8 @@
             <li class="dropdown qt-dropdown" id="qt-dropdown">
               <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="qt-eng"><%= current_user.email %></span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><%= link_to t('text.profile.profile'), { controller: 'profile', action: 'index' } %></li>
-                <li><%= link_to t('text.setting'), { controller: 'profile', action: 'index', type: 'setting' } %></li>
+                <li><%= link_to t('text.profile.profile'), { controller: '/profile', action: 'index' } %></li>
+                <li><%= link_to t('text.setting'), { controller: '/profile', action: 'index', type: 'setting' } %></li>
                 <li class="divider"></li>
                 <li><%= link_to t('text.sign_out'), destroy_user_session_path %></li>
               </ul>

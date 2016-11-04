@@ -66,7 +66,7 @@
                         <div class="col-md-12">
                             <p class="no-margin">
                                 <span class="label label-danger"><%=t 'text.title' %></span>
-                                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @title %></span>
+                                <span class="qt-book-line"><%= @title %></span>
                             </p>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                         <div class="col-md-12">
                             <p class="no-margin">
                                 <span class="label label-danger"><%=t 'text.content' %></span>
-                                <span class="qt-font-sm" style="margin-left:5px;font-weight:600;"><%= @book_line %></span>
+                                <span class="qt-book-line"><%= @book_line %></span>
                             </p>
                         </div>
                     </div>
@@ -93,6 +93,7 @@
                 <%= form_tag({controller: "home", action: @today_post ? 'modify' : 'write'}, {id: "qt_form", method: "post"}) do |f| %>
                     <input type="hidden" name="id" value="<%= @today_post? @today_post.id : "" %>">
                     <input type="hidden" name="day" value="<%= Time.current.day %>">
+                    <input type="hidden" name="title" value="<%= @post_title %>">
                     <div class="row">
                         <div class="col-md-4">
                             <h5 style="font-weight: bold;"><%=t "text.understanding" %>&nbsp;
@@ -219,6 +220,7 @@
                 </div>
                 <div id="msgbox" class="msgbox">
                 <%= render partial: 'posts/posts_list', locals: { posts: @selected, count: @posts_count,
+                        title: request.query_parameters[:tag] ? request.query_parameters[:tag] : nil,
                         year: request.query_parameters[:year] ? request.query_parameters[:year].to_i : Date.current.year,
                         month: request.query_parameters[:month] ? request.query_parameters[:month].to_i : Date.current.month,
                         day: request.query_parameters[:day] ? request.query_parameters[:day].to_i : Date.current.day }
@@ -231,7 +233,7 @@
                 </div>
                 <div id="postbox">
                     <div class="actions">
-                        <%= link_to t("text.back"), "javascript:;", { class: "btn btn-primary", id: "previous_button" } %>
+                        <%= link_to t("text.back"), "javascript:;", { class: "btn btn-primary previous_button" } %>
                     </div>
                     <div id="posts"></div>
                 </div>

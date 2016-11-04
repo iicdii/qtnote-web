@@ -19,7 +19,7 @@
                     </li>
                 </ul>
             </div>
-            <%= link_to user_url(User.find_by(id: reply.user_id) ? User.find_by(id: reply.user_id).id : 0) do %>
+            <%= link_to user_url(get_user_name(reply.user_id)) do %>
             <span class="username"><%= display_name(reply.user_id) %></span>
             <% end %>
             <span class="qt-level-sm qt-num"><%= display_level(reply.user_id) %></span>

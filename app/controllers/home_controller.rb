@@ -43,6 +43,7 @@ class HomeController < ApplicationController
     @book_line = data[:book_line]
     @book_line_title_ko = @book_line.split('[')[1].split('(')[0]
     @book_line_title_en = @book_line.split('[')[1].split('(')[1].split(')')[0]
+    @post_title = @book_line.match('\[(.*?)\]')[0].gsub('[', '').gsub(']', '')
     
     # 본문 해설 가져오기
     @info1 = data[:explanation]
@@ -57,17 +58,29 @@ class HomeController < ApplicationController
     
     # 오늘 QT 묵상, 이번 주 days 불러오기
     @days = Array.new
-    if params[:type] == 'shareQT' && params[:year] && params[:month] && params[:day]
-      start_day = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).beginning_of_week
-      end_day = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).end_of_week
-      start_day.upto(end_day) do |d|
-        @days << d.strftime("%m/%d")
+    if params[:type] == 'shareQT'
+      if params[:year] && params[:month] && params[:day]
+        start_day = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).beginning_of_week
+        end_day = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).end_of_week
+        start_day.upto(end_day) do |d|
+          @days << d.strftime("%m/%d")
+        end
+        
+        the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
+        posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true)
+        @posts_count = posts.count
+        @selected = posts.limit(10)
+      elsif params[:tag]
+        start_day = Date.today.beginning_of_week
+        end_day = Date.today.end_of_week
+        start_day.upto(end_day) do |d|
+          @days << d.strftime("%m/%d")
+        end
+        tag = params[:tag].include?('#') ? params[:tag] :  '#' + params[:tag]
+        posts = Post.tagged_with(tag, :on => :tags)
+        @posts_count = posts.count
+        @selected = posts.limit(10)
       end
-      
-      the_day_at = Time.current.change(year: params[:year].to_i, month: params[:month].to_i, day: params[:day].to_i)
-      posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", the_day_at.beginning_of_day, the_day_at.end_of_day, true)
-      @posts_count = posts.count
-      @selected = posts.limit(5)
     else
       start_day = Date.today.beginning_of_week
       end_day = Date.today.end_of_week
@@ -76,7 +89,7 @@ class HomeController < ApplicationController
       end
       posts = Post.where("created_at >= ? and created_at <= ? and is_public = ?", Time.current.beginning_of_day, Time.current.end_of_day, true)
       @posts_count = posts.count
-      @selected = Post.where("created_at >= ? and is_public = ?", Time.current.beginning_of_day, true).limit(5)
+      @selected = Post.where("created_at >= ? and is_public = ?", Time.current.beginning_of_day, true).limit(10)
     end
   end
   
@@ -92,6 +105,7 @@ class HomeController < ApplicationController
       new_post.apply = params[:apply]
       new_post.pray = params[:pray]
       new_post.is_public = params[:is_public]
+      new_post.title = params[:title]
       
       if new_post.save
         # 저장된 시기가 어제이면 어제 생성된 QT로 업데이트 해준다. (어제 QT 작성 중 12시가 넘어갔을 때)
