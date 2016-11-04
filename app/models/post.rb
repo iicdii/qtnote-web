@@ -18,6 +18,12 @@ class Post < ActiveRecord::Base
             minimum: 10,
             maximum: 1000
         }
+    validates :apply,
+        presence: true,
+        length: {
+            minimum: 5,
+            maximum: 1000
+        }
     
     def update_streak
         if self.user.streak_end
