@@ -43,19 +43,20 @@ module QtHelper
         info1 = info[1..(last_index - 1)] if last_index
         
         if info.index("하나님은 어떤 분입니까?")
-          first_index = info.index("하나님은 어떤 분입니까?")+1
+          first_index = info.index("하나님은 어떤 분입니까?")
+          
         elsif info.index("예수님은 어떤 분입니까?")
-          first_index = info.index("예수님은 어떤 분입니까?")+1
+          first_index = info.index("예수님은 어떤 분입니까?")
         else
           first_index = false
         end
+        first_index += 1 if first_index
         
         if first_index
           info2 = info[first_index]
         else
-          s_info.index("하나님은 어떤 분입니까?")
-          first_index = s_info.index("하나님은 어떤 분입니까?")+1
-          info2 = first_index ? s_info[first_index] : "오늘은 해설이 없습니다."
+          first_index = s_info.index("하나님은 어떤 분입니까?")
+          info2 = first_index ? s_info[first_index+1] : "오늘은 해설이 없습니다."
         end
         
         first_index = info.index("내게 주시는 교훈은 무엇입니까?") ? info.index("내게 주시는 교훈은 무엇입니까?")+1 : false
@@ -63,7 +64,6 @@ module QtHelper
         if first_index
           info3 = info[first_index]
         else
-          s_info.index("내게 주시는 교훈은 무엇입니까?")
           first_index = s_info.index("내게 주시는 교훈은 무엇입니까?")+1
           info3 = first_index ? s_info[first_index] : "오늘은 해설이 없습니다."
         end
