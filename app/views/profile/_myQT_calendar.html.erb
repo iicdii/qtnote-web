@@ -118,7 +118,10 @@
     <div class="col-sm-12 qt-tags">
         <span class="qt-font-sm qt-bold"><%= t 'text.tags' %>&nbsp;</span>
         <% @tags.each do |t| %>
-            <button type="button" class="btn btn-default btn-fill btn-xs"><%= t %></button>
+            <%= 
+                link_to t, profile_path(type: 'myQT', qt_type: 'list', page: 1, search: t),
+                class: 'tag btn btn-default btn-fill btn-xs'
+            %>
         <% end %>
     </div>
 </div>

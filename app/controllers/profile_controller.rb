@@ -69,6 +69,16 @@ class ProfileController < ApplicationController
     
     # 목록형 QT 페이지네이트
     current_page = params[:page] ? params[:page] : 1
-    @listed_post = @posts.paginate(:page => current_page, :per_page => 10)
+    search = params[:search]
+    if search
+      @posts = Post.search(search, current_user.id)
+    else
+      @posts = current_user.posts
+    end
+    @listed_posts = @posts.present? ? @posts.paginate(:page => current_page) : @posts
+    respond_to do |format|
+      format.html
+      format.js
+    end 
   end
 end

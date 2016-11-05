@@ -119,7 +119,7 @@ en:
     no_shared_qt_today: No shared QT today.
     qt_is_registered: QT is registered!
     apply_description: After reading today's passage, write specific things you can put into action.
-    sharing_x_qt_total: "Sharing %{count} QT total."
+    sharing_x_qt_total: "Sharing <span class='qt-bold'>%{count}</span> QT total."
     read_more: Read more
     public_description: People will see your QT in QT sharing tab and you can get extra XP in public mode.
     nickname_placeholder: Maximum is 10 characters.
@@ -192,3 +192,4 @@ en:
     enter_tags: Enter tags
     qt_list: List
     qt_calendar: Calendar
+    count_results: "%{count} results"

@@ -1,5 +1,5 @@
+<%= render :partial => 'layouts/search_modal', locals: {type: 'myQT'} %>
 <div class="profile-header"></div>
-
 <div class="container">
     <div class="main" style="padding:40px 0 40px 0;">
         <h3><%=t 'text.profile.profile'%></h3>
@@ -23,16 +23,14 @@
             <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'myQT' %>" id="myqt">
                 <div class="row" style="margin-bottom:10px;">
                     <div class="col-xs-12 qt-font-sm">
-                        <%= link_to t('text.qt_calendar'), profile_path(type: 'myQT') %>
+                        <%= link_to t('text.qt_calendar'), profile_path(type: 'myQT'), { class: 'sort-by-calendar' } %>
                         <span>·</span>
-                        <%= link_to t('text.qt_list'), profile_path(type: 'myQT', qt_type: 'list', page: 1) %>
+                        <%= link_to t('text.qt_list'), profile_path(type: 'myQT', qt_type: 'list', page: 1), { class: 'sort-by-list', remote: true, method: :get } %>
+                        <span>·</span>
+                        <%= link_to t('text.search'), profile_path(type: 'myQT'), { class: 'qt-search' } %>
                     </div>
                 </div>
-                <% if request.query_parameters[:qt_type] == 'list' %>
-                    <%= render :partial => 'profile/myQT_list' %>
-                <% else %>
-                    <%= render :partial => 'profile/myQT_calendar' %>
-                <% end %>
+                <%= render :partial => 'profile/index' %>
             </div>
             <div role="tabpanel" class="tab-pane <%= 'active' if request.query_parameters[:type] == 'achievement' %>" id="achievement">
                 <%= render :partial => 'profile/achievement' %>
@@ -68,6 +66,16 @@
                 var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=setting';
                 window.history.pushState({path:newurl},'',newurl);
             }
+        });
+        $('.qt-search').click(function(e){
+            e.preventDefault();
+            $('#searchModal').modal('show');
+        });
+        $('#searchModal').on('shown.bs.modal', function () {
+            $('#search_box').focus();
+        });
+        $('.sort-by-calendar').on('click', function(){
+            $('#post-box').addClass('half-transparent');
         });
     });
 </script>

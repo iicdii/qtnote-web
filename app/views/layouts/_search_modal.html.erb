@@ -1,0 +1,27 @@
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" style="max-width:420px; padding-top:300px; margin: 0 auto;" role="document">
+    <div class="modal-content" style="border-top-width:0; box-shadow:0 7px 15px -5px rgba(0,0,0,.5); border-radius: 5px;">
+      <div class="modal-body" style="padding:0;">
+        <%= form_tag({ controller: 'profile', action: 'index' }, { id: 'search_form', method: 'get' } ) do %>
+        <div class="input-group">
+          <input type="text" class="form-control" name="search" id="search-box">
+          <input type="hidden" name="type" value="myQT">
+          <input type="hidden" name="qt_type" value="list">
+          <span class="input-group-btn">
+            <button class="btn btn-default search-button" type="submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </span>
+        </div><!-- /input-group -->
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+    $('#searchModal').on('shown.bs.modal', function () {
+      $('#search-box').focus();
+    })
+  });
+</script>

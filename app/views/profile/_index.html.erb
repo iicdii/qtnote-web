@@ -1,0 +1,7 @@
+<div id="post-box">
+    <% if request.query_parameters[:qt_type] == 'list' %>
+        <%= render :partial => 'profile/myQT_list' %>
+    <% else %>
+        <%= render :partial => 'profile/myQT_calendar' %>
+    <% end %>
+</div>

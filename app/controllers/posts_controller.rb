@@ -43,7 +43,6 @@ class PostsController < ApplicationController
           @posts = Post.where('created_at >= ? and created_at <= ? and id < ? and is_public = ?',
           the_day_at.beginning_of_day, the_day_at.end_of_day, params[:id], true).limit(10)
         end
-
         
         respond_to do |format|
           format.html
@@ -60,6 +59,17 @@ class PostsController < ApplicationController
           @days << d.strftime("%y/%m/%d")
         end
         render :partial => 'posts/days_list', locals: {days: @days, year: year, month: month, day: day}
+      elsif params[:type] == 'qt_list'
+        search = params[:search]
+        current_page = params[:page] ? params[:page] : 1
+        if search
+          @posts = Post.search(search, current_user.id)
+          @listed_posts = @posts.paginate(:page => current_page, :per_page => 2)
+          render :partial => 'profile/myQT_list', locals: {posts: @listed_posts, search: search}
+        else
+          @listed_posts = current_user.posts.paginate(:page => current_page, :per_page => 2)
+          render :partial => 'profile/myQT_list', locals: {posts: @listed_posts, search: nil}
+        end
       end
     end
   end

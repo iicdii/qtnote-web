@@ -1,17 +1,34 @@
+<% if request.query_parameters[:search] %>
+    <h3 class="search-result-title"><%= request.query_parameters[:search] %></h3>
+    <div class="search-result-count"><%= t('text.count_results', count: @listed_posts.count) %></div>
+<% end %>
 <ul class="posts-list">
-    <% @listed_post.each do |p| %>
+    <% @listed_posts.each do |p| %>
     <li>
         <%= link_to p.created_at.to_s(:custom_datetime), post_url(p.id), { class: 'title' } %>
         <span class="comments-count">[<%= p.comments.count %>]</span>
         <i class="fa fa-heart <%= 'active' if p.likes.count > 0 %>" aria-hidden="true"></i>
         <span class="likes-count"><%= p.likes.count %></span>
         <span>
-            <% p.owner_tags_on(current_user, :tags).each do |t| %>
-            <button type="button" class="tag btn btn-default btn-fill btn-xs"><%= t %></button>
-            <% end %>
+        <% p.owner_tags_on(current_user, :tags).each do |t| %>
+            <%= 
+                link_to t.name, profile_path(type: 'myQT', qt_type: 'list', page: 1, search: t.name),
+                class: 'tag btn btn-default btn-fill btn-xs'
+            %>
+        <% end %>
         </span>
     </li>
     <% end %>
 </ul>
 
-<%= will_paginate @listed_post, renderer: BootstrapPagination::Rails %>
+<% if @listed_posts.present? %>
+    <%= will_paginate @listed_posts, renderer: BootstrapPagination::Rails, link_options: {'data-remote': true} %>
+<% end %>
+
+<script>
+    $(document).ready(function(){
+        $('.pagination a').on("click", function(){
+            $('.posts-list').addClass('half-transparent');
+        });
+    });
+</script>
