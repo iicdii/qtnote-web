@@ -168,8 +168,8 @@ class HomeController < ApplicationController
       if @one_post.save
         add_to_flash_array :info, "수정되었습니다."
         # 태그가 있으면 등록해준다.
-        if params[:tagsinput]
-          @tags = params[:tagsinput] 
+        if params[:tags]
+          @tags = params[:tags] 
           current_user.tag(@one_post, :with => @tags, :on => :tags) 
         end
       else
