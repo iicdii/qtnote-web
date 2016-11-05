@@ -114,8 +114,8 @@ class HomeController < ApplicationController
         end
         
         # 태그가 있으면 등록해준다.
-        if params[:tagsinput]
-          @tags = params[:tagsinput] 
+        if params[:tags]
+          @tags = params[:tags] 
           current_user.tag(new_post, :with => @tags, :on => :tags) 
         end
         

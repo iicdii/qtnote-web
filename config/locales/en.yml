@@ -192,4 +192,5 @@ en:
     enter_tags: Enter tags
     qt_list: List
     qt_calendar: Calendar
+    search: Search
     count_results: "%{count} results"
