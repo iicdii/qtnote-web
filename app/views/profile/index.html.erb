@@ -77,5 +77,11 @@
         $('.sort-by-calendar').on('click', function(){
             $('#post-box').addClass('half-transparent');
         });
+        $('.sort-by-list').on('click', function(){
+            if (history.pushState) {
+                var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?type=myQT&qt_type=list&page=1';
+                window.history.pushState({path:newurl},'',newurl);
+            }
+        });
     });
 </script>
