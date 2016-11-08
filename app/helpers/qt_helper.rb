@@ -39,19 +39,18 @@ module QtHelper
         end
         s_info.delete("")
         
-        last_index =  info.index("적용하기")
+        last_index = info.index("적용하기")
         info1 = info[1..(last_index - 1)] if last_index
         
         if info.index("하나님은 어떤 분입니까?")
           first_index = info.index("하나님은 어떤 분입니까?")
-          
         elsif info.index("예수님은 어떤 분입니까?")
           first_index = info.index("예수님은 어떤 분입니까?")
         else
           first_index = false
         end
-        first_index += 1 if first_index
         
+        first_index += 1 if first_index
         if first_index
           info2 = info[first_index]
         else
