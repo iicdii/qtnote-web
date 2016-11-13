@@ -4,6 +4,7 @@ module QtHelper
       if I18n.locale == :ko
         @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT2&year=#{year}&month=#{month}&day=#{day}"))
         @s_doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT6&year=#{year}&month=#{month}&day=#{day}"))
+        @j_doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT1&year=#{year}&month=#{month}&day=#{day}"))
       else
         @doc = Nokogiri::HTML(open("http://su.or.kr/03bible/daily/qtView.do?qtType=QT5&year=#{year}&month=#{month}&day=#{day}"))
       end
@@ -31,7 +32,6 @@ module QtHelper
       end
 
       info.delete("")
-
       
       if I18n.locale == :ko
         s_info = @s_doc.css(".detail_info").children.map do |t|
@@ -39,34 +39,72 @@ module QtHelper
         end
         s_info.delete("")
         
+        j_info = @s_doc.css(".detail_info").children.map do |t|
+          t.text.strip
+        end
+        j_info.delete("")
+        
         last_index = info.index("적용하기")
         info1 = info[1..(last_index - 1)] if last_index
         
         if info.index("하나님은 어떤 분입니까?")
           first_index = info.index("하나님은 어떤 분입니까?")
+          type = 0
         elsif info.index("예수님은 어떤 분입니까?")
           first_index = info.index("예수님은 어떤 분입니까?")
+          type = 0
+        elsif s_info.index("하나님은 어떤 분입니까?")
+          first_index = info.index("하나님은 어떤 분입니까?")
+          type = 1
+        elsif j_info.index("하나님은 어떤 분입니까?")
+          first_index = info.index("하나님은 어떤 분입니까?")
+          type = 2
         else
           first_index = false
         end
         
-        first_index += 1 if first_index
         if first_index
-          info2 = info[first_index]
+          case type
+          when 0
+            info2 = info[first_index+1]
+          when 1
+            info2 = s_info[first_index+1]
+          when 2
+            info2 = j_info[first_index+1]
+          else
+            info2 = "오늘은 해설이 없습니다."
+          end
         else
-          first_index = s_info.index("하나님은 어떤 분입니까?")
-          info2 = first_index ? s_info[first_index+1] : "오늘은 해설이 없습니다."
+          info2 = "오늘은 해설이 없습니다."
         end
         
-        first_index = info.index("내게 주시는 교훈은 무엇입니까?") ? info.index("내게 주시는 교훈은 무엇입니까?")+1 : false
-        
-        if first_index
-          info3 = info[first_index]
+        if info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+          type = 0
+        elsif s_info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+          type = 1
+        elsif j_info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+          type = 2
         else
-          first_index = s_info.index("내게 주시는 교훈은 무엇입니까?")+1
-          info3 = first_index ? s_info[first_index] : "오늘은 해설이 없습니다."
+          first_index = false
         end
         
+        if first_index
+          case type
+          when 0
+            info3 = info[first_index+1]
+          when 1
+            info3 = s_info[first_index+1]
+          when 2
+            info3 = j_info[first_index+1]
+          else
+            info3 = "오늘은 해설이 없습니다."
+          end
+        else
+          info3 = "오늘은 해설이 없습니다."
+        end
       else
         last_index = info.index("Who is God?") ? info.index("Who is God?") : info.index("What lesson is God teaching me?")
         info1 = info[1..(last_index - 1)] if last_index
