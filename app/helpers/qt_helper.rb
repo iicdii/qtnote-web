@@ -39,7 +39,7 @@ module QtHelper
         end
         s_info.delete("")
         
-        j_info = @s_doc.css(".detail_info").children.map do |t|
+        j_info = @j_doc.css(".detail_info").children.map do |t|
           t.text.strip
         end
         j_info.delete("")
