@@ -54,10 +54,10 @@ module QtHelper
           first_index = info.index("예수님은 어떤 분입니까?")
           type = 0
         elsif s_info.index("하나님은 어떤 분입니까?")
-          first_index = info.index("하나님은 어떤 분입니까?")
+          first_index = s_info.index("하나님은 어떤 분입니까?")
           type = 1
         elsif j_info.index("하나님은 어떤 분입니까?")
-          first_index = info.index("하나님은 어떤 분입니까?")
+          first_index = j_info.index("하나님은 어떤 분입니까?")
           type = 2
         else
           first_index = false
@@ -82,10 +82,10 @@ module QtHelper
           first_index = info.index("내게 주시는 교훈은 무엇입니까?")
           type = 0
         elsif s_info.index("내게 주시는 교훈은 무엇입니까?")
-          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = s_info.index("내게 주시는 교훈은 무엇입니까?")
           type = 1
         elsif j_info.index("내게 주시는 교훈은 무엇입니까?")
-          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = j_info.index("내게 주시는 교훈은 무엇입니까?")
           type = 2
         else
           first_index = false
