@@ -138,7 +138,7 @@
                                     <div class="collapse" id="collapse3">
                                         <div class="panel panel-success" style="margin-top:10px;">
                                             <div class="panel-body">
-                                                <p class="qt-p"><%= @info3 %></p>
+                                                <p class="qt-p"><%= raw @info3.gsub(/\n/, '<br>') %></p>
                                             </div>
                                         </div>
                                     </div>
@@ -468,6 +468,16 @@
             url: url,
             text: text
         });
-        
     };
+    
+    function fetch_days(year, month, day){
+        $.ajax({
+          method: "POST",
+          url: "<%= fetch_posts_path %>",
+          data: {type: 'days', year: year, month: month, day: day},
+          success: function(data){
+            $("#daybox").html(data);
+          }
+        });
+    }
 </script>

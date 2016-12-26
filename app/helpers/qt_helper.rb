@@ -30,7 +30,6 @@ module QtHelper
       info = @doc.css(".detail_info").children.map do |t|
         t.text.strip
       end
-
       info.delete("")
       
       if I18n.locale == :ko
@@ -47,17 +46,20 @@ module QtHelper
         last_index = info.index("적용하기")
         info1 = info[1..(last_index - 1)] if last_index
         
-        if info.index("하나님은 어떤 분입니까?")
+        if j_info.index("하나님은 어떤 분입니까?")
+          first_index = j_info.index("하나님은 어떤 분입니까?")
+          type = 0
+        elsif j_info.index("하나님은 어떤 분입니까?")
           first_index = info.index("하나님은 어떤 분입니까?")
           type = 0
+        elsif info.index("하나님은 어떤 분입니까?")
+          first_index = info.index("하나님은 어떤 분입니까?")
+          type = 1
         elsif info.index("예수님은 어떤 분입니까?")
           first_index = info.index("예수님은 어떤 분입니까?")
-          type = 0
+          type = 1
         elsif s_info.index("하나님은 어떤 분입니까?")
           first_index = s_info.index("하나님은 어떤 분입니까?")
-          type = 1
-        elsif j_info.index("하나님은 어떤 분입니까?")
-          first_index = j_info.index("하나님은 어떤 분입니까?")
           type = 2
         else
           first_index = false
@@ -66,11 +68,11 @@ module QtHelper
         if first_index
           case type
           when 0
-            info2 = info[first_index+1]
-          when 1
-            info2 = s_info[first_index+1]
-          when 2
             info2 = j_info[first_index+1]
+          when 1
+            info2 = info[first_index+1]
+          when 2
+            info2 = s_info[first_index+1]
           else
             info2 = "오늘은 해설이 없습니다."
           end
@@ -78,33 +80,48 @@ module QtHelper
           info2 = "오늘은 해설이 없습니다."
         end
         
-        if info.index("내게 주시는 교훈은 무엇입니까?")
-          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+        if j_info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = j_info.index("내게 주시는 교훈은 무엇입니까?")
           type = 0
+        elsif info.index("내게 주시는 교훈은 무엇입니까?")
+          first_index = info.index("내게 주시는 교훈은 무엇입니까?")
+          type = 1
         elsif s_info.index("내게 주시는 교훈은 무엇입니까?")
           first_index = s_info.index("내게 주시는 교훈은 무엇입니까?")
-          type = 1
-        elsif j_info.index("내게 주시는 교훈은 무엇입니까?")
-          first_index = j_info.index("내게 주시는 교훈은 무엇입니까?")
           type = 2
         else
           first_index = false
         end
         
+        info3 = ""
         if first_index
           case type
           when 0
-            info3 = info[first_index+1]
+            until_index = j_info.index("기도") if j_info.index("기도") 
+            j_info.each_with_index do |value, index|
+              if index > first_index
+                if until_index
+                  if index < until_index-1
+                    info3 += j_info[index] + "\n\n" 
+                  elsif index == until_index-1
+                    info3 += j_info[index]
+                  end
+                else
+                  info3 += j_info[index] + "\n\n"
+                end
+              end
+            end
           when 1
-            info3 = s_info[first_index+1]
+            info3 = info[first_index+1]
           when 2
-            info3 = j_info[first_index+1]
+            info3 = s_info[first_index+1]
           else
             info3 = "오늘은 해설이 없습니다."
           end
         else
           info3 = "오늘은 해설이 없습니다."
         end
+        puts info3
       else
         last_index = info.index("Who is God?") ? info.index("Who is God?") : info.index("What lesson is God teaching me?")
         info1 = info[1..(last_index - 1)] if last_index
