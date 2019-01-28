@@ -38,20 +38,20 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
-  # To disappear console render error message 
+
+  # To disappear console render error message
   config.web_console.whitelisted_ips = '180.67.148.76'
-  
+
   config.action_mailer.default_url_options = { :host => 'http://vanilacake-iicdii.c9users.io' }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: "smtp.mailgun.org",
-    port: 2525,
+    port: ENV["MAILGUN_SMTP_DEVELOPMENT_PORT"],
     domain: "qtnote.herokuapp.com",
     authentication: "plain",
     enable_starttls_auto: true,
-    user_name: "postmaster@qtnote.co.kr",
-    password: "653945c12d524b5c7fe6e2b546ace403"
+    user_name: ENV["MAILGUN_SMTP_DEVELOPMENT_LOGIN"],
+    password: ENV["MAILGUN_SMTP_DEVELOPMENT_PASSWORD"]
   }
 end
